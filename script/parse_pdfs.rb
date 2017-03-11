@@ -23,46 +23,51 @@ class LineCountError < StandardError ; end
 
 urls = ["https://www.fordham.edu/download/downloads/id/5271/class_of_2015_at_10_months.pdf"]
 
-#
-# LOOP THROUGH URLS
-#
-
 urls.each do |url|
-  puts "GETTING PDF FROM #{url}"
-
-  #
-  # ACCESS PDF
-  #
-
   io = open(url)
   reader = PDF::Reader.new(io)
-
-  #
-  # PARSE PDF
-  #
-
   lines = reader.pages.first.text.split("\n")
   lines.select!{|line| line.size > 0 }
   lines.map!{|line| line.strip }
-
-  puts "#{lines.first} - #{lines.count} lines"
-
   raise LineCountError unless lines.count == 53
 
+  # SECTION A - UNIVERSITY IDENTIFICATION
 
+  school_lines = lines.first(5)
+  city_state_zip = school_lines[3].strip.upcase
+  state_zip = city_state_zip.split(", ").last
 
+  university = {
+    name: school_lines.first.upcase,
+    address:{
+      street: school_lines[1].strip.upcase,
+      city: city_state_zip.split(", ").first,
+      state: state_zip.split(" ").first,
+      zip: state_zip.split(" ").last
+    },
+    phone: school_lines[2].split("Phone : ").last.strip,
+    website: school_lines[4].split("Website : ").last.strip
+  }
 
+  pp university
 
-
-
-
-
-  #   SECTION A - UNIVERSITY IDENTIFICATION
-  #   SECTION B - EMPLOYMENT SUMMARY FOR XXXX GRADUATES
-  #   SECTION C - EMPLOYMENT TYPE
-  #   SECTION D - LAW SCHOOL/UNIVERSITY FUNDED POSITIONS
-  #   SECTION E - EMPLOYMENT LOCATION
+  # SECTION B - EMPLOYMENT SUMMARY FOR XXXX GRADUATES
+  # SECTION C - EMPLOYMENT TYPE
+  # SECTION D - LAW SCHOOL/UNIVERSITY FUNDED POSITIONS
+  # SECTION E - EMPLOYMENT LOCATION
   #
+
+
+
+
+
+
+
+
+
+
+
+
 
   # lines.find{|line| line.include?("EMPLOYMENT SUMMARY FOR ") && line.include?(" GRADUATES")}.strip
   # lines.each_with_index.select{|line, i| line.include?("EMPLOYMENT SUMMARY FOR ") && line.include?(" GRADUATES") }
