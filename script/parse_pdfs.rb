@@ -2,6 +2,8 @@ require "open-uri"
 require "pdf-reader"
 require "pry"
 
+require_relative "../lib/employment_summary_report"
+
 class LineCountError < StandardError ; end
 class EmploymentStatusTotalsError < StandardError ; end
 class EmployedNonemployedTotalsError < StandardError ; end
@@ -27,11 +29,13 @@ end
 #  #"https://www.qu.edu/content/dam/qu/documents/sol/2015ABAEmploymentSummary.pdf",
 #  "https://www.qu.edu/content/dam/qu/documents/sol/2014ABAEmploymentSummary.pdf"
 #]
-
 urls = ["https://www.wcl.american.edu/career/documents/statistics2015_000.pdf"]
 
-urls.each do |url|
-  io = open(url)
+reports = urls.map{|url| EmploymentSummaryReport.new(url) }
+
+reports.each do |report|
+
+  io = open(report.url)
   reader = PDF::Reader.new(io)
   lines = reader.pages.first.text.split("\n")
   lines.select!{|line| line.size > 0 }
