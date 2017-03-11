@@ -77,10 +77,10 @@ urls.each do |url|
     "Employment Status Unknown",
   ]
 
-  status_section = {
+  status_section = { # header line is followed by a line per employment status, followed by a line for "Total Graduates"
     first_line_index: lines.each_with_index.find{|line, i| line.include?("EMPLOYMENT STATUS")}.last,
     number_of_lines: employment_statuses.count + 1 + 1 # includes header line and totals line
-  } # header line is followed by a line per employment status, followed by a line for "Total Graduates"
+  }
   status_section[:last_line_index] = status_section[:first_line_index] + status_section[:number_of_lines]
   status_lines = lines[status_section[:first_line_index] .. status_section[:last_line_index]]
 
@@ -96,11 +96,49 @@ urls.each do |url|
 
   pp status_counts
 
+  #
   # SECTION C - EMPLOYMENT TYPE
+  #
 
-  binding.pry
+  employment_types = [
+    {label:"Law Firms", sizes:["Solo", "2 - 10", "11 - 25", "26 - 50", "51 - 100", "101 - 250", "251 - 500", "501 +", "Unknown Size"]},
+    {label:"Business & Industry"},
+    {label:"Government"},
+    {label:"Pub. Int."},
+    {label:"Clerkships - Federal"},
+    {label:"Clerkships - State & Local"},
+    {label:"Clerkships - Other"},
+    {label:"Education"},
+    {label:"Employer Type Unknown"}
+  ]
+  law_firms_type = employment_types.find{|h| h[:label] == "Law Firms"}
 
+  type_section = { # header line is followed by a line per employment type, including a line per law firm size, followed by a line for "Total Graduates"
+    first_line_index: lines.each_with_index.find{|line, i| line.include?("EMPLOYMENT TYPE")}.last,
+    number_of_lines: employment_types.count + law_firms_type[:sizes].count + 1 + 1 # includes header line and totals line
+  }
+  type_section[:last_line_index] = type_section[:first_line_index] + type_section[:number_of_lines]
+  type_lines = lines[type_section[:first_line_index] .. type_section[:last_line_index]]
+
+  counted_types = employment_types.reject{|h| h[:label] == "Law Firms"}.map{|h| h[:label]}
+  type_counts = counted_types.map do |type|
+    line = type_lines.find{|line| line.include?(type) }
+    number = last_number(line)
+    {type: type, count: number}
+  end
+
+
+
+
+
+
+
+
+
+  #
   # SECTION D - LAW SCHOOL/UNIVERSITY FUNDED POSITIONS
+  #
+
   # SECTION E - EMPLOYMENT LOCATION
 
 end
