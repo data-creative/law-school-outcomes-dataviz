@@ -1,10 +1,7 @@
-require "open-uri"
-require "pdf-reader"
 require "pry"
 
 require_relative "../lib/employment_summary_report"
 
-class LineCountError < StandardError ; end
 class EmploymentStatusTotalsError < StandardError ; end
 class EmployedNonemployedTotalsError < StandardError ; end
 class EmployedGraduatesTotalsError < StandardError ; end
@@ -32,17 +29,8 @@ end
 urls = ["https://www.wcl.american.edu/career/documents/statistics2015_000.pdf"]
 
 reports = urls.map{|url| EmploymentSummaryReport.new(url) }
-
 reports.each do |report|
-
-  io = open(report.url)
-  reader = PDF::Reader.new(io)
-  lines = reader.pages.first.text.split("\n")
-  lines.select!{|line| line.size > 0 }
-  lines.map!{|line| line.strip }
-  raise LineCountError unless lines.count == 53
-
-  year = lines[5].gsub("EMPLOYMENT SUMMARY FOR ","").gsub(" GRADUATES","").to_i
+  lines = report.lines
 
   #
   # SECTION A - UNIVERSITY IDENTIFICATION
