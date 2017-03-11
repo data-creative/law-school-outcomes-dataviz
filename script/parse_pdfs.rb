@@ -3,6 +3,9 @@ require "pdf-reader"
 require "pry"
 
 class LineCountError < StandardError ; end
+class EmploymentStatusTotalsError < StandardError ; end
+class EmployedNonemployedTotalsError < StandardError ; end
+class EmployedGraduatesTotalsError < StandardError ; end
 
 def last_number(line)
   line.split(" ").last.to_i
@@ -25,7 +28,7 @@ end
 #  "https://www.qu.edu/content/dam/qu/documents/sol/2014ABAEmploymentSummary.pdf"
 #]
 
-urls = ["https://www.fordham.edu/download/downloads/id/5271/class_of_2015_at_10_months.pdf"]
+urls = ["https://www.wcl.american.edu/career/documents/statistics2015_000.pdf"]
 
 urls.each do |url|
   io = open(url)
@@ -119,17 +122,17 @@ urls.each do |url|
     {label:"Employer Type Unknown"}
   ]
   law_firms_type = employment_types.find{|h| h[:label] == "Law Firms"}
+  law_firm_sizes = law_firms_type[:sizes]
 
   type_section = { # header line is followed by a line per employment type, including a line per law firm size, followed by a line for "Total Graduates"
     first_line_index: lines.each_with_index.find{|line, i| line.include?("EMPLOYMENT TYPE")}.last,
-    number_of_lines: employment_types.count + law_firms_type[:sizes].count + 1 + 1 # includes header line and totals line
+    number_of_lines: employment_types.count + law_firm_sizes.count + 1 + 1 # includes header line and totals line
   }
   type_section[:last_line_index] = type_section[:first_line_index] + type_section[:number_of_lines]
   type_lines = lines[type_section[:first_line_index] .. type_section[:last_line_index]]
 
   type_counts = []
 
-  law_firm_sizes = law_firms_type[:sizes]
   law_firm_sizes.each do |size|
     line = type_lines.find{|line| line.include?(size) }
     number = last_number(line)
@@ -155,4 +158,31 @@ urls.each do |url|
 
   # SECTION E - EMPLOYMENT LOCATION
 
+  location_types = [
+    "State - Largest Employment",
+    "State - 2nd Largest Employment",
+    "State - 3rd Largest Employment"
+  ]
+
+  locations_section = { # header line is followed by a line for each of the three most popular states, followed by a line to indicate employment in foreign countries
+    first_line_index: lines.each_with_index.find{|line, i| line.include?("EMPLOYMENT LOCATION")}.last,
+    number_of_lines: location_types.count + 1 + 1 # includes header line and foreign locations type
+  }
+  locations_section[:last_line_index] = locations_section[:first_line_index] + locations_section[:number_of_lines]
+  location_lines = lines[locations_section[:first_line_index] .. locations_section[:last_line_index]]
+
+  locations = location_types.map do |location_type|
+    line = location_lines.find{|line| line.include?(location_type) }
+    location_number = line.gsub(location_type,"").strip.split("    ").select{|str| !str.empty?}.map{|str| str.strip }
+    location = location_number.first
+    number = location_number.last
+    {type: location_type, location: location, count: number}
+  end
+
+  foreign_location_type = "Employed in Foreign Countries"
+  foreign_line = location_lines.find{|line| line.include?(foreign_location_type) }
+  foreign_count = last_number(foreign_line)
+  locations << {type: foreign_location_type, location: foreign_location_type, count: foreign_count}
+
+  pp locations
 end
