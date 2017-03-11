@@ -101,7 +101,8 @@ urls.each do |url|
   #
 
   employment_types = [
-    {label:"Law Firms", sizes:["Solo", "2 - 10", "11 - 25", "26 - 50", "51 - 100", "101 - 250", "251 - 500", "501 +", "Unknown Size"]},
+    {label:"Law Firms",
+      sizes:["Solo", "2 - 10", "11 - 25", "26 - 50", "51 - 100", "101 - 250", "251 - 500", "501 +", "Unknown Size"]},
     {label:"Business & Industry"},
     {label:"Government"},
     {label:"Pub. Int."},
@@ -120,16 +121,56 @@ urls.each do |url|
   type_section[:last_line_index] = type_section[:first_line_index] + type_section[:number_of_lines]
   type_lines = lines[type_section[:first_line_index] .. type_section[:last_line_index]]
 
-  counted_types = employment_types.reject{|h| h[:label] == "Law Firms"}.map{|h| h[:label]}
-  type_counts = counted_types.map do |type|
-    line = type_lines.find{|line| line.include?(type) }
+  ###counted_types = employment_types.reject{|h| h[:label] == "Law Firms"}.map{|h| h[:label]}
+  ###type_counts = counted_types.map do |type|
+  ###  line = type_lines.find{|line| line.include?(type) }
+  ###  number = last_number(line)
+  ###  {type: type, count: number}
+  ###end
+
+  ###law_firm_sizes.each do |size|
+  ###  line = type_lines.find{|line| line.include?(size) }
+  ###  number = last_number(line)
+  ###  type_counts << {type: "Law Firms (#{size})", count: number}
+  ###end
+
+  type_counts = []
+
+  law_firm_sizes = law_firms_type[:sizes]
+  law_firm_sizes.each do |size|
+    line = type_lines.find{|line| line.include?(size) }
     number = last_number(line)
-    {type: type, count: number}
+    type_counts << {type: "Law Firms (#{size})", count: number}
   end
 
+  counted_types = employment_types.reject{|h| h[:label] == "Law Firms"}.map{|h| h[:label]}
+  counted_types.each do |type|
+    line = type_lines.find{|line| line.include?(type) }
+    number = last_number(line)
+    type_counts << {type: type, count: number}
+  end
+
+  pp type_counts
+
+  # check total employed = total graduates less nonemployed count.
+
+  binding.pry
 
 
 
+
+
+
+=begin
+
+Pursuing Graduate Degree Full Time 7
+Unemployed - Start Date Deferred 3
+Unemployed - Not Seeking 4
+Unemployed - Seeking 30
+Employment Status Unknown
+
+
+=end
 
 
 
