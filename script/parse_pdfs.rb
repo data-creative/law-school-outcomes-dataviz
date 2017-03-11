@@ -32,27 +32,7 @@ reports = urls.map{|url| EmploymentSummaryReport.new(url) }
 reports.each do |report|
   lines = report.lines
 
-  #
-  # SECTION A - UNIVERSITY IDENTIFICATION
-  #
-
-  school_lines = lines.first(5)
-  city_state_zip = school_lines[3].strip.upcase
-  state_zip = city_state_zip.split(", ").last
-
-  university = {
-    name: school_lines.first.upcase,
-    address:{
-      street: school_lines[1].strip.upcase,
-      city: city_state_zip.split(", ").first,
-      state: state_zip.split(" ").first,
-      zip: state_zip.split(" ").last
-    },
-    phone: school_lines[2].split("Phone : ").last.strip,
-    website: school_lines[4].split("Website : ").last.strip
-  }
-
-  pp university
+  pp report.university
 
   #
   # SECTION B - EMPLOYMENT STATUS
