@@ -4,6 +4,10 @@ require "pry"
 
 class LineCountError < StandardError ; end
 
+def last_number(line)
+  line.split(" ").last.to_i
+end
+
 #urls = [
 #  #"https://www.law.georgetown.edu/careers/ocs/upload/ABA-Website-Info.pdf",
 #  "https://www.law.georgetown.edu/careers/upload/Employment-Summary-for-2015-Graduates.pdf",
@@ -31,7 +35,11 @@ urls.each do |url|
   lines.map!{|line| line.strip }
   raise LineCountError unless lines.count == 53
 
+  year = lines[5].gsub("EMPLOYMENT SUMMARY FOR ","").gsub(" GRADUATES","").to_i
+
+  #
   # SECTION A - UNIVERSITY IDENTIFICATION
+  #
 
   school_lines = lines.first(5)
   city_state_zip = school_lines[3].strip.upcase
@@ -51,26 +59,48 @@ urls.each do |url|
 
   pp university
 
-  # SECTION B - EMPLOYMENT SUMMARY FOR XXXX GRADUATES
-  # SECTION C - EMPLOYMENT TYPE
-  # SECTION D - LAW SCHOOL/UNIVERSITY FUNDED POSITIONS
-  # SECTION E - EMPLOYMENT LOCATION
+  #
+  # SECTION B - EMPLOYMENT STATUS
   #
 
+  employment_statuses = [
+    "Employed - Bar Passage Required",
+    "Employed - J.D. Advantage",
+    "Employed - Professional Position",
+    "Employed - Non-Professional Position",
+    "Employed - Law School/University Funded",
+    "Employed - Undeterminable",
+    "Pursuing Graduate Degree Full Time",
+    "Unemployed - Start Date Deferred",
+    "Unemployed - Not Seeking",
+    "Unemployed - Seeking",
+    "Employment Status Unknown",
+  ]
 
+  status_section = {
+    first_line_index: lines.each_with_index.find{|line, i| line.include?("EMPLOYMENT STATUS")}.last,
+    number_of_lines: employment_statuses.count + 1 + 1 # includes header line and totals line
+  } # header line is followed by a line per employment status, followed by a line for "Total Graduates"
+  status_section[:last_line_index] = status_section[:first_line_index] + status_section[:number_of_lines]
+  status_lines = lines[status_section[:first_line_index] .. status_section[:last_line_index]]
 
+  status_counts = employment_statuses.map do |status|
+    line = status_lines.find{|line| line.include?(status) }
+    number = last_number(line)
+    {status: status, count: number}
+  end
 
+  calculated_total = status_counts.map{|h| h[:count] }.reduce{|sum, x| sum + x}
+  given_total = last_number(status_lines.last)
+  raise EmploymentStatusTotalsError unless calculated_total == given_total
 
+  pp status_counts
 
+  # SECTION C - EMPLOYMENT TYPE
 
+  binding.pry
 
-
-
-
-
-
-  # lines.find{|line| line.include?("EMPLOYMENT SUMMARY FOR ") && line.include?(" GRADUATES")}.strip
-  # lines.each_with_index.select{|line, i| line.include?("EMPLOYMENT SUMMARY FOR ") && line.include?(" GRADUATES") }
-  # lines.find{|line| line.include?("EMPLOYMENT TYPE")}.strip
+  # SECTION D - LAW SCHOOL/UNIVERSITY FUNDED POSITIONS
+  # SECTION E - EMPLOYMENT LOCATION
 
 end
