@@ -5,5 +5,5 @@ Each ABA-accredited law school is required to post employment data about their g
 ## Usage
 
 ```` sh
-ruby parse_pdfs.rb
+ruby script/parse_pdfs.rb
 ````
