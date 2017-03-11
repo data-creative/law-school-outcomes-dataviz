@@ -90,9 +90,15 @@ urls.each do |url|
     {status: status, count: number}
   end
 
-  calculated_total = status_counts.map{|h| h[:count] }.reduce{|sum, x| sum + x}
-  given_total = last_number(status_lines.last)
-  raise EmploymentStatusTotalsError unless calculated_total == given_total
+  calculated_total_graduates = status_counts.map{|h| h[:count] }.reduce{|sum, x| sum + x}
+  total_graduates = last_number(status_lines.last)
+  raise EmploymentStatusTotalsError unless calculated_total_graduates == total_graduates
+
+  employed_statuses = employment_statuses.select{|status| status.include?("Employed - ")}
+  nonemployed_statuses = employment_statuses.select{|status| !status.include?("Employed - ")}
+  employed_count = status_counts.select{|h| employed_statuses.include?(h[:status]) }.map{|h| h[:count] }.reduce{|sum, x| sum + x}
+  nonemployed_count = status_counts.select{|h| nonemployed_statuses.include?(h[:status]) }.map{|h| h[:count] }.reduce{|sum, x| sum + x}
+  raise EmployedNonemployedTotalsError if employed_count + nonemployed_count != total_graduates
 
   pp status_counts
 
@@ -121,19 +127,6 @@ urls.each do |url|
   type_section[:last_line_index] = type_section[:first_line_index] + type_section[:number_of_lines]
   type_lines = lines[type_section[:first_line_index] .. type_section[:last_line_index]]
 
-  ###counted_types = employment_types.reject{|h| h[:label] == "Law Firms"}.map{|h| h[:label]}
-  ###type_counts = counted_types.map do |type|
-  ###  line = type_lines.find{|line| line.include?(type) }
-  ###  number = last_number(line)
-  ###  {type: type, count: number}
-  ###end
-
-  ###law_firm_sizes.each do |size|
-  ###  line = type_lines.find{|line| line.include?(size) }
-  ###  number = last_number(line)
-  ###  type_counts << {type: "Law Firms (#{size})", count: number}
-  ###end
-
   type_counts = []
 
   law_firm_sizes = law_firms_type[:sizes]
@@ -152,29 +145,9 @@ urls.each do |url|
 
   pp type_counts
 
-  # check total employed = total graduates less nonemployed count.
-
-  binding.pry
-
-
-
-
-
-
-=begin
-
-Pursuing Graduate Degree Full Time 7
-Unemployed - Start Date Deferred 3
-Unemployed - Not Seeking 4
-Unemployed - Seeking 30
-Employment Status Unknown
-
-
-=end
-
-
-
-
+  total_employed_graduates = last_number(type_lines.last)
+  calculated_total_employed_graduates = type_counts.map{|h| h[:count] }.reduce{|sum, x| sum + x}
+  raise EmployedGraduatesTotalsError if total_employed_graduates != calculated_total_employed_graduates
 
   #
   # SECTION D - LAW SCHOOL/UNIVERSITY FUNDED POSITIONS
