@@ -23,7 +23,9 @@ urls = [
   #"https://www.law.uconn.edu/sites/default/files/content-page/Graduate%20Employment%20Outcomes%20Class%20of%202014.pdf",
   "https://www.law.uconn.edu/sites/default/files/content-page/Graduate-Employment-Outcomes-Class-of-2015-2016-04-26.pdf",
   #"https://www.qu.edu/content/dam/qu/documents/sol/2015ABAEmploymentSummary.pdf",
-  "https://www.qu.edu/content/dam/qu/documents/sol/2014ABAEmploymentSummary.pdf"
+  "https://www.qu.edu/content/dam/qu/documents/sol/2014ABAEmploymentSummary.pdf",
+  #"https://www.law.gmu.edu/assets/files/career/ABAEmploymentSummary2014.pdf",
+  "https://www.law.gmu.edu/assets/files/career/ABAEmploymentSummary2015.pdf"
 ]
 
 url = urls.sample
