@@ -4,6 +4,7 @@ require "pry"
 
 require_relative "employment_summary_report/section"
 require_relative "employment_summary_report/sections/employment_status_section"
+require_relative "employment_summary_report/sections/employment_type_section"
 
 class EmploymentSummaryReport
   attr_reader :url, :lines
@@ -45,74 +46,15 @@ class EmploymentSummaryReport
 
   def employment_status_results
     @employment_status_results ||= EmploymentStatusSection.new(self).results
-    #@employment_status_results ||= EmploymentSummaryReport::EmploymentStatusSection.new(self).results
-  end
-
-
-
-  #
-  # EMPLOYMENT TYPE
-  #
-
-  EMPLOYMENT_TYPES = [
-    {label:"Law Firms", sizes:["Solo", "2 - 10", "11 - 25", "26 - 50", "51 - 100", "101 - 250", "251 - 500", "501 +", "Unknown Size"]},
-    {label:"Business & Industry"},
-    {label:"Government"},
-    {label:"Pub. Int."},
-    {label:"Clerkships - Federal"},
-    {label:"Clerkships - State & Local"},
-    {label:"Clerkships - Other"},
-    {label:"Education"},
-    {label:"Employer Type Unknown"}
-  ]
-
-  def law_firm_sizes
-    EMPLOYMENT_TYPES.find{|h| h[:label] == "Law Firms"}[:sizes]
-  end
-
-  def employment_type_section
-    Section.new({
-      :report => self,
-      :header_content => "EMPLOYMENT TYPE",
-      :number_of_lines => EMPLOYMENT_TYPES.count + law_firm_sizes.count + 1 + 1 # includes header line and totals line
-    }) # header line is followed by a line per employment type, including a line per law firm size, followed by a line for "Total Graduates"
   end
 
   def employment_type_results
-    counts = []
-
-    law_firm_sizes.each do |size|
-      line = employment_type_section.lines.find{|line| line.include?(size) }
-      number = last_number(line)
-      counts << {type: "Law Firms (#{size})", count: number}
-    end
-
-    employment_types = EMPLOYMENT_TYPES.reject{|h| h[:label] == "Law Firms"}.map{|h| h[:label]}
-    employment_types.each do |type|
-      line = employment_type_section.lines.find{|line| line.include?(type) }
-      number = last_number(line)
-      counts << {type: type, count: number}
-    end
-
-    total_employed_graduates = last_number(employment_type_section.lines.last)
-    calculated_total_employed_graduates = counts.map{|h| h[:count] }.reduce{|sum, x| sum + x}
-    raise EmployedGraduatesTotalsError if total_employed_graduates != calculated_total_employed_graduates
-
-    return counts
+    @employment_type_results ||= EmploymentTypeSection.new(self).results
   end
 
-
-
-
-
-
-
-
-  #
-  # LAW SCHOOL/UNIVERSITY FUNDED POSITIONS
-  #
-
-  # todo
+  def school_funded_employment_results
+    ["todo"]
+  end
 
   #
   # EMPLOYMENT LOCATION
@@ -197,6 +139,4 @@ class EmploymentSummaryReport
 
   class ParsingError < StandardError ; end
   class LineCountError < ParsingError ; end
-
-  class EmployedGraduatesTotalsError < ParsingError ; end
 end
