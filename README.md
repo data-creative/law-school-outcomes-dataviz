@@ -2,8 +2,8 @@
 
 ## Usage
 
-```` sh
-report = EmploymentSummaryReport.new(url)
+```` rb
+report = EmploymentSummaryReport.new(url: url, year: 2015)
 
 report.school_info
 #> {:name=>"MY UNIVERSITY", :address=>{:street=>"123 MAIN STREET", :city=>"MY CITY", :state=>"ZZ", :zip=>"10101"}, :phone=>"123-456-789", :website=>"http://www.law.my-university.edu/"}

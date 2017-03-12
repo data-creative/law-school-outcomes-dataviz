@@ -1,5 +1,6 @@
 require "open-uri"
 require "pdf-reader"
+require "domainatrix"
 require "pry"
 
 require_relative "employment_summary_report/school"
@@ -11,27 +12,32 @@ require_relative "employment_summary_report/sections/employment_type_section"
 class EmploymentSummaryReport
   class LineCountError < StandardError ; end
 
-  attr_reader :url, :lines
+  attr_reader :url, :year, :lines
 
-  def initialize(url)
+  def initialize(url:, year:)
     @url = url
+    @year = year
     @lines = read_lines
   end
 
-  def year
-    @year ||= lines[5].gsub("EMPLOYMENT SUMMARY FOR ","").gsub(" GRADUATES","").to_i
+  def domain
+    Domainatrix.parse(url).domain
   end
+
+  ###def year
+  ###  @year ||= lines[5].gsub("EMPLOYMENT SUMMARY FOR ","").gsub(" GRADUATES","").to_i
+  ###end
 
   def school_info
     @school_info || School.new(self).info
   end
 
   def employment_status_section
-    EmploymentStatusSection.new(self)
+    @employment_status_section ||= EmploymentStatusSection.new(self)
   end
 
   def employment_status_results
-    @employment_status_results ||= employment_status_section.results
+    employment_status_section.results
   end
 
   def total_grads
@@ -52,15 +58,21 @@ class EmploymentSummaryReport
 
   private
 
-  def io
-    #io = open(url)
+  def file_source
+    File.join(File.expand_path("../reports/#{year}/", __FILE__), "#{domain}.pdf")
+  end
 
-    # test using local file for now:
-    dir = File.expand_path("../../reports/2015/", __FILE__)
-    report_names = Dir.entries(dir).reject{|file_name| [".","..",".gitkeep"].include?(file_name) }
-    report_name = "gwu.pdf" # report_names.sample
-    @school_domain = report_name
-    io = File.join(dir, report_name)
+  def url_source
+    open(url)
+  end
+
+  def io
+    if File.exist?(file_source)
+      file_source
+    else
+      #TODO: download_for_next_time
+      url_source
+    end
   end
 
   def read_lines

@@ -2,7 +2,11 @@ GEM
   remote: https://rubygems.org/
   specs:
     Ascii85 (1.0.2)
+    addressable (2.5.0)
+      public_suffix (~> 2.0, >= 2.0.2)
     afm (0.2.2)
+    domainatrix (0.0.11)
+      addressable
     hashery (2.1.2)
     pdf-reader (2.0.0)
       Ascii85 (~> 1.0.0)
@@ -10,6 +14,7 @@ GEM
       hashery (~> 2.0)
       ruby-rc4
       ttfunk
+    public_suffix (2.0.5)
     ruby-rc4 (0.1.5)
     ttfunk (1.5.0)
 
@@ -17,6 +22,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  domainatrix
   pdf-reader
 
 BUNDLED WITH
