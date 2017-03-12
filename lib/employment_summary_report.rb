@@ -3,10 +3,13 @@ require "pdf-reader"
 require "pry"
 
 require_relative "employment_summary_report/section"
+require_relative "employment_summary_report/sections/employment_location_section"
 require_relative "employment_summary_report/sections/employment_status_section"
 require_relative "employment_summary_report/sections/employment_type_section"
 
 class EmploymentSummaryReport
+  class LineCountError < StandardError ; end
+
   attr_reader :url, :lines
 
   def initialize(url)
@@ -53,62 +56,12 @@ class EmploymentSummaryReport
   end
 
   def school_funded_employment_results
-    ["todo"]
-  end
-
-  #
-  # EMPLOYMENT LOCATION
-  #
-
-  LOCATION_TYPES = [
-    "State - Largest Employment",
-    "State - 2nd Largest Employment",
-    "State - 3rd Largest Employment",
-    "Employed in Foreign Countries"
-  ]
-
-  def employment_location_section
-    Section.new({
-      :report => self,
-      :header_content => "EMPLOYMENT LOCATION",
-      :number_of_lines => LOCATION_TYPES.count + 1 # includes header line
-    }) # header line is followed by a line for each of the three most popular states, followed by a line to indicate employment in foreign countries
-  end
-
-  def state_types
-    LOCATION_TYPES.select{|location_type| location_type.include?("STATE - ")}
-  end
-
-  def foreign_type
-    LOCATION_TYPES.find{|location_type| location_type == "Employed in Foreign Countries" }
+    # todo
   end
 
   def employment_location_results
-    counts = []
-
-    state_types.each do |state_type|
-      line = employment_location_section.lines.find{|line| line.include?(state_type) }
-      state_and_count = line.gsub(state_type,"").strip.split("    ").select{|str| !str.empty?}.map{|str| str.strip }
-      counts << {type: state_type, location: state_and_count.first, count: state_and_count.last}
-    end
-
-    foreign_line = employment_location_section.lines.find{|line| line.include?(foreign_type) }
-    foreign_count = last_number(foreign_line)
-    counts << {type: foreign_type, location: foreign_type, count: foreign_count}
-
-    return counts
+    @employment_location_results ||= EmploymentLocationSection.new(self).results
   end
-
-
-
-
-
-
-
-
-
-
-
 
   private
 
@@ -136,7 +89,4 @@ class EmploymentSummaryReport
   def last_number(line)
     line.split(" ").last.to_i
   end
-
-  class ParsingError < StandardError ; end
-  class LineCountError < ParsingError ; end
 end
