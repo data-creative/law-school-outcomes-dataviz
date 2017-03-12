@@ -23,18 +23,20 @@ seeds = [
 
 ]
 
-seed = seeds.sample
+seeds.select{|seed| seed[:year] == 2015 }.each do |seed|
 
-report = EmploymentSummaryReport.new(url: seed[:url], year: seed[:year])
+  report = EmploymentSummaryReport.new(url: seed[:url], year: seed[:year])
+  #report = EmploymentSummaryReport.new({year: 2015, url: "https://www.law.gwu.edu/sites/www.law.gwu.edu/files/downloads/GW-Law-ABA-Employment-Data-for-Class-of-2015.pdf"})
 
-pp report.year
+  pp report.year
 
-pp report.school_info
+  pp report.school_info
 
-pp report.total_grads
+  pp report.total_grads
 
-pp report.employment_status_results
+  pp report.employment_status_results
 
-pp report.employment_type_results
+  pp report.employment_type_results
 
-pp report.employment_location_results
+  pp report.employment_location_results
+end

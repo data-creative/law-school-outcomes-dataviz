@@ -59,18 +59,28 @@ class EmploymentSummaryReport
   private
 
   def file_source
-    File.join(File.expand_path("../reports/#{year}/", __FILE__), "#{domain}.pdf")
+    File.join(File.expand_path("../../reports/#{year}/", __FILE__), "#{domain}.pdf")
   end
 
   def url_source
     open(url)
   end
 
+  def download
+    FileUtils.rm_rf(file_source)
+
+    File.open(file_source, "wb") do |local_file|
+      open(url, "rb") do |remote_file|
+        local_file.write(remote_file.read)
+      end
+    end
+  end
+
   def io
     if File.exist?(file_source)
       file_source
     else
-      #TODO: download_for_next_time
+      download # optionally download for next time, to avoid future network requests
       url_source
     end
   end
