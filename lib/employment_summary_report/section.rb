@@ -18,4 +18,11 @@ class Section
   def lines
     report.lines[first_line_index .. last_line_index]
   end
+
+  private
+
+  # @param [String] line e.g. "New York               34"
+  def last_number(line)
+    line.split(" ").last.to_i
+  end
 end
