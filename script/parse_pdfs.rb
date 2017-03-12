@@ -27,8 +27,8 @@ report = EmploymentSummaryReport.new(url)
 
 puts report.school
 
-puts report.employment_status
+puts report.employment_status_results
 
-puts report.employment_type
+puts report.employment_type_results
 
-puts report.employment_location
+puts report.employment_location_results

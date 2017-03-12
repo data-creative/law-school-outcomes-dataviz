@@ -2,6 +2,8 @@ require "open-uri"
 require "pdf-reader"
 require "pry"
 
+require_relative "employment_summary_report/section"
+
 class EmploymentSummaryReport
   attr_reader :url, :lines
 
@@ -13,29 +15,6 @@ class EmploymentSummaryReport
   def year
     @year ||= lines[5].gsub("EMPLOYMENT SUMMARY FOR ","").gsub(" GRADUATES","").to_i
   end
-
-=begin
-  class Section
-    def initialize(report, first_line_index, number_of_lines)
-      @report = report
-      @first_line_index = first_line_index
-      @number_of_lines = number_of_lines
-    end
-
-    def last_line_index
-      first_line_index + number_of_lines
-    end
-
-    def lines
-      report.lines[first_line_index .. last_line_index]
-    end
-  end
-=end
-
-
-
-
-
 
 
   #
@@ -84,27 +63,25 @@ class EmploymentSummaryReport
     "Employment Status Unknown",
   ]
 
-  def employment_status_lines
-    section = {
-      first_line_index: lines.each_with_index.find{|line, i| line.include?("EMPLOYMENT STATUS")}.last,
-      number_of_lines: EMPLOYMENT_STATUSES.count + 1 + 1 # includes header line and totals line
-    } # header line is followed by a line per employment status, followed by a line for "Total Graduates"
-    section[:last_line_index] = section[:first_line_index] + section[:number_of_lines]
-
-    return lines[section[:first_line_index] .. section[:last_line_index]]
+  def employment_status_section
+    Section.new({
+      :report => self,
+      :header_content => "EMPLOYMENT STATUS",
+      :number_of_lines => EMPLOYMENT_STATUSES.count + 1 + 1
+    })
   end
 
-  def employment_status
+  def employment_status_results
     counts = []
 
     EMPLOYMENT_STATUSES.map do |status|
-      line = employment_status_lines.find{|line| line.include?(status) }
+      line = employment_status_section.lines.find{|line| line.include?(status) }
       number = last_number(line)
       counts << {status: status, count: number}
     end
 
     calculated_total_graduates = counts.map{|h| h[:count] }.reduce{|sum, x| sum + x}
-    total_graduates = last_number(employment_status_lines.last)
+    total_graduates = last_number(employment_status_section.lines.last)
     raise EmploymentStatusTotalsError unless calculated_total_graduates == total_graduates
 
     employed_statuses = EMPLOYMENT_STATUSES.select{|status| status.include?("Employed - ")}
@@ -141,32 +118,31 @@ class EmploymentSummaryReport
     EMPLOYMENT_TYPES.find{|h| h[:label] == "Law Firms"}[:sizes]
   end
 
-  def employment_type_lines
-    section = {
-      first_line_index: lines.each_with_index.find{|line, i| line.include?("EMPLOYMENT TYPE")}.last,
-      number_of_lines: EMPLOYMENT_TYPES.count + law_firm_sizes.count + 1 + 1 # includes header line and totals line
-    } # header line is followed by a line per employment type, including a line per law firm size, followed by a line for "Total Graduates"
-    section[:last_line_index] = section[:first_line_index] + section[:number_of_lines]
-    return lines[section[:first_line_index] .. section[:last_line_index]]
+  def employment_type_section
+    Section.new({
+      :report => self,
+      :header_content => "EMPLOYMENT TYPE",
+      :number_of_lines => EMPLOYMENT_TYPES.count + law_firm_sizes.count + 1 + 1 # includes header line and totals line
+    }) # header line is followed by a line per employment type, including a line per law firm size, followed by a line for "Total Graduates"
   end
 
-  def employment_type
+  def employment_type_results
     counts = []
 
     law_firm_sizes.each do |size|
-      line = employment_type_lines.find{|line| line.include?(size) }
+      line = employment_type_section.lines.find{|line| line.include?(size) }
       number = last_number(line)
       counts << {type: "Law Firms (#{size})", count: number}
     end
 
     employment_types = EMPLOYMENT_TYPES.reject{|h| h[:label] == "Law Firms"}.map{|h| h[:label]}
     employment_types.each do |type|
-      line = employment_type_lines.find{|line| line.include?(type) }
+      line = employment_type_section.lines.find{|line| line.include?(type) }
       number = last_number(line)
       counts << {type: type, count: number}
     end
 
-    total_employed_graduates = last_number(employment_type_lines.last)
+    total_employed_graduates = last_number(employment_type_section.lines.last)
     calculated_total_employed_graduates = counts.map{|h| h[:count] }.reduce{|sum, x| sum + x}
     raise EmployedGraduatesTotalsError if total_employed_graduates != calculated_total_employed_graduates
 
@@ -197,13 +173,12 @@ class EmploymentSummaryReport
     "Employed in Foreign Countries"
   ]
 
-  def employment_location_lines
-    section = {
-      first_line_index: lines.each_with_index.find{|line, i| line.include?("EMPLOYMENT LOCATION")}.last,
-      number_of_lines: LOCATION_TYPES.count + 1 # includes header line
-    } # header line is followed by a line for each of the three most popular states, followed by a line to indicate employment in foreign countries
-    section[:last_line_index] = section[:first_line_index] + section[:number_of_lines]
-    return lines[section[:first_line_index] .. section[:last_line_index]]
+  def employment_location_section
+    Section.new({
+      :report => self,
+      :header_content => "EMPLOYMENT LOCATION",
+      :number_of_lines => LOCATION_TYPES.count + 1 # includes header line
+    }) # header line is followed by a line for each of the three most popular states, followed by a line to indicate employment in foreign countries
   end
 
   def state_types
@@ -214,16 +189,16 @@ class EmploymentSummaryReport
     LOCATION_TYPES.find{|location_type| location_type == "Employed in Foreign Countries" }
   end
 
-  def employment_location
+  def employment_location_results
     counts = []
 
     state_types.each do |state_type|
-      line = employment_location_lines.find{|line| line.include?(state_type) }
+      line = employment_location_section.lines.find{|line| line.include?(state_type) }
       state_and_count = line.gsub(state_type,"").strip.split("    ").select{|str| !str.empty?}.map{|str| str.strip }
       counts << {type: state_type, location: state_and_count.first, count: state_and_count.last}
     end
 
-    foreign_line = employment_location_lines.find{|line| line.include?(foreign_type) }
+    foreign_line = employment_location_section.lines.find{|line| line.include?(foreign_type) }
     foreign_count = last_number(foreign_line)
     counts << {type: foreign_type, location: foreign_type, count: foreign_count}
 
