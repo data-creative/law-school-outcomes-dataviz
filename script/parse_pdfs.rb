@@ -25,7 +25,7 @@ url = urls.sample
 
 report = EmploymentSummaryReport.new(url)
 
-puts report.school
+puts report.school_info
 
 puts report.employment_status_results
 
