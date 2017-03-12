@@ -1,8 +1,8 @@
-Law School Employment Dataviz
-
-Each ABA-accredited law school is required to post employment data about their graduates.
+# Law School Employment Outcomes
 
 ## Usage
+
+Given a school-hosted report url, get information about that school and the employment outcomes of its recent graduates:
 
 ```` sh
 ruby script/parse_pdfs.rb

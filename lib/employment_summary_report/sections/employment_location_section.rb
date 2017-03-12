@@ -7,8 +7,8 @@ class EmploymentLocationSection < Section
     "State - 3rd Largest Employment",
     "Employed in Foreign Countries"
   ]
-  STATE_TYPES = LOCATION_TYPES.select{|location_type| location_type.include?("STATE - ")}
-  FOREIGN_TYPE = LOCATION_TYPES.find{|location_type| location_type == "Employed in Foreign Countries" }
+  STATE_TYPES = LOCATION_TYPES.select{|location_type| location_type.include?("State - ")}
+  FOREIGN_TYPE = "Employed in Foreign Countries"
 
   def initialize(report)
     super({
