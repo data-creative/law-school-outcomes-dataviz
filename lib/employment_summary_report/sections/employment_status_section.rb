@@ -26,6 +26,10 @@ class EmploymentStatusSection < Section
     })
   end
 
+  def total_graduates
+    last_number(lines.last)
+  end
+
   def results
     counts = []
 
@@ -36,7 +40,6 @@ class EmploymentStatusSection < Section
     end
 
     calculated_total_graduates = counts.map{|h| h[:count] }.reduce{|sum, x| sum + x}
-    total_graduates = last_number(lines.last)
     raise EmploymentStatusTotalsError unless calculated_total_graduates == total_graduates
 
     employed_statuses = EMPLOYMENT_STATUSES.select{|status| status.include?("Employed - ")}

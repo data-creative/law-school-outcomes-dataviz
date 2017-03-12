@@ -26,8 +26,16 @@ class EmploymentSummaryReport
     @school_info || School.new(self).info
   end
 
+  def employment_status_section
+    EmploymentStatusSection.new(self)
+  end
+
   def employment_status_results
-    @employment_status_results ||= EmploymentStatusSection.new(self).results
+    @employment_status_results ||= employment_status_section.results
+  end
+
+  def total_grads
+    employment_status_section.total_graduates
   end
 
   def employment_type_results
@@ -50,7 +58,7 @@ class EmploymentSummaryReport
     # test using local file for now:
     dir = File.expand_path("../../reports/2015/", __FILE__)
     report_names = Dir.entries(dir).reject{|file_name| [".","..",".gitkeep"].include?(file_name) }
-    report_name = report_names.sample
+    report_name = "gwu.pdf" # report_names.sample
     @school_domain = report_name
     io = File.join(dir, report_name)
   end
