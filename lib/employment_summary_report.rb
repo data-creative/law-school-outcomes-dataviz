@@ -14,6 +14,30 @@ class EmploymentSummaryReport
     @year ||= lines[5].gsub("EMPLOYMENT SUMMARY FOR ","").gsub(" GRADUATES","").to_i
   end
 
+=begin
+  class Section
+    def initialize(report, first_line_index, number_of_lines)
+      @report = report
+      @first_line_index = first_line_index
+      @number_of_lines = number_of_lines
+    end
+
+    def last_line_index
+      first_line_index + number_of_lines
+    end
+
+    def lines
+      report.lines[first_line_index .. last_line_index]
+    end
+  end
+=end
+
+
+
+
+
+
+
   #
   # SCHOOL
   #
@@ -38,6 +62,9 @@ class EmploymentSummaryReport
       website: school_lines[4].split("Website : ").last.strip
     }
   end
+
+
+
 
   #
   # EMPLOYMENT STATUS
@@ -68,10 +95,12 @@ class EmploymentSummaryReport
   end
 
   def employment_status
-    counts = EMPLOYMENT_STATUSES.map do |status|
+    counts = []
+
+    EMPLOYMENT_STATUSES.map do |status|
       line = employment_status_lines.find{|line| line.include?(status) }
       number = last_number(line)
-      {status: status, count: number}
+      counts << {status: status, count: number}
     end
 
     calculated_total_graduates = counts.map{|h| h[:count] }.reduce{|sum, x| sum + x}
@@ -86,21 +115,6 @@ class EmploymentSummaryReport
 
     return counts
   end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -166,11 +180,55 @@ class EmploymentSummaryReport
 
 
 
+  #
+  # LAW SCHOOL/UNIVERSITY FUNDED POSITIONS
+  #
 
+  # todo
 
+  #
+  # EMPLOYMENT LOCATION
+  #
 
+  LOCATION_TYPES = [
+    "State - Largest Employment",
+    "State - 2nd Largest Employment",
+    "State - 3rd Largest Employment",
+    "Employed in Foreign Countries"
+  ]
 
+  def employment_location_lines
+    section = {
+      first_line_index: lines.each_with_index.find{|line, i| line.include?("EMPLOYMENT LOCATION")}.last,
+      number_of_lines: LOCATION_TYPES.count + 1 # includes header line
+    } # header line is followed by a line for each of the three most popular states, followed by a line to indicate employment in foreign countries
+    section[:last_line_index] = section[:first_line_index] + section[:number_of_lines]
+    return lines[section[:first_line_index] .. section[:last_line_index]]
+  end
 
+  def state_types
+    LOCATION_TYPES.select{|location_type| location_type.include?("STATE - ")}
+  end
+
+  def foreign_type
+    LOCATION_TYPES.find{|location_type| location_type == "Employed in Foreign Countries" }
+  end
+
+  def employment_location
+    counts = []
+
+    state_types.each do |state_type|
+      line = employment_location_lines.find{|line| line.include?(state_type) }
+      state_and_count = line.gsub(state_type,"").strip.split("    ").select{|str| !str.empty?}.map{|str| str.strip }
+      counts << {type: state_type, location: state_and_count.first, count: state_and_count.last}
+    end
+
+    foreign_line = employment_location_lines.find{|line| line.include?(foreign_type) }
+    foreign_count = last_number(foreign_line)
+    counts << {type: foreign_type, location: foreign_type, count: foreign_count}
+
+    return counts
+  end
 
 
 

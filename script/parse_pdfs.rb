@@ -2,11 +2,6 @@ require "pry"
 
 require_relative "../lib/employment_summary_report"
 
-# @param [String] line e.g. "New York               34"
-def last_number(line)
-  line.split(" ").last.to_i
-end
-
 urls = [
   #"https://www.law.georgetown.edu/careers/ocs/upload/ABA-Website-Info.pdf",
   "https://www.law.georgetown.edu/careers/upload/Employment-Summary-for-2015-Graduates.pdf",
@@ -27,9 +22,8 @@ urls = [
 ]
 
 url = urls.sample
-report = EmploymentSummaryReport.new(url)
 
-lines = report.lines
+report = EmploymentSummaryReport.new(url)
 
 puts report.school
 
@@ -37,36 +31,4 @@ puts report.employment_status
 
 puts report.employment_type
 
-#
-# SECTION D - LAW SCHOOL/UNIVERSITY FUNDED POSITIONS
-#
-
-# SECTION E - EMPLOYMENT LOCATION
-
-location_types = [
-  "State - Largest Employment",
-  "State - 2nd Largest Employment",
-  "State - 3rd Largest Employment"
-]
-
-locations_section = { # header line is followed by a line for each of the three most popular states, followed by a line to indicate employment in foreign countries
-  first_line_index: lines.each_with_index.find{|line, i| line.include?("EMPLOYMENT LOCATION")}.last,
-  number_of_lines: location_types.count + 1 + 1 # includes header line and foreign locations type
-}
-locations_section[:last_line_index] = locations_section[:first_line_index] + locations_section[:number_of_lines]
-location_lines = lines[locations_section[:first_line_index] .. locations_section[:last_line_index]]
-
-locations = location_types.map do |location_type|
-  line = location_lines.find{|line| line.include?(location_type) }
-  location_number = line.gsub(location_type,"").strip.split("    ").select{|str| !str.empty?}.map{|str| str.strip }
-  location = location_number.first
-  number = location_number.last
-  {type: location_type, location: location, count: number}
-end
-
-foreign_location_type = "Employed in Foreign Countries"
-foreign_line = location_lines.find{|line| line.include?(foreign_location_type) }
-foreign_count = last_number(foreign_line)
-locations << {type: foreign_location_type, location: foreign_location_type, count: foreign_count}
-
-pp locations
+puts report.employment_location
