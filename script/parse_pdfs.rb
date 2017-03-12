@@ -2,8 +2,6 @@ require "pry"
 
 require_relative "../lib/employment_summary_report"
 
-class EmployedGraduatesTotalsError < StandardError ; end
-
 # @param [String] line e.g. "New York               34"
 def last_number(line)
   line.split(" ").last.to_i
@@ -33,56 +31,11 @@ report = EmploymentSummaryReport.new(url)
 
 lines = report.lines
 
-pp report.school
+puts report.school
 
-pp report.employment_status
+puts report.employment_status
 
-#
-# SECTION C - EMPLOYMENT TYPE
-#
-
-employment_types = [
-  {label:"Law Firms",
-    sizes:["Solo", "2 - 10", "11 - 25", "26 - 50", "51 - 100", "101 - 250", "251 - 500", "501 +", "Unknown Size"]},
-  {label:"Business & Industry"},
-  {label:"Government"},
-  {label:"Pub. Int."},
-  {label:"Clerkships - Federal"},
-  {label:"Clerkships - State & Local"},
-  {label:"Clerkships - Other"},
-  {label:"Education"},
-  {label:"Employer Type Unknown"}
-]
-law_firms_type = employment_types.find{|h| h[:label] == "Law Firms"}
-law_firm_sizes = law_firms_type[:sizes]
-
-type_section = { # header line is followed by a line per employment type, including a line per law firm size, followed by a line for "Total Graduates"
-  first_line_index: lines.each_with_index.find{|line, i| line.include?("EMPLOYMENT TYPE")}.last,
-  number_of_lines: employment_types.count + law_firm_sizes.count + 1 + 1 # includes header line and totals line
-}
-type_section[:last_line_index] = type_section[:first_line_index] + type_section[:number_of_lines]
-type_lines = lines[type_section[:first_line_index] .. type_section[:last_line_index]]
-
-type_counts = []
-
-law_firm_sizes.each do |size|
-  line = type_lines.find{|line| line.include?(size) }
-  number = last_number(line)
-  type_counts << {type: "Law Firms (#{size})", count: number}
-end
-
-counted_types = employment_types.reject{|h| h[:label] == "Law Firms"}.map{|h| h[:label]}
-counted_types.each do |type|
-  line = type_lines.find{|line| line.include?(type) }
-  number = last_number(line)
-  type_counts << {type: type, count: number}
-end
-
-pp type_counts
-
-total_employed_graduates = last_number(type_lines.last)
-calculated_total_employed_graduates = type_counts.map{|h| h[:count] }.reduce{|sum, x| sum + x}
-raise EmployedGraduatesTotalsError if total_employed_graduates != calculated_total_employed_graduates
+puts report.employment_type
 
 #
 # SECTION D - LAW SCHOOL/UNIVERSITY FUNDED POSITIONS
