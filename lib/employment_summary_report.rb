@@ -7,7 +7,7 @@ class EmploymentSummaryReport
 
   def initialize(url)
     @url = url
-    @lines = read_lines(url)
+    @lines = read_lines
   end
 
   def year
@@ -107,8 +107,17 @@ class EmploymentSummaryReport
 
   private
 
-  def read_lines(url)
-    io = open(url)
+  def io
+    #io = open(url)
+
+    # test using local file for now:
+    dir = File.expand_path("../../reports/2015/", __FILE__)
+    report_names = Dir.entries(dir).reject{|file_name| [".","..",".gitkeep"].include?(file_name) }
+    report_name = report_names.sample
+    io = File.join(dir, report_name)
+  end
+
+  def read_lines
     reader = PDF::Reader.new(io)
     lines = reader.pages.first.text.split("\n")
     lines.select!{|line| line.size > 0 }
