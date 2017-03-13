@@ -22,52 +22,133 @@
       var myData
       var myChart
 
-      d3.json(url, function(json){
-        myData = json
-        console.log(json)
+      d3.json(url, function(reports){
+        myData = reports // assign the raw JSON data to the `myData` variable to access it later via the console for debugging
+        console.log(reports)
 
         //
         // PROCESS AND TRANSFORM RAW DATA
         //
 
+        //var chartSeries = [
+        //    {
+        //      name: 'Unemployed',
+        //      data: [
+        //        {name:'School A', y:5},
+        //        {name:'School B', y:3},
+        //        {name:'School C', y:4},
+        //        {name:'School D', y:7},
+        //        {name:'School E', y:2},
+        //      ]
+        //    },
+        //    {
+        //      name: 'Public Interest',
+        //      data: [
+        //        {name:'School A', y:2},
+        //        {name:'School B', y:2},
+        //        {name:'School C', y:3},
+        //        {name:'School D', y:2},
+        //        {name:'School E', y:1},
+        //      ]
+        //    },
+        //    {
+        //      name: 'Big Law',
+        //      data: [
+        //        {name:'School A', y:3},
+        //        {name:'School B', y:4},
+        //        {name:'School C', y:4},
+        //        {name:'School D', y:2},
+        //        {name:'School E', y:5},
+        //      ]
+        //    }
+        //]
+
+        //
+        // ... OR ...
+        //
+
+        // var chartCategories = ['School A', 'School B', 'School C', 'School D', 'School E']
+        //
+        // var chartSeries = [
+        //   {
+        //     name: 'Unemployed',
+        //     data: [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+        //   },
+        //   {
+        //     name: 'Public Interest',
+        //     data: [2, 2, 3, 2, 1] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+        //   },
+        //   {
+        //     name: 'Big Law',
+        //     data: [3, 4, 4, 2, 5] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+        //   }
+        // ]
+
+        var chartCategories = ['School A', 'School B', 'School C', 'School D', 'School E']
+
         var chartSeries = [
-            {
-              name: 'Unemployed',
-              data: [
-                {name:'School A', y:5},
-                {name:'School B', y:3},
-                {name:'School C', y:4},
-                {name:'School D', y:7},
-                {name:'School E', y:2},
-              ]
-            },
-            {
-              name: 'Public Interest',
-              data: [
-                {name:'School A', y:2},
-                {name:'School B', y:2},
-                {name:'School C', y:3},
-                {name:'School D', y:2},
-                {name:'School E', y:1},
-              ]
-            },
-            {
-              name: 'Big Law',
-              data: [
-                {name:'School A', y:3},
-                {name:'School B', y:4},
-                {name:'School C', y:4},
-                {name:'School D', y:2},
-                {name:'School E', y:5},
-              ]
-            }
-        ] //TODO: compile `chartSeries` variable from `json` data
+          {
+            name: 'Unemployed',
+            data: [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+          },
+          {
+            name: 'Public Interest',
+            data: [2, 2, 3, 2, 1] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+          },
+          {
+            name: 'Big Law',
+            data: [3, 4, 4, 2, 5] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+          }
+        ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
         //
         // COMPILE CHART
         //
 
-        myChart = Highcharts.chart('my-container', {
+        var chartOptions = {
           chart: {type: 'column'},
           exporting:{
             enabled:true,
@@ -80,14 +161,17 @@
             verticalAlign:'middle'
           },
           title: {text: 'Employment Outcomes by School'},
-          xAxis: {type: "category"},
+          xAxis: {
+            categories: chartCategories,
+            type: "category"
+          },
           yAxis: {
             min: 0,
             title: {text: 'Percentage of 2015 Graduates'},
             stackLabels: {enabled: true}
           },
           tooltip: {
-            headerFormat: '<b>{point.key}</b><br/>',
+            headerFormat: '<b>{point.x}</b><br/>', // '<b>{point.key}</b><br/>'
             pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
             shared: true
           },
@@ -96,14 +180,16 @@
               stacking: 'percent',
               dataLabels: {
                 enabled: true,
-                format: '{point.y} ({point.percentage:.0f}%)', //'{point.percentage:.0f}%',
+                format: '{point.percentage:.0f}%', // '{point.y} ({point.percentage:.0f}%)',
                 color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
               },
               events: {legendItemClick: function () { return false; } } // disable data-filtering functionality when series in legend is clicked
             }
           },
           series: chartSeries
-        }) // Highcharts.chart()
+        }
+
+        myChart = Highcharts.chart('my-container', chartOptions)  // assign the Highcharts chart to the `myChart` variable to access it later via the console for debugging
 
       }) // d3.json()
 
