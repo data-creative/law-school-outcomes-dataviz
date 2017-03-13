@@ -23,6 +23,7 @@ class EmploymentSummaryReport
   def domain
     Domainatrix.parse(url).domain
   end
+  alias school_name domain
 
   ###def year
   ###  @year ||= lines[5].gsub("EMPLOYMENT SUMMARY FOR ","").gsub(" GRADUATES","").to_i
@@ -54,6 +55,23 @@ class EmploymentSummaryReport
 
   def employment_location_results
     @employment_location_results ||= EmploymentLocationSection.new(self).results
+  end
+
+  def results
+    {
+      url: url,
+      school_name: school_name,
+      school_info: school_info,
+      year: year,
+      total_grads: total_grads,
+      #pct_employed_grads: pct_employed_grads,
+      employment_outcomes:{
+        #total_employed_grads: total_employed_grads,
+        statuses: employment_status_results,
+        types: employment_type_results,
+        locations: employment_location_results
+      }
+    }
   end
 
   private

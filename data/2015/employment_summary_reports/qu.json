@@ -1,0 +1,157 @@
+{
+  "url": "https://www.qu.edu/content/dam/qu/documents/sol/2015ABAEmploymentSummary.pdf",
+  "school_name": "qu",
+  "school_info": {
+    "name": "Quinnipiac University",
+    "address": {
+      "street": "275 Mount Carmel Avenue",
+      "city": "Hamden",
+      "state": "CT",
+      "zip": "06518"
+    },
+    "phone": "203-582-3200",
+    "website": "http://law.quinnipiac.edu/"
+  },
+  "year": 2015,
+  "total_grads": 113,
+  "employment_outcomes": {
+    "statuses": [
+      {
+        "status": "Employed - Bar Passage Required",
+        "count": 62
+      },
+      {
+        "status": "Employed - J.D. Advantage",
+        "count": 29
+      },
+      {
+        "status": "Employed - Professional Position",
+        "count": 5
+      },
+      {
+        "status": "Employed - Non-Professional Position",
+        "count": 2
+      },
+      {
+        "status": "Employed - Law School/University Funded",
+        "count": 1
+      },
+      {
+        "status": "Employed - Undeterminable",
+        "count": 0
+      },
+      {
+        "status": "Pursuing Graduate Degree Full Time",
+        "count": 2
+      },
+      {
+        "status": "Unemployed - Start Date Deferred",
+        "count": 0
+      },
+      {
+        "status": "Unemployed - Not Seeking",
+        "count": 2
+      },
+      {
+        "status": "Unemployed - Seeking",
+        "count": 6
+      },
+      {
+        "status": "Employment Status Unknown",
+        "count": 4
+      }
+    ],
+    "types": [
+      {
+        "type": "Law Firms (Solo)",
+        "count": 1
+      },
+      {
+        "type": "Law Firms (2 - 10)",
+        "count": 41
+      },
+      {
+        "type": "Law Firms (11 - 25)",
+        "count": 5
+      },
+      {
+        "type": "Law Firms (26 - 50)",
+        "count": 2
+      },
+      {
+        "type": "Law Firms (51 - 100)",
+        "count": 7
+      },
+      {
+        "type": "Law Firms (101 - 250)",
+        "count": 1
+      },
+      {
+        "type": "Law Firms (251 - 500)",
+        "count": 0
+      },
+      {
+        "type": "Law Firms (501 +)",
+        "count": 0
+      },
+      {
+        "type": "Law Firms (Unknown Size)",
+        "count": 0
+      },
+      {
+        "type": "Business & Industry",
+        "count": 22
+      },
+      {
+        "type": "Government",
+        "count": 10
+      },
+      {
+        "type": "Pub. Int.",
+        "count": 4
+      },
+      {
+        "type": "Clerkships - Federal",
+        "count": 1
+      },
+      {
+        "type": "Clerkships - State & Local",
+        "count": 4
+      },
+      {
+        "type": "Clerkships - Other",
+        "count": 0
+      },
+      {
+        "type": "Education",
+        "count": 1
+      },
+      {
+        "type": "Employer Type Unknown",
+        "count": 0
+      }
+    ],
+    "locations": [
+      {
+        "type": "State - Largest Employment",
+        "location": "Connecticut",
+        "count": "74"
+      },
+      {
+        "type": "State - 2nd Largest Employment",
+        "location": "New York",
+        "count": "9"
+      },
+      {
+        "type": "State - 3rd Largest Employment",
+        "location": "North Carolina",
+        "count": "5"
+      },
+      {
+        "type": "Employed in Foreign Countries",
+        "location": "Employed in Foreign Countries",
+        "count": 0
+      }
+    ]
+  }
+}

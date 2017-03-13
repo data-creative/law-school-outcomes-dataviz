@@ -12,9 +12,9 @@ class School
 
   def info
     return {
-      name: lines.first.upcase,
+      name: lines.first, #.upcase,
       address:{
-        street: lines[1].strip.upcase,
+        street: lines[1].strip, #.upcase,
         city: city_and_state_and_zip.split(", ").first,
         state: state_and_zip.split(" ").first,
         zip: state_and_zip.split(" ").last
@@ -27,7 +27,7 @@ class School
   private
 
   def city_and_state_and_zip
-    lines[3].strip.upcase
+    lines[3].strip #.upcase
   end
 
   def state_and_zip

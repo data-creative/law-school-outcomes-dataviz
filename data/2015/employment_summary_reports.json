@@ -1,0 +1,1258 @@
+[
+  {
+    "url": "https://www.wcl.american.edu/career/documents/statistics2015_000.pdf",
+    "school_name": "american",
+    "school_info": {
+      "name": "American University",
+      "address": {
+        "street": "4300 Nebraska Ave., NW",
+        "city": "Washington",
+        "state": "DC",
+        "zip": "20016"
+      },
+      "phone": "202-274-4000",
+      "website": "http://www.wcl.american.edu"
+    },
+    "year": 2015,
+    "total_grads": 464,
+    "employment_outcomes": {
+      "statuses": [
+        {
+          "status": "Employed - Bar Passage Required",
+          "count": 212
+        },
+        {
+          "status": "Employed - J.D. Advantage",
+          "count": 94
+        },
+        {
+          "status": "Employed - Professional Position",
+          "count": 20
+        },
+        {
+          "status": "Employed - Non-Professional Position",
+          "count": 2
+        },
+        {
+          "status": "Employed - Law School/University Funded",
+          "count": 46
+        },
+        {
+          "status": "Employed - Undeterminable",
+          "count": 0
+        },
+        {
+          "status": "Pursuing Graduate Degree Full Time",
+          "count": 10
+        },
+        {
+          "status": "Unemployed - Start Date Deferred",
+          "count": 5
+        },
+        {
+          "status": "Unemployed - Not Seeking",
+          "count": 8
+        },
+        {
+          "status": "Unemployed - Seeking",
+          "count": 61
+        },
+        {
+          "status": "Employment Status Unknown",
+          "count": 6
+        }
+      ],
+      "types": [
+        {
+          "type": "Law Firms (Solo)",
+          "count": 0
+        },
+        {
+          "type": "Law Firms (2 - 10)",
+          "count": 30
+        },
+        {
+          "type": "Law Firms (11 - 25)",
+          "count": 10
+        },
+        {
+          "type": "Law Firms (26 - 50)",
+          "count": 7
+        },
+        {
+          "type": "Law Firms (51 - 100)",
+          "count": 6
+        },
+        {
+          "type": "Law Firms (101 - 250)",
+          "count": 4
+        },
+        {
+          "type": "Law Firms (251 - 500)",
+          "count": 8
+        },
+        {
+          "type": "Law Firms (501 +)",
+          "count": 43
+        },
+        {
+          "type": "Law Firms (Unknown Size)",
+          "count": 0
+        },
+        {
+          "type": "Business & Industry",
+          "count": 52
+        },
+        {
+          "type": "Government",
+          "count": 88
+        },
+        {
+          "type": "Pub. Int.",
+          "count": 63
+        },
+        {
+          "type": "Clerkships - Federal",
+          "count": 19
+        },
+        {
+          "type": "Clerkships - State & Local",
+          "count": 36
+        },
+        {
+          "type": "Clerkships - Other",
+          "count": 2
+        },
+        {
+          "type": "Education",
+          "count": 6
+        },
+        {
+          "type": "Employer Type Unknown",
+          "count": 0
+        }
+      ],
+      "locations": [
+        {
+          "type": "State - Largest Employment",
+          "location": "District of Columbia",
+          "count": "177"
+        },
+        {
+          "type": "State - 2nd Largest Employment",
+          "location": "Maryland",
+          "count": "39"
+        },
+        {
+          "type": "State - 3rd Largest Employment",
+          "location": "New York",
+          "count": "36"
+        },
+        {
+          "type": "Employed in Foreign Countries",
+          "location": "Employed in Foreign Countries",
+          "count": 13
+        }
+      ]
+    }
+  },
+  {
+    "url": "https://www.fordham.edu/download/downloads/id/5271/class_of_2015_at_10_months.pdf",
+    "school_name": "fordham",
+    "school_info": {
+      "name": "FORDHAM UNIVERSITY",
+      "address": {
+        "street": "150 West 62nd Street",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10023"
+      },
+      "phone": "212-636-6875",
+      "website": "http://law.fordham.edu/"
+    },
+    "year": 2015,
+    "total_grads": 410,
+    "employment_outcomes": {
+      "statuses": [
+        {
+          "status": "Employed - Bar Passage Required",
+          "count": 281
+        },
+        {
+          "status": "Employed - J.D. Advantage",
+          "count": 43
+        },
+        {
+          "status": "Employed - Professional Position",
+          "count": 21
+        },
+        {
+          "status": "Employed - Non-Professional Position",
+          "count": 0
+        },
+        {
+          "status": "Employed - Law School/University Funded",
+          "count": 12
+        },
+        {
+          "status": "Employed - Undeterminable",
+          "count": 0
+        },
+        {
+          "status": "Pursuing Graduate Degree Full Time",
+          "count": 1
+        },
+        {
+          "status": "Unemployed - Start Date Deferred",
+          "count": 2
+        },
+        {
+          "status": "Unemployed - Not Seeking",
+          "count": 4
+        },
+        {
+          "status": "Unemployed - Seeking",
+          "count": 43
+        },
+        {
+          "status": "Employment Status Unknown",
+          "count": 3
+        }
+      ],
+      "types": [
+        {
+          "type": "Law Firms (Solo)",
+          "count": 0
+        },
+        {
+          "type": "Law Firms (2 - 10)",
+          "count": 38
+        },
+        {
+          "type": "Law Firms (11 - 25)",
+          "count": 12
+        },
+        {
+          "type": "Law Firms (26 - 50)",
+          "count": 18
+        },
+        {
+          "type": "Law Firms (51 - 100)",
+          "count": 8
+        },
+        {
+          "type": "Law Firms (101 - 250)",
+          "count": 19
+        },
+        {
+          "type": "Law Firms (251 - 500)",
+          "count": 29
+        },
+        {
+          "type": "Law Firms (501 +)",
+          "count": 92
+        },
+        {
+          "type": "Law Firms (Unknown Size)",
+          "count": 0
+        },
+        {
+          "type": "Business & Industry",
+          "count": 69
+        },
+        {
+          "type": "Government",
+          "count": 28
+        },
+        {
+          "type": "Pub. Int.",
+          "count": 15
+        },
+        {
+          "type": "Clerkships - Federal",
+          "count": 8
+        },
+        {
+          "type": "Clerkships - State & Local",
+          "count": 12
+        },
+        {
+          "type": "Clerkships - Other",
+          "count": 0
+        },
+        {
+          "type": "Education",
+          "count": 9
+        },
+        {
+          "type": "Employer Type Unknown",
+          "count": 0
+        }
+      ],
+      "locations": [
+        {
+          "type": "State - Largest Employment",
+          "location": "New York",
+          "count": "296"
+        },
+        {
+          "type": "State - 2nd Largest Employment",
+          "location": "New Jersey",
+          "count": "21"
+        },
+        {
+          "type": "State - 3rd Largest Employment",
+          "location": "California",
+          "count": "11"
+        },
+        {
+          "type": "Employed in Foreign Countries",
+          "location": "Employed in Foreign Countries",
+          "count": 10
+        }
+      ]
+    }
+  },
+  {
+    "url": "https://www.law.georgetown.edu/careers/upload/Employment-Summary-for-2015-Graduates.pdf",
+    "school_name": "georgetown",
+    "school_info": {
+      "name": "Georgetown University",
+      "address": {
+        "street": "600 New Jersey Ave, NW",
+        "city": "Washington",
+        "state": "DC",
+        "zip": "20001"
+      },
+      "phone": "202-662-9000",
+      "website": "http://www.law.georgetown.edu/"
+    },
+    "year": 2015,
+    "total_grads": 675,
+    "employment_outcomes": {
+      "statuses": [
+        {
+          "status": "Employed - Bar Passage Required",
+          "count": 460
+        },
+        {
+          "status": "Employed - J.D. Advantage",
+          "count": 59
+        },
+        {
+          "status": "Employed - Professional Position",
+          "count": 5
+        },
+        {
+          "status": "Employed - Non-Professional Position",
+          "count": 2
+        },
+        {
+          "status": "Employed - Law School/University Funded",
+          "count": 98
+        },
+        {
+          "status": "Employed - Undeterminable",
+          "count": 1
+        },
+        {
+          "status": "Pursuing Graduate Degree Full Time",
+          "count": 4
+        },
+        {
+          "status": "Unemployed - Start Date Deferred",
+          "count": 5
+        },
+        {
+          "status": "Unemployed - Not Seeking",
+          "count": 7
+        },
+        {
+          "status": "Unemployed - Seeking",
+          "count": 33
+        },
+        {
+          "status": "Employment Status Unknown",
+          "count": 1
+        }
+      ],
+      "types": [
+        {
+          "type": "Law Firms (Solo)",
+          "count": 0
+        },
+        {
+          "type": "Law Firms (2 - 10)",
+          "count": 17
+        },
+        {
+          "type": "Law Firms (11 - 25)",
+          "count": 15
+        },
+        {
+          "type": "Law Firms (26 - 50)",
+          "count": 6
+        },
+        {
+          "type": "Law Firms (51 - 100)",
+          "count": 8
+        },
+        {
+          "type": "Law Firms (101 - 250)",
+          "count": 16
+        },
+        {
+          "type": "Law Firms (251 - 500)",
+          "count": 41
+        },
+        {
+          "type": "Law Firms (501 +)",
+          "count": 221
+        },
+        {
+          "type": "Law Firms (Unknown Size)",
+          "count": 2
+        },
+        {
+          "type": "Business & Industry",
+          "count": 48
+        },
+        {
+          "type": "Government",
+          "count": 95
+        },
+        {
+          "type": "Pub. Int.",
+          "count": 97
+        },
+        {
+          "type": "Clerkships - Federal",
+          "count": 30
+        },
+        {
+          "type": "Clerkships - State & Local",
+          "count": 20
+        },
+        {
+          "type": "Clerkships - Other",
+          "count": 0
+        },
+        {
+          "type": "Education",
+          "count": 8
+        },
+        {
+          "type": "Employer Type Unknown",
+          "count": 1
+        }
+      ],
+      "locations": [
+        {
+          "type": "State - Largest Employment",
+          "location": "District of Columbia",
+          "count": "239"
+        },
+        {
+          "type": "State - 2nd Largest Employment",
+          "location": "New York",
+          "count": "155"
+        },
+        {
+          "type": "State - 3rd Largest Employment",
+          "location": "California",
+          "count": "52"
+        },
+        {
+          "type": "Employed in Foreign Countries",
+          "location": "Employed in Foreign Countries",
+          "count": 12
+        }
+      ]
+    }
+  },
+  {
+    "url": "https://www.law.gmu.edu/assets/files/career/ABAEmploymentSummary2015.pdf",
+    "school_name": "gmu",
+    "school_info": {
+      "name": "George Mason University",
+      "address": {
+        "street": "3301 Fairfax Drive",
+        "city": "Arlington",
+        "state": "VA",
+        "zip": "22201"
+      },
+      "phone": "703-993-8000",
+      "website": "http://www.law.gmu.edu"
+    },
+    "year": 2015,
+    "total_grads": 152,
+    "employment_outcomes": {
+      "statuses": [
+        {
+          "status": "Employed - Bar Passage Required",
+          "count": 97
+        },
+        {
+          "status": "Employed - J.D. Advantage",
+          "count": 37
+        },
+        {
+          "status": "Employed - Professional Position",
+          "count": 7
+        },
+        {
+          "status": "Employed - Non-Professional Position",
+          "count": 0
+        },
+        {
+          "status": "Employed - Law School/University Funded",
+          "count": 5
+        },
+        {
+          "status": "Employed - Undeterminable",
+          "count": 0
+        },
+        {
+          "status": "Pursuing Graduate Degree Full Time",
+          "count": 1
+        },
+        {
+          "status": "Unemployed - Start Date Deferred",
+          "count": 1
+        },
+        {
+          "status": "Unemployed - Not Seeking",
+          "count": 1
+        },
+        {
+          "status": "Unemployed - Seeking",
+          "count": 3
+        },
+        {
+          "status": "Employment Status Unknown",
+          "count": 0
+        }
+      ],
+      "types": [
+        {
+          "type": "Law Firms (Solo)",
+          "count": 1
+        },
+        {
+          "type": "Law Firms (2 - 10)",
+          "count": 28
+        },
+        {
+          "type": "Law Firms (11 - 25)",
+          "count": 5
+        },
+        {
+          "type": "Law Firms (26 - 50)",
+          "count": 7
+        },
+        {
+          "type": "Law Firms (51 - 100)",
+          "count": 1
+        },
+        {
+          "type": "Law Firms (101 - 250)",
+          "count": 4
+        },
+        {
+          "type": "Law Firms (251 - 500)",
+          "count": 8
+        },
+        {
+          "type": "Law Firms (501 +)",
+          "count": 6
+        },
+        {
+          "type": "Law Firms (Unknown Size)",
+          "count": 0
+        },
+        {
+          "type": "Business & Industry",
+          "count": 24
+        },
+        {
+          "type": "Government",
+          "count": 33
+        },
+        {
+          "type": "Pub. Int.",
+          "count": 6
+        },
+        {
+          "type": "Clerkships - Federal",
+          "count": 5
+        },
+        {
+          "type": "Clerkships - State & Local",
+          "count": 10
+        },
+        {
+          "type": "Clerkships - Other",
+          "count": 0
+        },
+        {
+          "type": "Education",
+          "count": 8
+        },
+        {
+          "type": "Employer Type Unknown",
+          "count": 0
+        }
+      ],
+      "locations": [
+        {
+          "type": "State - Largest Employment",
+          "location": "District Of Columbia",
+          "count": "54"
+        },
+        {
+          "type": "State - 2nd Largest Employment",
+          "location": "Virginia",
+          "count": "53"
+        },
+        {
+          "type": "State - 3rd Largest Employment",
+          "location": "Maryland",
+          "count": "9"
+        },
+        {
+          "type": "Employed in Foreign Countries",
+          "location": "Employed in Foreign Countries",
+          "count": 2
+        }
+      ]
+    }
+  },
+  {
+    "url": "https://www.law.gwu.edu/sites/www.law.gwu.edu/files/downloads/GW-Law-ABA-Employment-Data-for-Class-of-2015.pdf",
+    "school_name": "gwu",
+    "school_info": {
+      "name": "George Washington University",
+      "address": {
+        "street": "2000 H St, NW",
+        "city": "Washington",
+        "state": "DC",
+        "zip": "20052"
+      },
+      "phone": "202-994-6288",
+      "website": "http://www.law.gwu.edu"
+    },
+    "year": 2015,
+    "total_grads": 465,
+    "employment_outcomes": {
+      "statuses": [
+        {
+          "status": "Employed - Bar Passage Required",
+          "count": 310
+        },
+        {
+          "status": "Employed - J.D. Advantage",
+          "count": 65
+        },
+        {
+          "status": "Employed - Professional Position",
+          "count": 6
+        },
+        {
+          "status": "Employed - Non-Professional Position",
+          "count": 1
+        },
+        {
+          "status": "Employed - Law School/University Funded",
+          "count": 38
+        },
+        {
+          "status": "Employed - Undeterminable",
+          "count": 0
+        },
+        {
+          "status": "Pursuing Graduate Degree Full Time",
+          "count": 7
+        },
+        {
+          "status": "Unemployed - Start Date Deferred",
+          "count": 3
+        },
+        {
+          "status": "Unemployed - Not Seeking",
+          "count": 4
+        },
+        {
+          "status": "Unemployed - Seeking",
+          "count": 30
+        },
+        {
+          "status": "Employment Status Unknown",
+          "count": 1
+        }
+      ],
+      "types": [
+        {
+          "type": "Law Firms (Solo)",
+          "count": 0
+        },
+        {
+          "type": "Law Firms (2 - 10)",
+          "count": 34
+        },
+        {
+          "type": "Law Firms (11 - 25)",
+          "count": 11
+        },
+        {
+          "type": "Law Firms (26 - 50)",
+          "count": 6
+        },
+        {
+          "type": "Law Firms (51 - 100)",
+          "count": 14
+        },
+        {
+          "type": "Law Firms (101 - 250)",
+          "count": 15
+        },
+        {
+          "type": "Law Firms (251 - 500)",
+          "count": 25
+        },
+        {
+          "type": "Law Firms (501 +)",
+          "count": 109
+        },
+        {
+          "type": "Law Firms (Unknown Size)",
+          "count": 1
+        },
+        {
+          "type": "Business & Industry",
+          "count": 51
+        },
+        {
+          "type": "Government",
+          "count": 79
+        },
+        {
+          "type": "Pub. Int.",
+          "count": 40
+        },
+        {
+          "type": "Clerkships - Federal",
+          "count": 16
+        },
+        {
+          "type": "Clerkships - State & Local",
+          "count": 13
+        },
+        {
+          "type": "Clerkships - Other",
+          "count": 2
+        },
+        {
+          "type": "Education",
+          "count": 4
+        },
+        {
+          "type": "Employer Type Unknown",
+          "count": 0
+        }
+      ],
+      "locations": [
+        {
+          "type": "State - Largest Employment",
+          "location": "District Of Columbia",
+          "count": "221"
+        },
+        {
+          "type": "State - 2nd Largest Employment",
+          "location": "New York",
+          "count": "58"
+        },
+        {
+          "type": "State - 3rd Largest Employment",
+          "location": "Virginia",
+          "count": "32"
+        },
+        {
+          "type": "Employed in Foreign Countries",
+          "location": "Employed in Foreign Countries",
+          "count": 8
+        }
+      ]
+    }
+  },
+  {
+    "url": "https://www.qu.edu/content/dam/qu/documents/sol/2015ABAEmploymentSummary.pdf",
+    "school_name": "qu",
+    "school_info": {
+      "name": "Quinnipiac University",
+      "address": {
+        "street": "275 Mount Carmel Avenue",
+        "city": "Hamden",
+        "state": "CT",
+        "zip": "06518"
+      },
+      "phone": "203-582-3200",
+      "website": "http://law.quinnipiac.edu/"
+    },
+    "year": 2015,
+    "total_grads": 113,
+    "employment_outcomes": {
+      "statuses": [
+        {
+          "status": "Employed - Bar Passage Required",
+          "count": 62
+        },
+        {
+          "status": "Employed - J.D. Advantage",
+          "count": 29
+        },
+        {
+          "status": "Employed - Professional Position",
+          "count": 5
+        },
+        {
+          "status": "Employed - Non-Professional Position",
+          "count": 2
+        },
+        {
+          "status": "Employed - Law School/University Funded",
+          "count": 1
+        },
+        {
+          "status": "Employed - Undeterminable",
+          "count": 0
+        },
+        {
+          "status": "Pursuing Graduate Degree Full Time",
+          "count": 2
+        },
+        {
+          "status": "Unemployed - Start Date Deferred",
+          "count": 0
+        },
+        {
+          "status": "Unemployed - Not Seeking",
+          "count": 2
+        },
+        {
+          "status": "Unemployed - Seeking",
+          "count": 6
+        },
+        {
+          "status": "Employment Status Unknown",
+          "count": 4
+        }
+      ],
+      "types": [
+        {
+          "type": "Law Firms (Solo)",
+          "count": 1
+        },
+        {
+          "type": "Law Firms (2 - 10)",
+          "count": 41
+        },
+        {
+          "type": "Law Firms (11 - 25)",
+          "count": 5
+        },
+        {
+          "type": "Law Firms (26 - 50)",
+          "count": 2
+        },
+        {
+          "type": "Law Firms (51 - 100)",
+          "count": 7
+        },
+        {
+          "type": "Law Firms (101 - 250)",
+          "count": 1
+        },
+        {
+          "type": "Law Firms (251 - 500)",
+          "count": 0
+        },
+        {
+          "type": "Law Firms (501 +)",
+          "count": 0
+        },
+        {
+          "type": "Law Firms (Unknown Size)",
+          "count": 0
+        },
+        {
+          "type": "Business & Industry",
+          "count": 22
+        },
+        {
+          "type": "Government",
+          "count": 10
+        },
+        {
+          "type": "Pub. Int.",
+          "count": 4
+        },
+        {
+          "type": "Clerkships - Federal",
+          "count": 1
+        },
+        {
+          "type": "Clerkships - State & Local",
+          "count": 4
+        },
+        {
+          "type": "Clerkships - Other",
+          "count": 0
+        },
+        {
+          "type": "Education",
+          "count": 1
+        },
+        {
+          "type": "Employer Type Unknown",
+          "count": 0
+        }
+      ],
+      "locations": [
+        {
+          "type": "State - Largest Employment",
+          "location": "Connecticut",
+          "count": "74"
+        },
+        {
+          "type": "State - 2nd Largest Employment",
+          "location": "New York",
+          "count": "9"
+        },
+        {
+          "type": "State - 3rd Largest Employment",
+          "location": "North Carolina",
+          "count": "5"
+        },
+        {
+          "type": "Employed in Foreign Countries",
+          "location": "Employed in Foreign Countries",
+          "count": 0
+        }
+      ]
+    }
+  },
+  {
+    "url": "http://www.uchastings.edu/career-office/docs/ABA%20Summary%20for%20website.pdf",
+    "school_name": "uchastings",
+    "school_info": {
+      "name": "University of California Hastings",
+      "address": {
+        "street": "200 McAllister Street",
+        "city": "San Francisco",
+        "state": "CA",
+        "zip": "94102"
+      },
+      "phone": "415-565-4600",
+      "website": "www.uchastings.edu"
+    },
+    "year": 2015,
+    "total_grads": 308,
+    "employment_outcomes": {
+      "statuses": [
+        {
+          "status": "Employed - Bar Passage Required",
+          "count": 187
+        },
+        {
+          "status": "Employed - J.D. Advantage",
+          "count": 43
+        },
+        {
+          "status": "Employed - Professional Position",
+          "count": 7
+        },
+        {
+          "status": "Employed - Non-Professional Position",
+          "count": 4
+        },
+        {
+          "status": "Employed - Law School/University Funded",
+          "count": 20
+        },
+        {
+          "status": "Employed - Undeterminable",
+          "count": 0
+        },
+        {
+          "status": "Pursuing Graduate Degree Full Time",
+          "count": 0
+        },
+        {
+          "status": "Unemployed - Start Date Deferred",
+          "count": 2
+        },
+        {
+          "status": "Unemployed - Not Seeking",
+          "count": 2
+        },
+        {
+          "status": "Unemployed - Seeking",
+          "count": 37
+        },
+        {
+          "status": "Employment Status Unknown",
+          "count": 6
+        }
+      ],
+      "types": [
+        {
+          "type": "Law Firms (Solo)",
+          "count": 6
+        },
+        {
+          "type": "Law Firms (2 - 10)",
+          "count": 47
+        },
+        {
+          "type": "Law Firms (11 - 25)",
+          "count": 21
+        },
+        {
+          "type": "Law Firms (26 - 50)",
+          "count": 12
+        },
+        {
+          "type": "Law Firms (51 - 100)",
+          "count": 7
+        },
+        {
+          "type": "Law Firms (101 - 250)",
+          "count": 14
+        },
+        {
+          "type": "Law Firms (251 - 500)",
+          "count": 6
+        },
+        {
+          "type": "Law Firms (501 +)",
+          "count": 42
+        },
+        {
+          "type": "Law Firms (Unknown Size)",
+          "count": 0
+        },
+        {
+          "type": "Business & Industry",
+          "count": 40
+        },
+        {
+          "type": "Government",
+          "count": 30
+        },
+        {
+          "type": "Pub. Int.",
+          "count": 22
+        },
+        {
+          "type": "Clerkships - Federal",
+          "count": 5
+        },
+        {
+          "type": "Clerkships - State & Local",
+          "count": 0
+        },
+        {
+          "type": "Clerkships - Other",
+          "count": 4
+        },
+        {
+          "type": "Education",
+          "count": 5
+        },
+        {
+          "type": "Employer Type Unknown",
+          "count": 0
+        }
+      ],
+      "locations": [
+        {
+          "type": "State - Largest Employment",
+          "location": "California",
+          "count": "236"
+        },
+        {
+          "type": "State - 2nd Largest Employment",
+          "location": "New York",
+          "count": "4"
+        },
+        {
+          "type": "State - 3rd Largest Employment",
+          "location": "Washington",
+          "count": "4"
+        },
+        {
+          "type": "Employed in Foreign Countries",
+          "location": "Employed in Foreign Countries",
+          "count": 0
+        }
+      ]
+    }
+  },
+  {
+    "url": "https://www.law.uconn.edu/sites/default/files/content-page/Graduate-Employment-Outcomes-Class-of-2015-2016-04-26.pdf",
+    "school_name": "uconn",
+    "school_info": {
+      "name": "CONNECTICUT, UNIVERSITY OF",
+      "address": {
+        "street": "55 Elizabeth Street",
+        "city": "Hartford",
+        "state": "CT",
+        "zip": "06105"
+      },
+      "phone": "860-570-5127",
+      "website": "http://www.law.uconn.edu"
+    },
+    "year": 2015,
+    "total_grads": 152,
+    "employment_outcomes": {
+      "statuses": [
+        {
+          "status": "Employed - Bar Passage Required",
+          "count": 92
+        },
+        {
+          "status": "Employed - J.D. Advantage",
+          "count": 34
+        },
+        {
+          "status": "Employed - Professional Position",
+          "count": 10
+        },
+        {
+          "status": "Employed - Non-Professional Position",
+          "count": 2
+        },
+        {
+          "status": "Employed - Law School/University Funded",
+          "count": 0
+        },
+        {
+          "status": "Employed - Undeterminable",
+          "count": 0
+        },
+        {
+          "status": "Pursuing Graduate Degree Full Time",
+          "count": 1
+        },
+        {
+          "status": "Unemployed - Start Date Deferred",
+          "count": 1
+        },
+        {
+          "status": "Unemployed - Not Seeking",
+          "count": 2
+        },
+        {
+          "status": "Unemployed - Seeking",
+          "count": 7
+        },
+        {
+          "status": "Employment Status Unknown",
+          "count": 3
+        }
+      ],
+      "types": [
+        {
+          "type": "Law Firms (Solo)",
+          "count": 0
+        },
+        {
+          "type": "Law Firms (2 - 10)",
+          "count": 17
+        },
+        {
+          "type": "Law Firms (11 - 25)",
+          "count": 9
+        },
+        {
+          "type": "Law Firms (26 - 50)",
+          "count": 7
+        },
+        {
+          "type": "Law Firms (51 - 100)",
+          "count": 10
+        },
+        {
+          "type": "Law Firms (101 - 250)",
+          "count": 11
+        },
+        {
+          "type": "Law Firms (251 - 500)",
+          "count": 1
+        },
+        {
+          "type": "Law Firms (501 +)",
+          "count": 4
+        },
+        {
+          "type": "Law Firms (Unknown Size)",
+          "count": 0
+        },
+        {
+          "type": "Business & Industry",
+          "count": 34
+        },
+        {
+          "type": "Government",
+          "count": 20
+        },
+        {
+          "type": "Pub. Int.",
+          "count": 7
+        },
+        {
+          "type": "Clerkships - Federal",
+          "count": 4
+        },
+        {
+          "type": "Clerkships - State & Local",
+          "count": 14
+        },
+        {
+          "type": "Clerkships - Other",
+          "count": 0
+        },
+        {
+          "type": "Education",
+          "count": 0
+        },
+        {
+          "type": "Employer Type Unknown",
+          "count": 0
+        }
+      ],
+      "locations": [
+        {
+          "type": "State - Largest Employment",
+          "location": "Connecticut",
+          "count": "103"
+        },
+        {
+          "type": "State - 2nd Largest Employment",
+          "location": "New York",
+          "count": "11"
+        },
+        {
+          "type": "State - 3rd Largest Employment",
+          "location": "Massachusetts",
+          "count": "8"
+        },
+        {
+          "type": "Employed in Foreign Countries",
+          "location": "Employed in Foreign Countries",
+          "count": 1
+        }
+      ]
+    }
+  }
+]

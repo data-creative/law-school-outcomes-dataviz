@@ -1,0 +1,157 @@
+{
+  "url": "https://www.law.georgetown.edu/careers/upload/Employment-Summary-for-2015-Graduates.pdf",
+  "school_name": "georgetown",
+  "school_info": {
+    "name": "Georgetown University",
+    "address": {
+      "street": "600 New Jersey Ave, NW",
+      "city": "Washington",
+      "state": "DC",
+      "zip": "20001"
+    },
+    "phone": "202-662-9000",
+    "website": "http://www.law.georgetown.edu/"
+  },
+  "year": 2015,
+  "total_grads": 675,
+  "employment_outcomes": {
+    "statuses": [
+      {
+        "status": "Employed - Bar Passage Required",
+        "count": 460
+      },
+      {
+        "status": "Employed - J.D. Advantage",
+        "count": 59
+      },
+      {
+        "status": "Employed - Professional Position",
+        "count": 5
+      },
+      {
+        "status": "Employed - Non-Professional Position",
+        "count": 2
+      },
+      {
+        "status": "Employed - Law School/University Funded",
+        "count": 98
+      },
+      {
+        "status": "Employed - Undeterminable",
+        "count": 1
+      },
+      {
+        "status": "Pursuing Graduate Degree Full Time",
+        "count": 4
+      },
+      {
+        "status": "Unemployed - Start Date Deferred",
+        "count": 5
+      },
+      {
+        "status": "Unemployed - Not Seeking",
+        "count": 7
+      },
+      {
+        "status": "Unemployed - Seeking",
+        "count": 33
+      },
+      {
+        "status": "Employment Status Unknown",
+        "count": 1
+      }
+    ],
+    "types": [
+      {
+        "type": "Law Firms (Solo)",
+        "count": 0
+      },
+      {
+        "type": "Law Firms (2 - 10)",
+        "count": 17
+      },
+      {
+        "type": "Law Firms (11 - 25)",
+        "count": 15
+      },
+      {
+        "type": "Law Firms (26 - 50)",
+        "count": 6
+      },
+      {
+        "type": "Law Firms (51 - 100)",
+        "count": 8
+      },
+      {
+        "type": "Law Firms (101 - 250)",
+        "count": 16
+      },
+      {
+        "type": "Law Firms (251 - 500)",
+        "count": 41
+      },
+      {
+        "type": "Law Firms (501 +)",
+        "count": 221
+      },
+      {
+        "type": "Law Firms (Unknown Size)",
+        "count": 2
+      },
+      {
+        "type": "Business & Industry",
+        "count": 48
+      },
+      {
+        "type": "Government",
+        "count": 95
+      },
+      {
+        "type": "Pub. Int.",
+        "count": 97
+      },
+      {
+        "type": "Clerkships - Federal",
+        "count": 30
+      },
+      {
+        "type": "Clerkships - State & Local",
+        "count": 20
+      },
+      {
+        "type": "Clerkships - Other",
+        "count": 0
+      },
+      {
+        "type": "Education",
+        "count": 8
+      },
+      {
+        "type": "Employer Type Unknown",
+        "count": 1
+      }
+    ],
+    "locations": [
+      {
+        "type": "State - Largest Employment",
+        "location": "District of Columbia",
+        "count": "239"
+      },
+      {
+        "type": "State - 2nd Largest Employment",
+        "location": "New York",
+        "count": "155"
+      },
+      {
+        "type": "State - 3rd Largest Employment",
+        "location": "California",
+        "count": "52"
+      },
+      {
+        "type": "Employed in Foreign Countries",
+        "location": "Employed in Foreign Countries",
+        "count": 12
+      }
+    ]
+  }
+}

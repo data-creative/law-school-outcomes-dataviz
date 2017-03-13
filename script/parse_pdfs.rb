@@ -1,4 +1,5 @@
 require "pry"
+require "json"
 
 require_relative "../lib/employment_summary_report"
 
@@ -23,23 +24,41 @@ seeds = [
 
 ]
 
-seeds.select{|seed| seed[:year] == 2015 }.each do |seed|
+year = 2015
+
+reports = []
+
+seeds.select{|seed| seed[:year] == year }.each do |seed|
 
   puts "-----------------------"
-  puts "-----------------------"
+  puts ""
+
   pp seed
 
   report = EmploymentSummaryReport.new(url: seed[:url], year: seed[:year])
 
-  pp report.year
+  puts report.year
+
+  puts report.school_name
 
   pp report.school_info
 
-  pp report.total_grads
+  puts report.total_grads
 
   pp report.employment_status_results
 
   pp report.employment_type_results
 
   pp report.employment_location_results
+
+  reports << report.results
+
+  json_path = File.join(File.expand_path("../../data/#{year}/employment_summary_reports/", __FILE__), "#{report.school_name}.json")
+  File.write(json_path, JSON.pretty_generate(report.results))
+
+  puts ""
+  puts "-----------------------"
 end
+
+json_path = File.join(File.expand_path("../../data/#{year}/", __FILE__), "employment_summary_reports.json")
+File.write(json_path, JSON.pretty_generate(reports))

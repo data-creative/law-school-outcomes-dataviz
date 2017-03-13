@@ -1,0 +1,157 @@
+{
+  "url": "https://www.law.uconn.edu/sites/default/files/content-page/Graduate-Employment-Outcomes-Class-of-2015-2016-04-26.pdf",
+  "school_name": "uconn",
+  "school_info": {
+    "name": "CONNECTICUT, UNIVERSITY OF",
+    "address": {
+      "street": "55 Elizabeth Street",
+      "city": "Hartford",
+      "state": "CT",
+      "zip": "06105"
+    },
+    "phone": "860-570-5127",
+    "website": "http://www.law.uconn.edu"
+  },
+  "year": 2015,
+  "total_grads": 152,
+  "employment_outcomes": {
+    "statuses": [
+      {
+        "status": "Employed - Bar Passage Required",
+        "count": 92
+      },
+      {
+        "status": "Employed - J.D. Advantage",
+        "count": 34
+      },
+      {
+        "status": "Employed - Professional Position",
+        "count": 10
+      },
+      {
+        "status": "Employed - Non-Professional Position",
+        "count": 2
+      },
+      {
+        "status": "Employed - Law School/University Funded",
+        "count": 0
+      },
+      {
+        "status": "Employed - Undeterminable",
+        "count": 0
+      },
+      {
+        "status": "Pursuing Graduate Degree Full Time",
+        "count": 1
+      },
+      {
+        "status": "Unemployed - Start Date Deferred",
+        "count": 1
+      },
+      {
+        "status": "Unemployed - Not Seeking",
+        "count": 2
+      },
+      {
+        "status": "Unemployed - Seeking",
+        "count": 7
+      },
+      {
+        "status": "Employment Status Unknown",
+        "count": 3
+      }
+    ],
+    "types": [
+      {
+        "type": "Law Firms (Solo)",
+        "count": 0
+      },
+      {
+        "type": "Law Firms (2 - 10)",
+        "count": 17
+      },
+      {
+        "type": "Law Firms (11 - 25)",
+        "count": 9
+      },
+      {
+        "type": "Law Firms (26 - 50)",
+        "count": 7
+      },
+      {
+        "type": "Law Firms (51 - 100)",
+        "count": 10
+      },
+      {
+        "type": "Law Firms (101 - 250)",
+        "count": 11
+      },
+      {
+        "type": "Law Firms (251 - 500)",
+        "count": 1
+      },
+      {
+        "type": "Law Firms (501 +)",
+        "count": 4
+      },
+      {
+        "type": "Law Firms (Unknown Size)",
+        "count": 0
+      },
+      {
+        "type": "Business & Industry",
+        "count": 34
+      },
+      {
+        "type": "Government",
+        "count": 20
+      },
+      {
+        "type": "Pub. Int.",
+        "count": 7
+      },
+      {
+        "type": "Clerkships - Federal",
+        "count": 4
+      },
+      {
+        "type": "Clerkships - State & Local",
+        "count": 14
+      },
+      {
+        "type": "Clerkships - Other",
+        "count": 0
+      },
+      {
+        "type": "Education",
+        "count": 0
+      },
+      {
+        "type": "Employer Type Unknown",
+        "count": 0
+      }
+    ],
+    "locations": [
+      {
+        "type": "State - Largest Employment",
+        "location": "Connecticut",
+        "count": "103"
+      },
+      {
+        "type": "State - 2nd Largest Employment",
+        "location": "New York",
+        "count": "11"
+      },
+      {
+        "type": "State - 3rd Largest Employment",
+        "location": "Massachusetts",
+        "count": "8"
+      },
+      {
+        "type": "Employed in Foreign Countries",
+        "location": "Employed in Foreign Countries",
+        "count": 1
+      }
+    ]
+  }
+}
