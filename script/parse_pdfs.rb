@@ -25,9 +25,6 @@ seeds = [
   {year: 2015, url: "https://www.qu.edu/content/dam/qu/documents/sol/2015ABAEmploymentSummary.pdf"},
   {year: 2015, url: "http://www.uchastings.edu/career-office/docs/ABA%20Summary%20for%20website.pdf"},
   {year: 2015, url: "https://www.law.uconn.edu/sites/default/files/content-page/Graduate-Employment-Outcomes-Class-of-2015-2016-04-26.pdf"}
-
-
-
 ]
 
 year = 2015

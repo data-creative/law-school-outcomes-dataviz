@@ -1,67 +1,34 @@
-# Law School Employment Outcomes
+# Law School Outcomes - Data Visualization
+
+Uses the [Law School Outcomes](https://github.com/data-creative/law-school-outcomes-ruby) ruby library to process Employment Summary Reports from ABA-accredited law schools, and writes the results to JSON.
+
+Provides a decision-making dashboard for comparing employment outcomes across various schools of interest.
 
 ## Usage
 
-```` rb
-report = EmploymentSummaryReport.new(url: url, year: 2015)
+Visit in a browser at https://data-creative.github.io/law-school-outcomes-dataviz/.
 
-report.school_info
-#> {:name=>"MY UNIVERSITY", :address=>{:street=>"123 MAIN STREET", :city=>"MY CITY", :state=>"ZZ", :zip=>"10101"}, :phone=>"123-456-789", :website=>"http://www.law.my-university.edu/"}
+## Contributing
 
-report.total_grads #> 465
+### Installation
 
-report.employment_status_results
-#> [{:status=>"Employed - Bar Passage Required", :count=>310},
-#   {:status=>"Employed - J.D. Advantage", :count=>65},
-#   {:status=>"Employed - Professional Position", :count=>6},
-#   {:status=>"Employed - Non-Professional Position", :count=>1},
-#   {:status=>"Employed - Law School/University Funded", :count=>38},
-#   {:status=>"Employed - Undeterminable", :count=>0},
-#   {:status=>"Pursuing Graduate Degree Full Time", :count=>7},
-#   {:status=>"Unemployed - Start Date Deferred", :count=>3},
-#   {:status=>"Unemployed - Not Seeking", :count=>4},
-#   {:status=>"Unemployed - Seeking", :count=>30},
-#   {:status=>"Employment Status Unknown", :count=>1
-#  }]
-
-report.employment_type_results
-#> [{:type=>"Law Firms (Solo)", :count=>0},
-#   {:type=>"Law Firms (2 - 10)", :count=>34},
-#   {:type=>"Law Firms (11 - 25)", :count=>11},
-#   {:type=>"Law Firms (26 - 50)", :count=>6},
-#   {:type=>"Law Firms (51 - 100)", :count=>14},
-#   {:type=>"Law Firms (101 - 250)", :count=>15},
-#   {:type=>"Law Firms (251 - 500)", :count=>25},
-#   {:type=>"Law Firms (501 +)", :count=>109},
-#   {:type=>"Law Firms (Unknown Size)", :count=>1},
-#   {:type=>"Business & Industry", :count=>51},
-#   {:type=>"Government", :count=>79},
-#   {:type=>"Pub. Int.", :count=>40},
-#   {:type=>"Clerkships - Federal", :count=>16},
-#   {:type=>"Clerkships - State & Local", :count=>13},
-#   {:type=>"Clerkships - Other", :count=>2},
-#   {:type=>"Education", :count=>4},
-#   {:type=>"Employer Type Unknown", :count=>0}]
-
-report.employment_location_results
-#> [{:type=>"State - Largest Employment",
-#    :location=>"District Of Columbia",
-#    :count=>"221"},
-#   {:type=>"State - 2nd Largest Employment",
-#    :location=>"New York",
-#    :count=>"58"},
-#   {:type=>"State - 3rd Largest Employment",
-#    :location=>"Virginia",
-#    :count=>"32"},
-#   {:type=>"Employed in Foreign Countries",
-#    :location=>"Employed in Foreign Countries",
-#    :count=>8}]
+```` sh
+git clone git@github.com:data-creative/law-school-outcomes-dataviz.git
+cd law-school-outcomes-dataviz/
 ````
 
-### ETL
+### Collect Report URLs
 
-Given a school-hosted report url, get information about that school and the employment outcomes of its recent graduates:
+Add new Employment Summary Report URL(s) to `script/parse_pdfs.rb`.
+
+### Convert PDF files to JSON
 
 ```` sh
 ruby script/parse_pdfs.rb
+````
+
+### Run Local Web Server
+
+```` sh
+python -m SimpleHTTPServer 8888
 ````
