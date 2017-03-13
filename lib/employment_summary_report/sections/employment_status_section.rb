@@ -22,7 +22,7 @@ class EmploymentStatusSection < Section
     super({
       :report => report,
       :header_content => "EMPLOYMENT STATUS",
-      :number_of_lines => EMPLOYMENT_STATUSES.count + 1 + 1
+      :number_of_lines => EMPLOYMENT_STATUSES.count + 1 + 1 # consider right-sizing until the index of the last row: "Total Graduates"
     })
   end
 
@@ -33,9 +33,9 @@ class EmploymentStatusSection < Section
   def results
     counts = []
 
-    EMPLOYMENT_STATUSES.map do |status|
+    EMPLOYMENT_STATUSES.each do |status|
       line = lines.find{|line| line.include?(status) }
-      number = last_number(line)
+      number = line ? last_number(line) : 0
       counts << {status: status, count: number}
     end
 

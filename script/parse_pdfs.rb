@@ -8,7 +8,7 @@ seeds = [
   {year: 2014, url: "https://www.law.georgetown.edu/careers/ocs/upload/ABA-Website-Info.pdf"},
   {year: 2014, url: "https://www.law.gmu.edu/assets/files/career/ABAEmploymentSummary2014.pdf"},
   {year: 2014, url: "https://www.law.gwu.edu/sites/www.law.gwu.edu/files/downloads/Employement_Data_2014.pdf"},
-  {year: 2014, url: "https://www.qu.edu/content/dam/qu/documents/sol/2015ABAEmploymentSummary.pdf"},
+  {year: 2014, url: "https://www.qu.edu/content/dam/qu/documents/sol/2014ABAEmploymentSummary.pdf"},
   {year: 2014, url: "http://www.uchastings.edu/career-office/docs/2014_ABA_Stats.pdf"},
   {year: 2014, url: "https://www.law.uconn.edu/sites/default/files/content-page/Graduate%20Employment%20Outcomes%20Class%20of%202014.pdf"},
 
@@ -17,7 +17,7 @@ seeds = [
   {year: 2015, url: "https://www.law.georgetown.edu/careers/upload/Employment-Summary-for-2015-Graduates.pdf"},
   {year: 2015, url: "https://www.law.gmu.edu/assets/files/career/ABAEmploymentSummary2015.pdf"},
   {year: 2015, url: "https://www.law.gwu.edu/sites/www.law.gwu.edu/files/downloads/GW-Law-ABA-Employment-Data-for-Class-of-2015.pdf"},
-  {year: 2015, url: "https://www.qu.edu/content/dam/qu/documents/sol/2014ABAEmploymentSummary.pdf"},
+  {year: 2015, url: "https://www.qu.edu/content/dam/qu/documents/sol/2015ABAEmploymentSummary.pdf"},
   {year: 2015, url: "http://www.uchastings.edu/career-office/docs/ABA%20Summary%20for%20website.pdf"},
   {year: 2015, url: "https://www.law.uconn.edu/sites/default/files/content-page/Graduate-Employment-Outcomes-Class-of-2015-2016-04-26.pdf"}
 
@@ -25,8 +25,11 @@ seeds = [
 
 seeds.select{|seed| seed[:year] == 2015 }.each do |seed|
 
+  puts "-----------------------"
+  puts "-----------------------"
+  pp seed
+
   report = EmploymentSummaryReport.new(url: seed[:url], year: seed[:year])
-  #report = EmploymentSummaryReport.new({year: 2015, url: "https://www.law.gwu.edu/sites/www.law.gwu.edu/files/downloads/GW-Law-ABA-Employment-Data-for-Class-of-2015.pdf"})
 
   pp report.year
 
