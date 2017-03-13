@@ -16,6 +16,21 @@
     </div>
 
     <script type="text/javascript">
+
+        var chartCategories = ['School A', 'School B', 'School C', 'School D', 'School E']
+
+        var chartSeries = [{
+            name: 'Unemployed',
+            data: [5, 3, 4, 7, 2]
+        }, {
+            name: 'Public Interest',
+            data: [2, 2, 3, 2, 1]
+        }, {
+            name: 'Big Law',
+            data: [3, 4, 4, 2, 5]
+        }]
+
+
         Highcharts.chart('my-container', {
             chart: {
                 type: 'column'
@@ -40,7 +55,7 @@
                 text: 'Employment Outcomes by School'
             },
             xAxis: {
-                categories: ['School A', 'School B', 'School C', 'School D', 'School E']
+                categories: chartCategories
             },
             yAxis: {
                 min: 0,
@@ -71,16 +86,7 @@
                     } // disable data-filtering functionality when series in legend is clicked
                 }
             },
-            series: [{
-                name: 'Unemployed',
-                data: [5, 3, 4, 7, 2]
-            }, {
-                name: 'Public Interest',
-                data: [2, 2, 3, 2, 1]
-            }, {
-                name: 'Big Law',
-                data: [3, 4, 4, 2, 5]
-            }]
+            series: chartSeries
         });
 
     </script>
