@@ -157,6 +157,163 @@
     }
   },
   {
+    "url": "http://web.law.columbia.edu/sites/default/files/microsites/careers/files/2015_aba_employment_summary.pdf",
+    "school_name": "columbia",
+    "school_info": {
+      "name": "COLUMBIA UNIVERSITY",
+      "address": {
+        "street": "435 West 116 Street",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10027"
+      },
+      "phone": "212-854-2640",
+      "website": "http://www.law.columbia.edu"
+    },
+    "year": 2015,
+    "total_grads": 413,
+    "employment_outcomes": {
+      "statuses": [
+        {
+          "status": "Employed - Bar Passage Required",
+          "count": 360
+        },
+        {
+          "status": "Employed - J.D. Advantage",
+          "count": 11
+        },
+        {
+          "status": "Employed - Professional Position",
+          "count": 4
+        },
+        {
+          "status": "Employed - Non-Professional Position",
+          "count": 0
+        },
+        {
+          "status": "Employed - Law School/University Funded",
+          "count": 28
+        },
+        {
+          "status": "Employed - Undeterminable",
+          "count": 0
+        },
+        {
+          "status": "Pursuing Graduate Degree Full Time",
+          "count": 2
+        },
+        {
+          "status": "Unemployed - Start Date Deferred",
+          "count": 1
+        },
+        {
+          "status": "Unemployed - Not Seeking",
+          "count": 0
+        },
+        {
+          "status": "Unemployed - Seeking",
+          "count": 7
+        },
+        {
+          "status": "Employment Status Unknown",
+          "count": 0
+        }
+      ],
+      "types": [
+        {
+          "type": "Law Firms (Solo)",
+          "count": 0
+        },
+        {
+          "type": "Law Firms (2 - 10)",
+          "count": 3
+        },
+        {
+          "type": "Law Firms (11 - 25)",
+          "count": 1
+        },
+        {
+          "type": "Law Firms (26 - 50)",
+          "count": 4
+        },
+        {
+          "type": "Law Firms (51 - 100)",
+          "count": 1
+        },
+        {
+          "type": "Law Firms (101 - 250)",
+          "count": 7
+        },
+        {
+          "type": "Law Firms (251 - 500)",
+          "count": 44
+        },
+        {
+          "type": "Law Firms (501 +)",
+          "count": 253
+        },
+        {
+          "type": "Law Firms (Unknown Size)",
+          "count": 0
+        },
+        {
+          "type": "Business & Industry",
+          "count": 14
+        },
+        {
+          "type": "Government",
+          "count": 21
+        },
+        {
+          "type": "Pub. Int.",
+          "count": 27
+        },
+        {
+          "type": "Clerkships - Federal",
+          "count": 23
+        },
+        {
+          "type": "Clerkships - State & Local",
+          "count": 3
+        },
+        {
+          "type": "Clerkships - Other",
+          "count": 1
+        },
+        {
+          "type": "Education",
+          "count": 1
+        },
+        {
+          "type": "Employer Type Unknown",
+          "count": 0
+        }
+      ],
+      "locations": [
+        {
+          "type": "State - Largest Employment",
+          "location": "New York",
+          "count": "309"
+        },
+        {
+          "type": "State - 2nd Largest Employment",
+          "location": "California",
+          "count": "28"
+        },
+        {
+          "type": "State - 3rd Largest Employment",
+          "location": "District of Columbia",
+          "count": "25"
+        },
+        {
+          "type": "Employed in Foreign Countries",
+          "location": "Employed in Foreign Countries",
+          "count": 9
+        }
+      ]
+    }
+  },
+  {
     "url": "https://www.fordham.edu/download/downloads/id/5271/class_of_2015_at_10_months.pdf",
     "school_name": "fordham",
     "school_info": {
@@ -780,6 +937,163 @@
           "type": "Employed in Foreign Countries",
           "location": "Employed in Foreign Countries",
           "count": 8
+        }
+      ]
+    }
+  },
+  {
+    "url": "http://www.law.nyu.edu/sites/default/files/NYULaw-ABA-Report-Employment-Summary-2015-Graduates.pdf",
+    "school_name": "nyu",
+    "school_info": {
+      "name": "NEW YORK UNIVERSITY",
+      "address": {
+        "street": "40 Washington Square South",
+        "city": "New York",
+        "state": "NY",
+        "zip": "10012"
+      },
+      "phone": "212-998-6000",
+      "website": "www.law.nyu.edu"
+    },
+    "year": 2015,
+    "total_grads": 485,
+    "employment_outcomes": {
+      "statuses": [
+        {
+          "status": "Employed - Bar Passage Required",
+          "count": 426
+        },
+        {
+          "status": "Employed - J.D. Advantage",
+          "count": 14
+        },
+        {
+          "status": "Employed - Professional Position",
+          "count": 0
+        },
+        {
+          "status": "Employed - Non-Professional Position",
+          "count": 1
+        },
+        {
+          "status": "Employed - Law School/University Funded",
+          "count": 33
+        },
+        {
+          "status": "Employed - Undeterminable",
+          "count": 0
+        },
+        {
+          "status": "Pursuing Graduate Degree Full Time",
+          "count": 3
+        },
+        {
+          "status": "Unemployed - Start Date Deferred",
+          "count": 0
+        },
+        {
+          "status": "Unemployed - Not Seeking",
+          "count": 2
+        },
+        {
+          "status": "Unemployed - Seeking",
+          "count": 4
+        },
+        {
+          "status": "Employment Status Unknown",
+          "count": 2
+        }
+      ],
+      "types": [
+        {
+          "type": "Law Firms (Solo)",
+          "count": 0
+        },
+        {
+          "type": "Law Firms (2 - 10)",
+          "count": 3
+        },
+        {
+          "type": "Law Firms (11 - 25)",
+          "count": 6
+        },
+        {
+          "type": "Law Firms (26 - 50)",
+          "count": 2
+        },
+        {
+          "type": "Law Firms (51 - 100)",
+          "count": 10
+        },
+        {
+          "type": "Law Firms (101 - 250)",
+          "count": 14
+        },
+        {
+          "type": "Law Firms (251 - 500)",
+          "count": 46
+        },
+        {
+          "type": "Law Firms (501 +)",
+          "count": 243
+        },
+        {
+          "type": "Law Firms (Unknown Size)",
+          "count": 0
+        },
+        {
+          "type": "Business & Industry",
+          "count": 18
+        },
+        {
+          "type": "Government",
+          "count": 30
+        },
+        {
+          "type": "Pub. Int.",
+          "count": 64
+        },
+        {
+          "type": "Clerkships - Federal",
+          "count": 27
+        },
+        {
+          "type": "Clerkships - State & Local",
+          "count": 10
+        },
+        {
+          "type": "Clerkships - Other",
+          "count": 0
+        },
+        {
+          "type": "Education",
+          "count": 1
+        },
+        {
+          "type": "Employer Type Unknown",
+          "count": 0
+        }
+      ],
+      "locations": [
+        {
+          "type": "State - Largest Employment",
+          "location": "New York",
+          "count": "344"
+        },
+        {
+          "type": "State - 2nd Largest Employment",
+          "location": "California",
+          "count": "35"
+        },
+        {
+          "type": "State - 3rd Largest Employment",
+          "location": "District of Columbia",
+          "count": "35"
+        },
+        {
+          "type": "Employed in Foreign Countries",
+          "location": "Employed in Foreign Countries",
+          "count": 6
         }
       ]
     }

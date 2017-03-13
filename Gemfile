@@ -1,4 +1,3 @@
 source "https://rubygems.org"
 
-gem "pdf-reader"
-gem "domainatrix"
+gem "law_school_outcomes"

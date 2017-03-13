@@ -8,6 +8,9 @@ GEM
     domainatrix (0.0.11)
       addressable
     hashery (2.1.2)
+    law_school_outcomes (1.0.0)
+      domainatrix (~> 0.0.11)
+      pdf-reader (~> 2.0)
     pdf-reader (2.0.0)
       Ascii85 (~> 1.0.0)
       afm (~> 0.2.1)
@@ -22,8 +25,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  domainatrix
-  pdf-reader
+  law_school_outcomes
 
 BUNDLED WITH
    1.13.6
