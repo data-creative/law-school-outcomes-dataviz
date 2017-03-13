@@ -17,21 +17,44 @@
 
     <script type="text/javascript">
 
-        var chartCategories = ['School A', 'School B', 'School C', 'School D', 'School E']
+        var chartSeries = [
+            {
+              name: 'Unemployed',
+              data: [
+                {name:'School A', y:5},
+                {name:'School B', y:3},
+                {name:'School C', y:4},
+                {name:'School D', y:7},
+                {name:'School E', y:2},
+              ]
+            },
+            {
+              name: 'Public Interest',
+              data: [
+                {name:'School A', y:2},
+                {name:'School B', y:2},
+                {name:'School C', y:3},
+                {name:'School D', y:2},
+                {name:'School E', y:1},
+              ]
+            },
+            {
+              name: 'Big Law',
+              data: [
+                {name:'School A', y:3},
+                {name:'School B', y:4},
+                {name:'School C', y:4},
+                {name:'School D', y:2},
+                {name:'School E', y:5},
+              ]
+            }
+        ]
 
-        var chartSeries = [{
-            name: 'Unemployed',
-            data: [5, 3, 4, 7, 2]
-        }, {
-            name: 'Public Interest',
-            data: [2, 2, 3, 2, 1]
-        }, {
-            name: 'Big Law',
-            data: [3, 4, 4, 2, 5]
-        }]
 
 
-        Highcharts.chart('my-container', {
+
+
+        var myChart = Highcharts.chart('my-container', {
             chart: {
                 type: 'column'
             },
@@ -55,7 +78,7 @@
                 text: 'Employment Outcomes by School'
             },
             xAxis: {
-                categories: chartCategories
+                type: "category"
             },
             yAxis: {
                 min: 0,
@@ -67,7 +90,7 @@
                 }
             },
             tooltip: {
-                headerFormat: '<b>{point.x}</b><br/>',
+                headerFormat: '<b>{point.key}</b><br/>',
                 pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
                 shared: true
             },
