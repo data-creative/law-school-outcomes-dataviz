@@ -18,11 +18,17 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script type="text/javascript">
 
-        var url = "data/2015/employment_summary_reports.json"
+      var url = "data/2015/employment_summary_reports.json"
+      var myData
+      var myChart
 
-        d3.json(url, function(json){
-          console.log(json)
-        })
+      d3.json(url, function(json){
+        myData = json
+        console.log(json)
+
+        //
+        // PROCESS AND TRANSFORM RAW DATA
+        //
 
         var chartSeries = [
             {
@@ -55,69 +61,51 @@
                 {name:'School E', y:5},
               ]
             }
-        ]
+        ] //TODO: compile `chartSeries` variable from `json` data
 
+        //
+        // COMPILE CHART
+        //
 
+        myChart = Highcharts.chart('my-container', {
+          chart: {type: 'column'},
+          exporting:{
+            enabled:true,
+            buttons: {contextButton: {text: 'Export'}}
+          },
+          credits: {enabled: false},
+          legend:{
+            align:'right',
+            layout:'vertical',
+            verticalAlign:'middle'
+          },
+          title: {text: 'Employment Outcomes by School'},
+          xAxis: {type: "category"},
+          yAxis: {
+            min: 0,
+            title: {text: 'Percentage of 2015 Graduates'},
+            stackLabels: {enabled: true}
+          },
+          tooltip: {
+            headerFormat: '<b>{point.key}</b><br/>',
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+            shared: true
+          },
+          plotOptions: {
+            column: {
+              stacking: 'percent',
+              dataLabels: {
+                enabled: true,
+                format: '{point.y} ({point.percentage:.0f}%)', //'{point.percentage:.0f}%',
+                color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+              },
+              events: {legendItemClick: function () { return false; } } // disable data-filtering functionality when series in legend is clicked
+            }
+          },
+          series: chartSeries
+        }) // Highcharts.chart()
 
-
-
-        var myChart = Highcharts.chart('my-container', {
-            chart: {
-                type: 'column'
-            },
-            exporting:{
-                enabled:true,
-                buttons: {
-                    contextButton: {
-                        text: 'Export'
-                    }
-                }
-            },
-            credits: {
-                enabled: false
-            },
-            legend:{
-                align:'right',
-                layout:'vertical',
-                verticalAlign:'middle'
-            },
-            title: {
-                text: 'Employment Outcomes by School'
-            },
-            xAxis: {
-                type: "category"
-            },
-            yAxis: {
-                min: 0,
-                title: {
-                    text: 'Percentage of 2015 Graduates'
-                },
-                stackLabels: {
-                    enabled: true
-                }
-            },
-            tooltip: {
-                headerFormat: '<b>{point.key}</b><br/>',
-                pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
-                shared: true
-            },
-            plotOptions: {
-                column: {
-                    stacking: 'percent',
-                    dataLabels: {
-                        enabled: true,
-                        format: '{point.y} ({point.percentage:.0f}%)', //'{point.percentage:.0f}%',
-                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
-                    },
-                    events: {
-                        legendItemClick: function () {
-                            return false;
-                        }
-                    } // disable data-filtering functionality when series in legend is clicked
-                }
-            },
-            series: chartSeries
-        });
+      }) // d3.json()
 
     </script>
     <footer>
