@@ -6,7 +6,14 @@
 
 ## Data Visualization
 
-### Layout and Navigation
+### Charting Libraries
 
-  + W3 Schools [Sidebar Nav Examples](https://www.w3schools.com/howto/howto_js_sidenav.asp) - [Off-canvas](https://www.w3schools.com/howto/howto_js_off-canvas.asp)
-  + Start Bootstrap's "Simple Sidebar" Theme - [site](https://startbootstrap.com/template-overviews/simple-sidebar/) | [demo](https://blackrockdigital.github.io/startbootstrap-simple-sidebar/) | [source](https://github.com/BlackrockDigital/startbootstrap-simple-sidebar)
+#### NVD3
+
+  + http://nvd3.org/examples/multiBar.html
+  + http://nvd3-community.github.io/nvd3/examples/documentation.html#multiBar
+
+#### Highcharts
+
+  + http://www.highcharts.com/demo/column-stacked
+  + http://www.highcharts.com/demo/column-stacked-percent
