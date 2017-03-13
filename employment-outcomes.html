@@ -5,6 +5,7 @@
     <title>Employment Outcomes for Recent Graduates | Law School Outcomes</title>
 
     <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
   </head>
   <body>
     <h1><a href="index.html">Law School Outcomes</a></h1>
@@ -19,35 +20,65 @@
             chart: {
                 type: 'column'
             },
+            exporting:{
+                enabled:true,
+                buttons: {
+                    contextButton: {
+                        text: 'Export'
+                    }
+                }
+            },
+            credits: {
+                enabled: false
+            },
+            legend:{
+                align:'right',
+                layout:'vertical',
+                verticalAlign:'middle'
+            },
             title: {
-                text: 'Stacked column chart'
+                text: 'Employment Outcomes by School'
             },
             xAxis: {
-                categories: ['Apples', 'Oranges', 'Pears', 'Grapes', 'Bananas']
+                categories: ['School A', 'School B', 'School C', 'School D', 'School E']
             },
             yAxis: {
                 min: 0,
                 title: {
-                    text: 'Total fruit consumption'
+                    text: 'Percentage of 2015 Graduates'
+                },
+                stackLabels: {
+                    enabled: true
                 }
             },
             tooltip: {
+                headerFormat: '<b>{point.x}</b><br/>',
                 pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
                 shared: true
             },
             plotOptions: {
                 column: {
-                    stacking: 'percent'
+                    stacking: 'percent',
+                    dataLabels: {
+                        enabled: true,
+                        format: '{point.y} ({point.percentage:.0f}%)', //'{point.percentage:.0f}%',
+                        color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+                    },
+                    events: {
+                        legendItemClick: function () {
+                            return false;
+                        }
+                    } // disable data-filtering functionality when series in legend is clicked
                 }
             },
             series: [{
-                name: 'John',
+                name: 'Unemployed',
                 data: [5, 3, 4, 7, 2]
             }, {
-                name: 'Jane',
+                name: 'Public Interest',
                 data: [2, 2, 3, 2, 1]
             }, {
-                name: 'Joe',
+                name: 'Big Law',
                 data: [3, 4, 4, 2, 5]
             }]
         });

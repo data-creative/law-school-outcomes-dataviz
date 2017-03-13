@@ -17,3 +17,6 @@
 
   + http://www.highcharts.com/demo/column-stacked
   + http://www.highcharts.com/demo/column-stacked-percent
+  + http://www.highcharts.com/docs/export-module/export-module-overview
+  + http://api.highcharts.com/highcharts/plotOptions.column.dataLabels
+  + http://stackoverflow.com/questions/13275648/disable-click-on-legend-in-highcharts-column-graph
