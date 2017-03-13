@@ -15,7 +15,14 @@
 
     </div>
 
+    <script src="https://d3js.org/d3.v4.min.js"></script>
     <script type="text/javascript">
+
+        var url = "data/2015/employment_summary_reports.json"
+
+        d3.json(url, function(json){
+          console.log(json)
+        })
 
         var chartSeries = [
             {
