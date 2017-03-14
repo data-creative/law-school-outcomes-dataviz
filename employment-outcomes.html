@@ -56,14 +56,12 @@
         {type: "Business & Industry", defaultDisplayGroup: "Business & Industry"},
         {type: "Government", defaultDisplayGroup: "Government"},
         {type: "Pub. Int.", defaultDisplayGroup: "Public Interest"},
-        {type: "Clerkships - Federal", defaultDisplayGroup: "Clerkship (Federal)"},
-        {type: "Clerkships - State & Local", defaultDisplayGroup: "Clerkship (Other)"},
-        {type: "Clerkships - Other", defaultDisplayGroup: "Clerkship (Other)"},
-        {type: "Education", defaultDisplayGroup: "Education"},
+        {type: "Clerkships - Federal", defaultDisplayGroup: "Clerkship"},
+        {type: "Clerkships - State & Local", defaultDisplayGroup: "Clerkship"},
+        {type: "Clerkships - Other", defaultDisplayGroup: "Clerkship"},
+        {type: "Education", defaultDisplayGroup: "Employed (Other)"},
         {type: "Employer Type Unknown", defaultDisplayGroup: "Employed (Other)"}
-      ] // todo: define additional groups
-
-      const otherEmploymentTypes = employmentTypes.filter(function(obj){ return obj.defaultDisplayGroup == "Employed (Other)" }).map(function(obj){ return obj.type })
+      ]
 
       //
       // REQUEST DATA FROM NEARBY JSON FILE
@@ -148,14 +146,18 @@
           //}
           {
             name: 'Employed (Other)',
-            color: colorbrewer.Oranges[9][2],
+            color: colorbrewer.Greys[9][6],
             data: sortedEmploymentTypeSeries('Employed (Other)') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
           },
+
+
+
           {
-            name: 'Education',
+            name: "Public Interest",
             color: colorbrewer.Oranges[9][4],
-            data: sortedEmploymentTypeSeries('Education') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+            data: sortedEmploymentTypeSeries("Public Interest") // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
           },
+
           {
             name: 'Government',
             color: colorbrewer.Oranges[9][6],
@@ -163,31 +165,20 @@
           },
 
 
+
+
           {
-            name: 'Clerkship (Other)',
-            color: colorbrewer.Purples[9][4],
-            data: sortedEmploymentTypeSeries('Clerkship (Other)') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          },
-          {
-            name: 'Clerkship (Federal)',
+            name: 'Clerkship',
             color: colorbrewer.Purples[9][6],
-            data: sortedEmploymentTypeSeries('Clerkship (Federal)') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+            data: sortedEmploymentTypeSeries('Clerkship') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
           },
 
 
-
-
-          {
-            name: "Public Interest",
-            color: colorbrewer.Blues[9][4],
-            data: sortedEmploymentTypeSeries("Public Interest") // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          },
           {
             name: 'Business & Industry',
             color: colorbrewer.Blues[9][6],
             data: sortedEmploymentTypeSeries('Business & Industry') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
           },
-
 
 
           {
