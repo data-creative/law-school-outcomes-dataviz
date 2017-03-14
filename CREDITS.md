@@ -1,5 +1,9 @@
 # Credits, Notes, and Reference
 
+## Data Dictionary
+
+  + [Defining the size of "big" law firms](http://www.top-law-schools.com/introduction-to-biglaw.html)
+
 ## Data Processing
 
   + [Previous project](https://github.com/dwillis/state_legislatures/) dealing with PDF-to-CSV conversions
@@ -28,6 +32,7 @@
   + http://stackoverflow.com/questions/18035421/highcharts-how-can-i-take-x-axis-value-in-tooltip
   + http://stackoverflow.com/q/16991335/670433
   + http://api.highcharts.com/highcharts/Highcharts.numberFormat
+  + http://api.highcharts.com/highcharts/subtitle
 
 ### Colors
 

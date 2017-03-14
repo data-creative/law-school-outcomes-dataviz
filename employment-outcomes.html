@@ -247,7 +247,10 @@
         // ]
 
         var chartOptions = {
-          chart: {type: 'column'},
+          chart: {
+            type: 'column',
+            marginBottom:50 // make room to display the subtitle below the chart.
+          },
           exporting:{
             enabled:true,
             buttons: {contextButton: {text: 'Export'}}
@@ -259,6 +262,14 @@
             verticalAlign:'middle'
           },
           title: {text: 'Employment Outcomes by School'},
+          subtitle: {
+            text: 'Copyright 2017 Data Creative (http://data-creative.info). Note: law firm size considered "Big" if greater than or equal to 100 employees.',
+            align:'left',
+            verticalAlign:'bottom',
+            floating:true,
+            y: -5,
+            style: { "font-size":10, "font-style":"italic" }
+          },
           xAxis: {
             categories: chartCategories,
             type: "category",
