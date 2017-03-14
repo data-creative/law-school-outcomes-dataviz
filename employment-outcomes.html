@@ -40,20 +40,22 @@
         // PROCESS AND TRANSFORM RAW DATA
         //
 
-        var chartCategories = ['School A', 'School B', 'School C', 'School D', 'School E']
+        var chartCategories = reports.map(function(report){ return report.school_name })
+
+        var tempData = chartCategories.map(function(category){ return 100})
 
         var chartSeries = [
           {
             name: 'Unemployed',
-            data: [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+            data: tempData // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
           },
           {
             name: 'Public Interest',
-            data: [2, 2, 3, 2, 1] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+            data: tempData // [2, 2, 3, 2, 1] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
           },
           {
             name: 'Big Law',
-            data: [3, 4, 4, 2, 5] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+            data: tempData // [3, 4, 4, 2, 5] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
           }
         ]
 
