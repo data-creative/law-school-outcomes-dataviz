@@ -191,7 +191,14 @@
           title: {text: 'Employment Outcomes by School'},
           xAxis: {
             categories: chartCategories,
-            type: "category"
+            type: "category",
+            opposite:true,
+            labels:{
+              //formatter:function(){
+              //  return `<b>${this.value}</b>`
+              //},
+              style: { "color": "#000", "cursor": "default", "fontSize": "11px" }
+            }
           },
           yAxis: {
             min: 0,
