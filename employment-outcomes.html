@@ -46,10 +46,8 @@
       // REQUEST DATA FROM NEARBY JSON FILE
       //
 
-      const url = "data/2015/employment_summary_reports.json"
-      var sortedReports
-      var myChart
-      var chartSeries
+      const year = 2015
+      const url = `data/${year}/employment_summary_reports.json`
 
       d3.json(url, function(json){
         var reports = json
@@ -62,29 +60,38 @@
           return d3.ascending(a.school_name, b.school_name )
         })
 
-        var chartCategories = sortedReports.map(function(report){ return report.school_name })
-
-        var sortedEmployedCounts = sortedReports.map(function(report){
-          var reportEmployedCounts = report.employment_outcomes.statuses.filter(function(obj){
-            return obj.status.includes("Employed")
-          }).map(function(obj){
-            return obj.count
+        var sortedEmployedCounts = sortedReports.map(function(rpt){
+          var reportEmployedCounts = rpt.employment_outcomes.statuses.filter(function(statusCount){
+            return statusCount.status.includes("Employed")
+          }).map(function(statusCount){
+            return statusCount.count
           })
 
           return d3.sum(reportEmployedCounts)
         })
 
-        var sortedUnemployedCounts = sortedReports.map(function(report){
-          var reportUnemployedCounts = report.employment_outcomes.statuses.filter(function(obj){
-            return !obj.status.includes("Employed")
-          }).map(function(obj){
-            return obj.count
+        var sortedUnemployedCounts = sortedReports.map(function(rpt){
+          var reportUnemployedCounts = rpt.employment_outcomes.statuses.filter(function(statusCount){
+            return !statusCount.status.includes("Employed")
+          }).map(function(statusCount){
+            return statusCount.count
           })
 
           return d3.sum(reportUnemployedCounts)
         })
 
-        chartSeries = [
+        function report(schoolShortName) {
+          return sortedReports.find(function(rpt){ return rpt.school_name.toUpperCase() == schoolShortName })
+        }
+
+        function totalGrads(schoolShortName) {
+          var rpt = report(schoolShortName)
+          return rpt.total_grads;
+        }
+
+        var chartCategories = sortedReports.map(function(rpt){ return rpt.school_name.toUpperCase() })
+
+        var chartSeries = [
           {
             name: 'Unemployed',
             color: colorbrewer.Reds[9][6],
@@ -103,13 +110,15 @@
 
         function customTooltip(point) {
           var tooltip = ''
-          var headerFormat = '<b>' + point.x.toUpperCase() + '</b>'
+          var headerFormat = `<b>${point.x.toUpperCase()}</b><br/>`
+          headerFormat += `<b>Total Grads: ${totalGrads(point.x)}</b><br/>`
           tooltip += headerFormat
-          tooltip += '<br/>'
-          point.points.forEach(function(p){
-            var pointFormat = `<span style="color:${p.series.color}">${p.series.name}</span>: <b>${p.y}</b> (${  Highcharts.numberFormat(p.percentage, 0)  }%)<br/>`
+
+          point.points.forEach(function(pt){
+            var pointFormat = `<span style="color:${pt.series.color}">${pt.series.name}</span>: <b>${pt.y}</b> (${  Highcharts.numberFormat(pt.percentage, 0)  }%)<br/>`
             tooltip += pointFormat
           })
+
           return tooltip
         }
 
