@@ -43,13 +43,13 @@
       const unemployedStatuses = employmentStatuses.filter(function(status){ return !status.includes("Employed") })
 
       const employmentTypes = [
-        {type: "Law Firms (Unknown Size)", defaultDisplayGroup: "Law Firm (Small)"},
-        {type: "Law Firms (Solo)", defaultDisplayGroup: "Law Firm (Small)"},
-        {type: "Law Firms (2 - 10)", defaultDisplayGroup: "Law Firm (Small)"},
-        {type: "Law Firms (11 - 25)", defaultDisplayGroup: "Law Firm (Small)"},
-        {type: "Law Firms (26 - 50)", defaultDisplayGroup: "Law Firm (Small)"},
-        {type: "Law Firms (51 - 100)", defaultDisplayGroup: "Law Firm (Medium)"},
-        {type: "Law Firms (101 - 250)", defaultDisplayGroup: "Law Firm (Medium)"},
+        {type: "Law Firms (Unknown Size)", defaultDisplayGroup: "Law Firm (Other)"},
+        {type: "Law Firms (Solo)", defaultDisplayGroup: "Law Firm (Other)"},
+        {type: "Law Firms (2 - 10)", defaultDisplayGroup: "Law Firm (Other)"},
+        {type: "Law Firms (11 - 25)", defaultDisplayGroup: "Law Firm (Other)"},
+        {type: "Law Firms (26 - 50)", defaultDisplayGroup: "Law Firm (Other)"},
+        {type: "Law Firms (51 - 100)", defaultDisplayGroup: "Law Firm (Other)"},
+        {type: "Law Firms (101 - 250)", defaultDisplayGroup: "Law Firm (Big)"},
         {type: "Law Firms (251 - 500)", defaultDisplayGroup: "Law Firm (Big)"},
         {type: "Law Firms (501 +)", defaultDisplayGroup: "Law Firm (Big)"},
 
@@ -63,9 +63,8 @@
         {type: "Employer Type Unknown", defaultDisplayGroup: "Employed (Other)"}
       ] // todo: define additional groups
 
-      const smallLawTypes = employmentTypes.filter(function(obj){ return obj.defaultDisplayGroup == "Law Firm (Small)" }).map(function(obj){ return obj.type })
-      const mediumLawTypes = employmentTypes.filter(function(obj){ return obj.defaultDisplayGroup == "Law Firm (Medium)" }).map(function(obj){ return obj.type })
-      const bigLawTypes = employmentTypes.filter(function(obj){ return obj.defaultDisplayGroup == "Law Firm (Big)" }).map(function(obj){ return obj.type })
+      const bigLawFirmTypes = employmentTypes.filter(function(obj){ return obj.defaultDisplayGroup == "Law Firm (Big)" }).map(function(obj){ return obj.type })
+      const otherLawFirmTypes = employmentTypes.filter(function(obj){ return obj.defaultDisplayGroup == "Law Firm (Other)" }).map(function(obj){ return obj.type })
       const otherEmploymentTypes = employmentTypes.filter(function(obj){ return obj.defaultDisplayGroup == "Employed (Other)" }).map(function(obj){ return obj.type })
 
       //
@@ -128,16 +127,12 @@
           return sumOfTypeCounts(rpt, otherEmploymentTypes)
         })
 
-        var sortedSmallLawCounts = sortedReports.map(function(rpt){
-          return sumOfTypeCounts(rpt, smallLawTypes)
+        var sortedOtherLawFirmCounts = sortedReports.map(function(rpt){
+          return sumOfTypeCounts(rpt, otherLawFirmTypes)
         })
 
-        var sortedMediumLawCounts = sortedReports.map(function(rpt){
-          return sumOfTypeCounts(rpt, mediumLawTypes)
-        })
-
-        var sortedBigLawCounts = sortedReports.map(function(rpt){
-          return sumOfTypeCounts(rpt, bigLawTypes)
+        var sortedBigLawFirmCounts = sortedReports.map(function(rpt){
+          return sumOfTypeCounts(rpt, bigLawFirmTypes)
         })
 
         //
@@ -163,20 +158,15 @@
             data: sortedOtherEmploymentCounts // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
           },
           {
-            name: 'Law Firm (Small)',
+            name: 'Law Firm (Other)',
             color: colorbrewer.Greens[9][4],
-            data: sortedSmallLawCounts // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          },
-          {
-            name: 'Law Firm (Medium)',
-            color: colorbrewer.Greens[9][5],
-            data: sortedMediumLawCounts // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+            data: sortedOtherLawFirmCounts // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
           },
           {
             name: 'Law Firm (Big)',
             color: colorbrewer.Greens[9][6],
-            data: sortedBigLawCounts // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          }
+            data: sortedBigLawFirmCounts // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+          },
         ]
 
         function report(schoolShortName) {
