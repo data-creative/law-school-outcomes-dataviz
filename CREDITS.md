@@ -27,12 +27,15 @@
   + http://api.highcharts.com/highcharts/plotOptions.column.dataLabels
   + http://stackoverflow.com/questions/13275648/disable-click-on-legend-in-highcharts-column-graph
   + http://api.highcharts.com/highcharts/xAxis.categories
-  + http://api.highcharts.com/highcharts/series%3Ccolumn%3E.data.name
-  + http://jsfiddle.net/wxxEu/2/
-  + http://stackoverflow.com/questions/18035421/highcharts-how-can-i-take-x-axis-value-in-tooltip
-  + http://stackoverflow.com/q/16991335/670433
-  + http://api.highcharts.com/highcharts/Highcharts.numberFormat
   + http://api.highcharts.com/highcharts/subtitle
+  + Tooltip Content, Formatting, and Positioning:
+    + http://api.highcharts.com/highcharts/series%3Ccolumn%3E.data.name
+    + http://stackoverflow.com/questions/18035421/highcharts-how-can-i-take-x-axis-value-in-tooltip
+    + http://stackoverflow.com/q/16991335/670433
+    + http://api.highcharts.com/highcharts/Highcharts.numberFormat
+    + http://api.highcharts.com/highcharts/tooltip.backgroundColor
+    + https://github.com/highcharts/highcharts/issues/2961
+    + [Specify Background Color and Opacity](http://jsfiddle.net/highcharts/9vrYL/)
 
 ### Colors
 
