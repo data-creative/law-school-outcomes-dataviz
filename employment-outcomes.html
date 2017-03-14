@@ -25,90 +25,78 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script type="text/javascript">
 
+      const statuses = [
+        "Employed - Bar Passage Required",
+        "Employed - J.D. Advantage",
+        "Employed - Professional Position",
+        "Employed - Non-Professional Position",
+        "Employed - Law School/University Funded",
+        "Employed - Undeterminable",
+        "Pursuing Graduate Degree Full Time",
+        "Unemployed - Start Date Deferred",
+        "Unemployed - Not Seeking",
+        "Unemployed - Seeking",
+        "Employment Status Unknown"
+      ]
+      const employedStatuses = statuses.filter(function(status){ return status.includes("Employed") })
+      const unemployedStatuses = statuses.filter(function(status){ return !status.includes("Employed") })
+
       //
       // REQUEST DATA FROM NEARBY JSON FILE
       //
 
-      var url = "data/2015/employment_summary_reports.json"
-      var myData
+      const url = "data/2015/employment_summary_reports.json"
+      var reports
+      var sortedReports
+      var report
       var myChart
+      var chartSeries
 
-      d3.json(url, function(reports){
-        myData = reports // assign the raw JSON data to the `myData` variable to access it later via the console for debugging
+      d3.json(url, function(json){
+        reports = json
 
         //
         // PROCESS AND TRANSFORM RAW DATA
         //
 
-        var chartCategories = reports.map(function(report){ return report.school_name })
+        sortedReports = reports.sort(function(a, b){
+          return d3.ascending(a.school_name, b.school_name )
+        })
 
-        var tempData = chartCategories.map(function(category){ return 100})
+        var chartCategories = sortedReports.map(function(report){ return report.school_name })
 
-        var chartSeries = [
+        var sortedEmployedCounts = sortedReports.map(function(report){
+          var reportEmployedCounts = report.employment_outcomes.statuses.filter(function(obj){
+            return obj.status.includes("Employed")
+          }).map(function(obj){
+            return obj.count
+          })
+
+          return d3.sum(reportEmployedCounts)
+        })
+
+        var sortedUnemployedCounts = sortedReports.map(function(report){
+          var reportUnemployedCounts = report.employment_outcomes.statuses.filter(function(obj){
+            return !obj.status.includes("Employed")
+          }).map(function(obj){
+            return obj.count
+          })
+
+          return d3.sum(reportUnemployedCounts)
+        })
+
+        chartSeries = [
           {
             name: 'Unemployed',
-            data: tempData // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+            //color: 'red'
+            data: sortedUnemployedCounts // sortedUnemployedCounts // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
           },
           {
-            name: 'Public Interest',
-            data: tempData // [2, 2, 3, 2, 1] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          },
-          {
-            name: 'Big Law',
-            data: tempData // [3, 4, 4, 2, 5] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+            name: 'Employed',
+            //color: 'green'
+            data: sortedEmployedCounts // sortedEmployedCounts // [2, 2, 3, 2, 1] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
           }
         ]
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         //
         // COMPILE CHART

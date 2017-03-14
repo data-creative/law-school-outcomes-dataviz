@@ -7,6 +7,7 @@
 ## Data Visualization
 
   + [Previous project](https://github.com/data-creative/us-gov-greenhouse-gas-emissions/blob/master/emissions.html) involving Highcharts stacked bar graphs
+    + https://github.com/data-creative/us-gov-greenhouse-gas-emissions/blob/master/emissions.html#L88-L93
 
 ### Charting Libraries
 
