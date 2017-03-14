@@ -26,7 +26,7 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script type="text/javascript">
 
-      const statuses = [
+      const employmentStatuses = [
         "Employed - Bar Passage Required",
         "Employed - J.D. Advantage",
         "Employed - Professional Position",
@@ -39,8 +39,8 @@
         "Unemployed - Seeking",
         "Employment Status Unknown"
       ]
-      const employedStatuses = statuses.filter(function(status){ return status.includes("Employed") })
-      const unemployedStatuses = statuses.filter(function(status){ return !status.includes("Employed") })
+      const employedStatuses = employmentStatuses.filter(function(status){ return status.includes("Employed") })
+      const unemployedStatuses = employmentStatuses.filter(function(status){ return !status.includes("Employed") })
 
       //
       // REQUEST DATA FROM NEARBY JSON FILE
@@ -60,25 +60,47 @@
           return d3.ascending(a.school_name, b.school_name )
         })
 
-        var sortedEmployedCounts = sortedReports.map(function(rpt){
-          var reportEmployedCounts = rpt.employment_outcomes.statuses.filter(function(statusCount){
-            return statusCount.status.includes("Employed")
+        // PROCESS EMPLOYMENT STATUSES
+
+        // Returns the sum of an array of counts matching any status included in the given list
+        // @param [Object] rpt
+        // @param [Array] statuses
+        function sumOfStatusCounts(report, statuses) {
+          var counts = report.employment_outcomes.statuses.filter(function(statusCount){
+            return statuses.includes(statusCount.status)
           }).map(function(statusCount){
             return statusCount.count
           })
 
-          return d3.sum(reportEmployedCounts)
+          return d3.sum(counts)
+        }
+
+        var sortedEmployedCounts = sortedReports.map(function(rpt){
+          return sumOfStatusCounts(rpt, employedStatuses)
         })
 
         var sortedUnemployedCounts = sortedReports.map(function(rpt){
-          var reportUnemployedCounts = rpt.employment_outcomes.statuses.filter(function(statusCount){
-            return !statusCount.status.includes("Employed")
-          }).map(function(statusCount){
-            return statusCount.count
-          })
-
-          return d3.sum(reportUnemployedCounts)
+          return sumOfStatusCounts(rpt, unemployedStatuses)
         })
+
+        //
+        // COMPILE CHART
+        //
+
+        var chartCategories = sortedReports.map(function(rpt){ return rpt.school_name.toUpperCase() })
+
+        var chartSeries = [
+          {
+            name: 'Unemployed',
+            color: colorbrewer.Reds[9][6],
+            data: sortedUnemployedCounts // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+          },
+          {
+            name: 'Employed',
+            color: colorbrewer.Greens[9][6],
+            data: sortedEmployedCounts // [2, 2, 3, 2, 1] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+          }
+        ]
 
         function report(schoolShortName) {
           return sortedReports.find(function(rpt){ return rpt.school_name.toUpperCase() == schoolShortName })
@@ -88,25 +110,6 @@
           var rpt = report(schoolShortName)
           return rpt.total_grads;
         }
-
-        var chartCategories = sortedReports.map(function(rpt){ return rpt.school_name.toUpperCase() })
-
-        var chartSeries = [
-          {
-            name: 'Unemployed',
-            color: colorbrewer.Reds[9][6],
-            data: sortedUnemployedCounts // sortedUnemployedCounts // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          },
-          {
-            name: 'Employed',
-            color: colorbrewer.Greens[9][6],
-            data: sortedEmployedCounts // sortedEmployedCounts // [2, 2, 3, 2, 1] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          }
-        ]
-
-        //
-        // COMPILE CHART
-        //
 
         function customTooltip(point) {
           var tooltip = ''
