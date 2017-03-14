@@ -53,13 +53,13 @@
         {type: "Law Firms (251 - 500)", defaultDisplayGroup: "Law Firm (Big)"},
         {type: "Law Firms (501 +)", defaultDisplayGroup: "Law Firm (Big)"},
 
-        {type: "Business & Industry", defaultDisplayGroup: "Employed (Other)"},
-        {type: "Government", defaultDisplayGroup: "Employed (Other)"},
-        {type: "Pub. Int.", defaultDisplayGroup: "Employed (Other)"},
-        {type: "Clerkships - Federal", defaultDisplayGroup: "Employed (Other)"},
-        {type: "Clerkships - State & Local", defaultDisplayGroup: "Employed (Other)"},
-        {type: "Clerkships - Other", defaultDisplayGroup: "Employed (Other)"},
-        {type: "Education", defaultDisplayGroup: "Employed (Other)"},
+        {type: "Business & Industry", defaultDisplayGroup: "Business & Industry"},
+        {type: "Government", defaultDisplayGroup: "Government"},
+        {type: "Pub. Int.", defaultDisplayGroup: "Public Interest"},
+        {type: "Clerkships - Federal", defaultDisplayGroup: "Clerkship (Federal)"},
+        {type: "Clerkships - State & Local", defaultDisplayGroup: "Clerkship (Other)"},
+        {type: "Clerkships - Other", defaultDisplayGroup: "Clerkship (Other)"},
+        {type: "Education", defaultDisplayGroup: "Education"},
         {type: "Employer Type Unknown", defaultDisplayGroup: "Employed (Other)"}
       ] // todo: define additional groups
 
@@ -148,9 +148,48 @@
           //}
           {
             name: 'Employed (Other)',
-            color: colorbrewer.Purples[9][6],
+            color: colorbrewer.Oranges[9][2],
             data: sortedEmploymentTypeSeries('Employed (Other)') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
           },
+          {
+            name: 'Education',
+            color: colorbrewer.Oranges[9][4],
+            data: sortedEmploymentTypeSeries('Education') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+          },
+          {
+            name: 'Government',
+            color: colorbrewer.Oranges[9][6],
+            data: sortedEmploymentTypeSeries('Government') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+          },
+
+
+          {
+            name: 'Clerkship (Other)',
+            color: colorbrewer.Purples[9][4],
+            data: sortedEmploymentTypeSeries('Clerkship (Other)') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+          },
+          {
+            name: 'Clerkship (Federal)',
+            color: colorbrewer.Purples[9][6],
+            data: sortedEmploymentTypeSeries('Clerkship (Federal)') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+          },
+
+
+
+
+          {
+            name: "Public Interest",
+            color: colorbrewer.Blues[9][4],
+            data: sortedEmploymentTypeSeries("Public Interest") // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+          },
+          {
+            name: 'Business & Industry',
+            color: colorbrewer.Blues[9][6],
+            data: sortedEmploymentTypeSeries('Business & Industry') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+          },
+
+
+
           {
             name: 'Law Firm (Other)',
             color: colorbrewer.Greens[9][4],
