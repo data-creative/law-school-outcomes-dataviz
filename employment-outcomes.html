@@ -285,7 +285,7 @@
             layout:'vertical',
             verticalAlign:'middle'
           },
-          title: {text: 'Employment Outcomes by School'},
+          title: {text: 'Employment Outcomes by Law School'},
           subtitle: {
             text: 'Copyright 2017 Data Creative (http://data-creative.info). Does not distinguish between short-term/long-term or full-time/part-time employment. Law firm size considered "Big" if greater than or equal to 100 employees.',
             align:'left',
@@ -307,8 +307,16 @@
           },
           yAxis: {
             min: 0,
-            title: {text: 'Percentage of 2015 Graduates'},
-            stackLabels: {enabled: true}
+            title: {
+              text: 'PERCENTAGE OF 2015 GRADUATES',
+              style: { "color": "#000", "cursor": "default", "fontSize": "11px" }
+            },
+            stackLabels: {enabled: true},
+            labels:{
+              enabled:true,
+              format: '{value}%',
+              style: { "color": "#000", "cursor": "default", "fontSize": "11px" }
+            }
           },
           tooltip: {
             //headerFormat: '<b>{point.x}</b><br/>', // '<b>{point.key}</b><br/>'
