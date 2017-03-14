@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Employment Outcomes for Recent Graduates | Law School Outcomes</title>
+
+    <script src="http://code.highcharts.com/highcharts.js"></script>
+    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+  </head>
+  <body>
+    <h1><a href="index.html">Law School Outcomes</a></h1>
+    <h2>Employment Outcomes for Recent Graduates</h2>
+
+    <div id="my-container">
+    </div>
+
+    <footer>
+      <p>
+        <a href="https://data-creative.github.io/law-school-outcomes-dataviz/">view</a> |
+        <a href="https://github.com/data-creative/law-school-outcomes-dataviz/">source</a> |
+        <a href="https://raw.githubusercontent.com/data-creative/law-school-outcomes-dataviz/master/data/2015/employment_summary_reports.json">data</a>
+      </p>
+    </footer>
+
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript">
+
+      //
+      // REQUEST DATA FROM NEARBY JSON FILE
+      //
+
+      var url = "data/2015/employment_summary_reports.json"
+      var myData
+      var myChart
+
+      d3.json(url, function(reports){
+        myData = reports // assign the raw JSON data to the `myData` variable to access it later via the console for debugging
+
+        //
+        // PROCESS AND TRANSFORM RAW DATA
+        //
+
+        var chartCategories = ['School A', 'School B', 'School C', 'School D', 'School E']
+
+        var chartSeries = [
+          {
+            name: 'Unemployed',
+            data: [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+          },
+          {
+            name: 'Public Interest',
+            data: [2, 2, 3, 2, 1] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+          },
+          {
+            name: 'Big Law',
+            data: [3, 4, 4, 2, 5] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+          }
+        ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        //
+        // COMPILE CHART
+        //
+
+        //var chartSeries = [
+        //    {
+        //      name: 'Unemployed',
+        //      data: [
+        //        {name:'School A', y:5},
+        //        {name:'School B', y:3},
+        //        {name:'School C', y:4},
+        //        {name:'School D', y:7},
+        //        {name:'School E', y:2},
+        //      ]
+        //    },
+        //    {
+        //      name: 'Public Interest',
+        //      data: [
+        //        {name:'School A', y:2},
+        //        {name:'School B', y:2},
+        //        {name:'School C', y:3},
+        //        {name:'School D', y:2},
+        //        {name:'School E', y:1},
+        //      ]
+        //    },
+        //    {
+        //      name: 'Big Law',
+        //      data: [
+        //        {name:'School A', y:3},
+        //        {name:'School B', y:4},
+        //        {name:'School C', y:4},
+        //        {name:'School D', y:2},
+        //        {name:'School E', y:5},
+        //      ]
+        //    }
+        //]
+
+        //
+        // ... OR ...
+        //
+
+        // var chartCategories = ['School A', 'School B', 'School C', 'School D', 'School E']
+        //
+        // var chartSeries = [
+        //   {
+        //     name: 'Unemployed',
+        //     data: [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+        //   },
+        //   {
+        //     name: 'Public Interest',
+        //     data: [2, 2, 3, 2, 1] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+        //   },
+        //   {
+        //     name: 'Big Law',
+        //     data: [3, 4, 4, 2, 5] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+        //   }
+        // ]
+
+        var chartOptions = {
+          chart: {type: 'column'},
+          exporting:{
+            enabled:true,
+            buttons: {contextButton: {text: 'Export'}}
+          },
+          credits: {enabled: false},
+          legend:{
+            align:'right',
+            layout:'vertical',
+            verticalAlign:'middle'
+          },
+          title: {text: 'Employment Outcomes by School'},
+          xAxis: {
+            categories: chartCategories,
+            type: "category"
+          },
+          yAxis: {
+            min: 0,
+            title: {text: 'Percentage of 2015 Graduates'},
+            stackLabels: {enabled: true}
+          },
+          tooltip: {
+            headerFormat: '<b>{point.x}</b><br/>', // '<b>{point.key}</b><br/>'
+            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+            shared: true
+          },
+          plotOptions: {
+            column: {
+              stacking: 'percent',
+              dataLabels: {
+                enabled: true,
+                format: '{point.percentage:.0f}%', // '{point.y} ({point.percentage:.0f}%)',
+                color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+              },
+              events: {legendItemClick: function () { return false; } } // disable data-filtering functionality when series in legend is clicked
+            }
+          },
+          series: chartSeries
+        }
+
+        myChart = Highcharts.chart('my-container', chartOptions)  // assign the Highcharts chart to the `myChart` variable to access it later via the console for debugging
+
+      }) // d3.json()
+
+    </script>
+  </body>
+</html>
