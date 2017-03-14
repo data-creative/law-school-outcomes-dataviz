@@ -8,6 +8,9 @@
 
   + [Previous project](https://github.com/data-creative/us-gov-greenhouse-gas-emissions/blob/master/emissions.html) involving Highcharts stacked bar graphs
     + https://github.com/data-creative/us-gov-greenhouse-gas-emissions/blob/master/emissions.html#L88-L93
+  + [D3/Colorbrewer Color Scales](https://bl.ocks.org/mbostock/5577023)
+  + [Previous Project](https://github.com/data-creative/us-income-and-affordability/blob/master/index.html) using color scales
+  + [Another Previous Project](https://github.com/data-creative/us-state-legislature-compositions/blob/master/index.html) using color scales
 
 ### Charting Libraries
 

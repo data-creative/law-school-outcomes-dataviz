@@ -22,6 +22,7 @@
       </p>
     </footer>
 
+    <script src="http://d3js.org/colorbrewer.v1.min.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script type="text/javascript">
 
@@ -88,12 +89,12 @@
         chartSeries = [
           {
             name: 'Unemployed',
-            //color: 'red'
+            color: colorbrewer.Reds[9][6],
             data: sortedUnemployedCounts // sortedUnemployedCounts // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
           },
           {
             name: 'Employed',
-            //color: 'green'
+            color: colorbrewer.Greens[9][6],
             data: sortedEmployedCounts // sortedEmployedCounts // [2, 2, 3, 2, 1] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
           }
         ]
