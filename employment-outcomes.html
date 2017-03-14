@@ -63,8 +63,6 @@
         {type: "Employer Type Unknown", defaultDisplayGroup: "Employed (Other)"}
       ] // todo: define additional groups
 
-      const bigLawFirmTypes = employmentTypes.filter(function(obj){ return obj.defaultDisplayGroup == "Law Firm (Big)" }).map(function(obj){ return obj.type })
-      const otherLawFirmTypes = employmentTypes.filter(function(obj){ return obj.defaultDisplayGroup == "Law Firm (Other)" }).map(function(obj){ return obj.type })
       const otherEmploymentTypes = employmentTypes.filter(function(obj){ return obj.defaultDisplayGroup == "Employed (Other)" }).map(function(obj){ return obj.type })
 
       //
@@ -110,6 +108,14 @@
 
         // PROCESS EMPLOYMENT TYPES
 
+        // Returns a sorted series of numbers, each representing the sum of counts for all employment types belonging to the given display group.
+        // @param [String] displayGroup e.g. "Law Firm (Big)"
+        function sortedEmploymentTypeSeries(displayGroup) {
+          var types = employmentTypes.filter(function(obj){ return obj.defaultDisplayGroup == displayGroup }).map(function(obj){ return obj.type })
+
+          return sortedReports.map(function(rpt){ return sumOfTypeCounts(rpt, types) })
+        }
+
         // Returns the sum of an array of counts matching any type included in the given list
         // @param [Object] rpt
         // @param [Array] types
@@ -122,18 +128,6 @@
 
           return d3.sum(counts)
         }
-
-        var sortedOtherEmploymentCounts = sortedReports.map(function(rpt){
-          return sumOfTypeCounts(rpt, otherEmploymentTypes)
-        })
-
-        var sortedOtherLawFirmCounts = sortedReports.map(function(rpt){
-          return sumOfTypeCounts(rpt, otherLawFirmTypes)
-        })
-
-        var sortedBigLawFirmCounts = sortedReports.map(function(rpt){
-          return sumOfTypeCounts(rpt, bigLawFirmTypes)
-        })
 
         //
         // COMPILE CHART
@@ -155,17 +149,17 @@
           {
             name: 'Employed (Other)',
             color: colorbrewer.Purples[9][6],
-            data: sortedOtherEmploymentCounts // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+            data: sortedEmploymentTypeSeries('Employed (Other)') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
           },
           {
             name: 'Law Firm (Other)',
             color: colorbrewer.Greens[9][4],
-            data: sortedOtherLawFirmCounts // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+            data: sortedEmploymentTypeSeries('Law Firm (Other)') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
           },
           {
             name: 'Law Firm (Big)',
             color: colorbrewer.Greens[9][6],
-            data: sortedBigLawFirmCounts // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+            data: sortedEmploymentTypeSeries('Law Firm (Big)') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
           },
         ]
 
