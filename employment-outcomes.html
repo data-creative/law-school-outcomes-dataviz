@@ -47,14 +47,12 @@
       //
 
       const url = "data/2015/employment_summary_reports.json"
-      var reports
       var sortedReports
-      var report
       var myChart
       var chartSeries
 
       d3.json(url, function(json){
-        reports = json
+        var reports = json
 
         //
         // PROCESS AND TRANSFORM RAW DATA
@@ -102,6 +100,18 @@
         //
         // COMPILE CHART
         //
+
+        function customTooltip(point) {
+          var tooltip = ''
+          var headerFormat = '<b>' + point.x.toUpperCase() + '</b>'
+          tooltip += headerFormat
+          tooltip += '<br/>'
+          point.points.forEach(function(p){
+            var pointFormat = `<span style="color:${p.series.color}">${p.series.name}</span>: <b>${p.y}</b> (${  Highcharts.numberFormat(p.percentage, 0)  }%)<br/>`
+            tooltip += pointFormat
+          })
+          return tooltip
+        }
 
         //var chartSeries = [
         //    {
@@ -180,8 +190,9 @@
             stackLabels: {enabled: true}
           },
           tooltip: {
-            headerFormat: '<b>{point.x}</b><br/>', // '<b>{point.key}</b><br/>'
-            pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+            //headerFormat: '<b>{point.x}</b><br/>', // '<b>{point.key}</b><br/>'
+            //pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
+            formatter: function(){ return customTooltip(this) },
             shared: true
           },
           plotOptions: {
