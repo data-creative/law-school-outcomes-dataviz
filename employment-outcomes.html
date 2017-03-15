@@ -22,6 +22,7 @@
       </p>
     </footer>
 
+    </script>
     <script src="http://d3js.org/colorbrewer.v1.min.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script type="text/javascript" src="assets/js/employment_summary_report.js"></script>
@@ -29,156 +30,61 @@
 
       function updateChart() {
 
-        //
-        // REQUEST DATA FROM NEARBY JSON FILE
-        //
-
         var year = 2015
         var url = `data/${year}/employment_summary_reports.json`
 
         d3.json(url, function(json){
+
           var reports = json.map(function(rpt){ return new EmploymentSummaryReport(rpt) })
 
-          //
-          // PROCESS AND TRANSFORM RAW DATA
-          //
+          var sortedReports = reports.sort(function(a, b){ return d3.ascending(a.schoolShortName, b.schoolShortName ) })
 
-          var sortedReports = reports.sort(function(a, b){
-            return d3.ascending(a.schoolShortName, b.schoolShortName )
-          })
+          function sumOfStatusCounts(report, selectedStatuses) { return d3.sum(report.statusCounts(selectedStatuses)) }
 
-          // PROCESS EMPLOYMENT STATUSES
+          function sumOfTypeCounts(report, selectedTypes) { return d3.sum(report.typeCounts(selectedTypes)) }
 
-          // Returns the sum of an array of counts matching any status included in the given list
-          // @param [Object] rpt
-          // @param [Array] statuses
-          function sumOfStatusCounts(report, statuses) {
-            var counts = report.statusCounts(statuses)
-            return d3.sum(counts)
-          }
+          var chartCategories = sortedReports.map(function(rpt){ return rpt.schoolShortName })
 
-          var sortedEmployedCounts = sortedReports.map(function(rpt){
-            return sumOfStatusCounts(rpt, EmploymentSummaryReport.employedStatuses())
-          })
+          var selectedEmploymentTypeGroups = [
+            {group: 'Employed (Other)', color: colorbrewer.Greys[9][6] },
+            {group: 'Public Interest', color: colorbrewer.Oranges[9][4] },
+            {group: 'Government', color: colorbrewer.Oranges[9][6] },
+            {group: 'Clerkship', color: colorbrewer.Purples[9][6] },
+            {group: 'Business & Industry', color: colorbrewer.Blues[9][6] },
+            {group: 'Law Firm (Other)', color: colorbrewer.Greens[9][4] },
+            {group: 'Law Firm (Big)', color: colorbrewer.Greens[9][6] }
+          ]
 
-          var sortedUnemployedCounts = sortedReports.map(function(rpt){
+          var sortedUnemployedStatusSeries = sortedReports.map(function(rpt){
             return sumOfStatusCounts(rpt, EmploymentSummaryReport.unemployedStatuses())
           })
-
-          // PROCESS EMPLOYMENT TYPES
 
           // Returns a sorted series of numbers, each representing the sum of counts for all employment types belonging to the given display group.
           // @param [String] displayGroup e.g. "Law Firm (Big)"
           function sortedEmploymentTypeSeries(displayGroup) {
             var types = EmploymentSummaryReport.employmentTypes().filter(function(obj){ return obj.defaultDisplayGroup == displayGroup }).map(function(obj){ return obj.type })
-
             return sortedReports.map(function(rpt){ return sumOfTypeCounts(rpt, types) })
           }
 
-          // Returns the sum of an array of counts matching any type included in the given list
-          // @param [Object] rpt
-          // @param [Array] types
-          function sumOfTypeCounts(report, types) {
-            var counts = report.typeCounts(types)
-            return d3.sum(counts)
-          }
+          function chartSeries() {
+            var series = []
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-          //
-          // COMPILE CHART
-          //
-
-          var chartCategories = sortedReports.map(function(rpt){ return rpt.schoolShortName })
-
-          var chartSeries = [
-            {
+            series = series.concat({
               name: 'Unemployed',
               color: colorbrewer.Reds[9][6],
-              data: sortedUnemployedCounts // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-            },
-            //{
-            //  name: 'Employed',
-            //  color: colorbrewer.Greens[9][6],
-            //  data: sortedEmployedCounts // [2, 2, 3, 2, 1] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-            //}
-            {
-              name: 'Employed (Other)',
-              color: colorbrewer.Greys[9][6],
-              data: sortedEmploymentTypeSeries('Employed (Other)') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-            },
+              data: sortedUnemployedStatusSeries // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+            })
 
+            selectedEmploymentTypeGroups.forEach(function(groupColor){
+              series = series.concat({
+                name: groupColor.group,
+                color: groupColor.color,
+                data: sortedEmploymentTypeSeries(groupColor.group) // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+              })
+            })
 
-
-            {
-              name: "Public Interest",
-              color: colorbrewer.Oranges[9][4],
-              data: sortedEmploymentTypeSeries("Public Interest") // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-            },
-
-            {
-              name: 'Government',
-              color: colorbrewer.Oranges[9][6],
-              data: sortedEmploymentTypeSeries('Government') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-            },
-
-
-
-
-            {
-              name: 'Clerkship',
-              color: colorbrewer.Purples[9][6],
-              data: sortedEmploymentTypeSeries('Clerkship') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-            },
-
-
-            {
-              name: 'Business & Industry',
-              color: colorbrewer.Blues[9][6],
-              data: sortedEmploymentTypeSeries('Business & Industry') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-            },
-
-
-            {
-              name: 'Law Firm (Other)',
-              color: colorbrewer.Greens[9][4],
-              data: sortedEmploymentTypeSeries('Law Firm (Other)') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-            },
-            {
-              name: 'Law Firm (Big)',
-              color: colorbrewer.Greens[9][6],
-              data: sortedEmploymentTypeSeries('Law Firm (Big)') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-            },
-          ]
+            return series
+          }
 
           function report(schoolShortName) {
             return sortedReports.find(function(rpt){ return rpt.schoolShortName == schoolShortName })
@@ -295,7 +201,7 @@
             yAxis: {
               min: 0,
               title: {
-                text: 'PERCENTAGE OF 2015 GRADUATES',
+                text: `PERCENTAGE OF ${year} GRADUATES`,
                 style: { "color": "#000", "cursor": "default", "fontSize": "11px" }
               },
               stackLabels: {enabled: true},
@@ -325,7 +231,7 @@
                 events: {legendItemClick: function () { return false; } } // disable data-filtering functionality when series in legend is clicked
               }
             },
-            series: chartSeries
+            series: chartSeries()
           }
 
           myChart = Highcharts.chart('my-container', chartOptions)  // assign the Highcharts chart to the `myChart` variable to access it later via the console for debugging
