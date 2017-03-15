@@ -39,69 +39,9 @@
 
           var sortedReports = reports.sort(function(a, b){ return d3.ascending(a.schoolShortName, b.schoolShortName ) })
 
-          function sumOfStatusCounts(report, selectedStatuses) { return d3.sum(report.statusCounts(selectedStatuses)) }
-          function sumOfTypeCounts(report, selectedTypes) { return d3.sum(report.typeCounts(selectedTypes)) }
-
-          var chartCategories = sortedReports.map(function(rpt){ return rpt.schoolShortName })
-
-          var selectedEmploymentTypeGroups = [
-            {group: 'Employed (Other)', color: colorbrewer.Greys[9][6] },
-            {group: 'Public Interest', color: colorbrewer.Oranges[9][4] },
-            {group: 'Government', color: colorbrewer.Oranges[9][6] },
-            {group: 'Clerkship', color: colorbrewer.Purples[9][6] },
-            {group: 'Business & Industry', color: colorbrewer.Blues[9][6] },
-            {group: 'Law Firm (Other)', color: colorbrewer.Greens[9][4] },
-            {group: 'Law Firm (Big)', color: colorbrewer.Greens[9][6] }
-          ]
-
-          var sortedUnemployedStatusSeries = sortedReports.map(function(rpt){
-            return sumOfStatusCounts(rpt, EmploymentSummaryReport.unemployedStatuses())
-          })
-
-          // Returns a sorted series of numbers, each representing the sum of counts for all employment types belonging to the given display group.
-          // @param [String] displayGroup e.g. "Law Firm (Big)"
-          function sortedEmploymentTypeSeries(displayGroup) {
-            var types = EmploymentSummaryReport.employmentTypes().filter(function(obj){ return obj.defaultDisplayGroup == displayGroup }).map(function(obj){ return obj.type })
-            return sortedReports.map(function(rpt){ return sumOfTypeCounts(rpt, types) })
-          }
-
-          function chartSeries() {
-            var series = []
-
-            series = series.concat({
-              name: 'Unemployed',
-              color: colorbrewer.Reds[9][6],
-              data: sortedUnemployedStatusSeries // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-            })
-
-            selectedEmploymentTypeGroups.forEach(function(groupColor){
-              series = series.concat({
-                name: groupColor.group,
-                color: groupColor.color,
-                data: sortedEmploymentTypeSeries(groupColor.group) // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-              })
-            })
-
-            return series
-          }
-
-          function totalGrads(schoolShortName) {
-            return EmploymentSummaryReport.findByShortName(sortedReports, schoolShortName).totalGrads;
-          }
-
-          function customTooltip(point) {
-            var tooltip = ''
-            var headerFormat = `<b>${point.x.toUpperCase()}</b><br/>`
-            headerFormat += `<b>Total Grads: ${totalGrads(point.x)}</b><br/>`
-            tooltip += headerFormat
-
-            point.points.forEach(function(pt){
-              var pointFormat = `<span style="color:${pt.series.color}">${pt.series.name}</span>: <b>${pt.y}</b> (${  Highcharts.numberFormat(pt.percentage, 0)  }%)<br/>`
-              tooltip += pointFormat
-            })
-
-            return tooltip
-          }
+          //
+          // COMPILE CHART SERIES
+          //
 
           //var chartSeries = [
           //    {
@@ -156,6 +96,93 @@
           //     data: [3, 4, 4, 2, 5] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
           //   }
           // ]
+
+          var chartCategories = sortedReports.map(function(rpt){ return rpt.schoolShortName })
+
+          function sumOfStatusCounts(report, selectedStatuses) { return d3.sum(report.statusCounts(selectedStatuses)) }
+          function sumOfTypeCounts(report, selectedTypes) { return d3.sum(report.typeCounts(selectedTypes)) }
+
+          // Returns a sorted series of numbers, each representing the sum of counts for all employment types belonging to the given display group.
+          // @param [String] displayGroup e.g. "Law Firm (Big)"
+          function sortedEmploymentTypeSeries(displayGroup) {
+            var employmentTypeGroups = [
+              {type: "Law Firms (Unknown Size)", defaultDisplayGroup: "Law Firm (Other)"},
+              {type: "Law Firms (Solo)", defaultDisplayGroup: "Law Firm (Other)"},
+              {type: "Law Firms (2 - 10)", defaultDisplayGroup: "Law Firm (Other)"},
+              {type: "Law Firms (11 - 25)", defaultDisplayGroup: "Law Firm (Other)"},
+              {type: "Law Firms (26 - 50)", defaultDisplayGroup: "Law Firm (Other)"},
+              {type: "Law Firms (51 - 100)", defaultDisplayGroup: "Law Firm (Other)"},
+              {type: "Law Firms (101 - 250)", defaultDisplayGroup: "Law Firm (Big)"},
+              {type: "Law Firms (251 - 500)", defaultDisplayGroup: "Law Firm (Big)"},
+              {type: "Law Firms (501 +)", defaultDisplayGroup: "Law Firm (Big)"},
+
+              {type: "Business & Industry", defaultDisplayGroup: "Business & Industry"},
+              {type: "Government", defaultDisplayGroup: "Government"},
+              {type: "Pub. Int.", defaultDisplayGroup: "Public Interest"},
+              {type: "Clerkships - Federal", defaultDisplayGroup: "Clerkship"},
+              {type: "Clerkships - State & Local", defaultDisplayGroup: "Clerkship"},
+              {type: "Clerkships - Other", defaultDisplayGroup: "Clerkship"},
+              {type: "Education", defaultDisplayGroup: "Employed (Other)"},
+              {type: "Employer Type Unknown", defaultDisplayGroup: "Employed (Other)"}
+            ]
+
+            var types = employmentTypeGroups.filter(function(typeGroup){ return typeGroup.defaultDisplayGroup == displayGroup }).map(function(typeGroup){ return typeGroup.type })
+            return sortedReports.map(function(rpt){ return sumOfTypeCounts(rpt, types) })
+          }
+
+          function chartSeries(reports) {
+            var series = []
+
+            const sortedUnemployedStatusSeries = reports.map(function(rpt){
+              return sumOfStatusCounts(rpt, EmploymentSummaryReport.unemployedStatuses())
+            })
+
+            series = series.concat({
+              name: 'Unemployed',
+              color: colorbrewer.Reds[9][6],
+              data: sortedUnemployedStatusSeries // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+            })
+
+            const selectedEmploymentTypeGroups = [
+              {group: 'Employed (Other)', color: colorbrewer.Greys[9][6] },
+              {group: 'Public Interest', color: colorbrewer.Oranges[9][4] },
+              {group: 'Government', color: colorbrewer.Oranges[9][6] },
+              {group: 'Clerkship', color: colorbrewer.Purples[9][6] },
+              {group: 'Business & Industry', color: colorbrewer.Blues[9][6] },
+              {group: 'Law Firm (Other)', color: colorbrewer.Greens[9][4] },
+              {group: 'Law Firm (Big)', color: colorbrewer.Greens[9][6] }
+            ]
+
+            selectedEmploymentTypeGroups.forEach(function(groupColor){
+              series = series.concat({
+                name: groupColor.group,
+                color: groupColor.color,
+                data: sortedEmploymentTypeSeries(groupColor.group) // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+              })
+            })
+
+            return series
+          }
+
+          // COMPILE CHART CONFIGURATION:
+
+          function totalGrads(schoolShortName) {
+            return EmploymentSummaryReport.findByShortName(sortedReports, schoolShortName).totalGrads;
+          }
+
+          function customTooltip(point) {
+            var tooltip = ''
+            var headerFormat = `<b>${point.x.toUpperCase()}</b><br/>`
+            headerFormat += `<b>Total Grads: ${totalGrads(point.x)}</b><br/>`
+            tooltip += headerFormat
+
+            point.points.forEach(function(pt){
+              var pointFormat = `<span style="color:${pt.series.color}">${pt.series.name}</span>: <b>${pt.y}</b> (${  Highcharts.numberFormat(pt.percentage, 0)  }%)<br/>`
+              tooltip += pointFormat
+            })
+
+            return tooltip
+          }
 
           var chartOptions = {
             chart: {
@@ -225,17 +252,16 @@
                 events: {legendItemClick: function () { return false; } } // disable data-filtering functionality when series in legend is clicked
               }
             },
-            series: chartSeries()
+            series: chartSeries(sortedReports)
           }
 
-          myChart = Highcharts.chart('my-container', chartOptions)  // assign the Highcharts chart to the `myChart` variable to access it later via the console for debugging
+          Highcharts.chart('my-container', chartOptions)
 
         }) // d3.json()
 
       } // updateChart()
 
       updateChart()
-
 
     </script>
   </body>
