@@ -22,9 +22,9 @@
       </p>
     </footer>
 
-    </script>
     <script src="http://d3js.org/colorbrewer.v1.min.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <!-- CUSTOM CLASSES BELOW DEPEND ON, AND MUST BE LOADED AFTER, THE D3 LIBRARY -->
     <script type="text/javascript" src="assets/js/employment_summary_report.js"></script>
     <script type="text/javascript">
 
@@ -99,9 +99,6 @@
 
           var chartCategories = sortedReports.map(function(rpt){ return rpt.schoolShortName })
 
-          function sumOfStatusCounts(report, selectedStatuses) { return d3.sum(report.statusCounts(selectedStatuses)) }
-          function sumOfTypeCounts(report, selectedTypes) { return d3.sum(report.typeCounts(selectedTypes)) }
-
           // Returns a sorted series of numbers, each representing the sum of counts for all employment types belonging to the given display group.
           // @param [String] displayGroup e.g. "Law Firm (Big)"
           function sortedEmploymentTypeSeries(displayGroup) {
@@ -127,14 +124,14 @@
             ]
 
             var types = employmentTypeGroups.filter(function(typeGroup){ return typeGroup.defaultDisplayGroup == displayGroup }).map(function(typeGroup){ return typeGroup.type })
-            return sortedReports.map(function(rpt){ return sumOfTypeCounts(rpt, types) })
+            return sortedReports.map(function(rpt){ return rpt.sumOfTypeCounts(types) })
           }
 
           function chartSeries(reports) {
             var series = []
 
             const sortedUnemployedStatusSeries = reports.map(function(rpt){
-              return sumOfStatusCounts(rpt, EmploymentSummaryReport.unemployedStatuses())
+              return rpt.sumOfStatusCounts(EmploymentSummaryReport.unemployedStatuses())
             })
 
             series = series.concat({

@@ -1,5 +1,7 @@
 'use strict';
 
+// NOTE: this class requires the "d3" library. So either load it in the document before loading this script (not a best practice), or require the "d3" library formally by using some kind of server-side asset compilation tool (require.js, browserify, webpack, etc.)
+
 class EmploymentSummaryReport {
   constructor(data) {
     this.data = data
@@ -67,6 +69,14 @@ class EmploymentSummaryReport {
     }).map(function(typeCount){
       return typeCount.count
     })
+  }
+
+  sumOfStatusCounts(selectedStatuses){
+    return d3.sum(this.statusCounts(selectedStatuses))
+  }
+
+  sumOfTypeCounts(selectedTypes){
+    return d3.sum(this.typeCounts(selectedTypes))
   }
 
 }
