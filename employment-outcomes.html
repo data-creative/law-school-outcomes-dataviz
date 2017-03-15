@@ -37,9 +37,7 @@
         var url = `data/${year}/employment_summary_reports.json`
 
         d3.json(url, function(json){
-          var reports = json.map(function(rpt){
-            return new EmploymentSummaryReport(rpt)
-          })
+          var reports = json.map(function(rpt){ return new EmploymentSummaryReport(rpt) })
 
           //
           // PROCESS AND TRANSFORM RAW DATA
@@ -84,6 +82,37 @@
             var counts = report.typeCounts(types)
             return d3.sum(counts)
           }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
           //
           // COMPILE CHART
@@ -157,7 +186,7 @@
 
           function totalGrads(schoolShortName) {
             var rpt = report(schoolShortName)
-            return rpt.total_grads;
+            return rpt.totalGrads;
           }
 
           function customTooltip(point) {

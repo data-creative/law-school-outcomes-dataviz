@@ -64,6 +64,10 @@ class EmploymentSummaryReport {
     return this.data.school_name.toUpperCase()
   }
 
+  get totalGrads(){
+    return this.data.total_grads
+  }
+
   // Returns an array of counts representing graduates belonging to any of the selectedStatuses.
   // @param [Array] selectedStatuses e.g. e.g. ["Pursuing Graduate Degree Full Time", "Unemployed - Start Date Deferred", "Unemployed - Not Seeking", "Unemployed - Seeking", "Employment Status Unknown"]
   statusCounts(selectedStatuses) {
