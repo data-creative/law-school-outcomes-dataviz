@@ -42,35 +42,39 @@
 
           var chart = new EmploymentSummaryChart(sortedReports)
 
+          var employmentTypeGroupings = [
+            {group: 'Employed (Other)', color: colorbrewer.Greys[9][6], types: ["Education", "Employer Type Unknown"] },
+            {group: 'Public Interest', color: colorbrewer.Oranges[9][4], types: ["Pub. Int."] },
+            {group: 'Government', color: colorbrewer.Oranges[9][6], types: ["Government"] },
+            {group: 'Clerkship', color: colorbrewer.Purples[9][6], types: ["Clerkships - Federal", "Clerkships - State & Local", "Clerkships - Other"] },
+            {group: 'Business & Industry', color: colorbrewer.Blues[9][6], types: ["Business & Industry"] },
+            {group: 'Law Firm (Other)', color: colorbrewer.Greens[9][4], types: ["Law Firms (Unknown Size)", "Law Firms (Solo)", "Law Firms (2 - 10)", "Law Firms (11 - 25)", "Law Firms (26 - 50)", "Law Firms (51 - 100)"] },
+            {group: 'Law Firm (Big)', color: colorbrewer.Greens[9][6], types: ["Law Firms (101 - 250)", "Law Firms (251 - 500)", "Law Firms (501 +)"] }
+          ]
+
+
+
+
+
           // Returns a sorted series of numbers, each representing the sum of counts for all employment types belonging to the given display group.
           // @param [String] displayGroup e.g. "Law Firm (Big)"
           function sortedEmploymentTypeSeries(displayGroup) {
-            var employmentTypeGroups = [
-              {type: "Law Firms (Unknown Size)", defaultDisplayGroup: "Law Firm (Other)"},
-              {type: "Law Firms (Solo)", defaultDisplayGroup: "Law Firm (Other)"},
-              {type: "Law Firms (2 - 10)", defaultDisplayGroup: "Law Firm (Other)"},
-              {type: "Law Firms (11 - 25)", defaultDisplayGroup: "Law Firm (Other)"},
-              {type: "Law Firms (26 - 50)", defaultDisplayGroup: "Law Firm (Other)"},
-              {type: "Law Firms (51 - 100)", defaultDisplayGroup: "Law Firm (Other)"},
-              {type: "Law Firms (101 - 250)", defaultDisplayGroup: "Law Firm (Big)"},
-              {type: "Law Firms (251 - 500)", defaultDisplayGroup: "Law Firm (Big)"},
-              {type: "Law Firms (501 +)", defaultDisplayGroup: "Law Firm (Big)"},
+            var grouping = employmentTypeGroupings.find(function(grouping){ return grouping.group == displayGroup})
 
-              {type: "Business & Industry", defaultDisplayGroup: "Business & Industry"},
-              {type: "Government", defaultDisplayGroup: "Government"},
-              {type: "Pub. Int.", defaultDisplayGroup: "Public Interest"},
-              {type: "Clerkships - Federal", defaultDisplayGroup: "Clerkship"},
-              {type: "Clerkships - State & Local", defaultDisplayGroup: "Clerkship"},
-              {type: "Clerkships - Other", defaultDisplayGroup: "Clerkship"},
-              {type: "Education", defaultDisplayGroup: "Employed (Other)"},
-              {type: "Employer Type Unknown", defaultDisplayGroup: "Employed (Other)"}
-            ]
-
-            var types = employmentTypeGroups.filter(function(typeGroup){ return typeGroup.defaultDisplayGroup == displayGroup }).map(function(typeGroup){ return typeGroup.type })
-            return sortedReports.map(function(rpt){ return rpt.sumOfTypeCounts(types) })
+            var employmentTypes = grouping.types // employmentTypeGroups.filter(function(typeGroup){ return typeGroup.defaultDisplayGroup == displayGroup }).map(function(typeGroup){ return typeGroup.type })
+            return sortedReports.map(function(report){ return report.sumOfTypeCounts(employmentTypes) })
           }
 
-          function chartSeries(reports) {
+
+
+
+
+
+
+
+
+
+          function chartSeries(reports, typeGroupings) {
             var series = []
 
             const sortedUnemployedStatusSeries = reports.map(function(rpt){
@@ -83,26 +87,55 @@
               data: sortedUnemployedStatusSeries // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
             })
 
-            const selectedEmploymentTypeGroups = [
-              {group: 'Employed (Other)', color: colorbrewer.Greys[9][6] },
-              {group: 'Public Interest', color: colorbrewer.Oranges[9][4] },
-              {group: 'Government', color: colorbrewer.Oranges[9][6] },
-              {group: 'Clerkship', color: colorbrewer.Purples[9][6] },
-              {group: 'Business & Industry', color: colorbrewer.Blues[9][6] },
-              {group: 'Law Firm (Other)', color: colorbrewer.Greens[9][4] },
-              {group: 'Law Firm (Big)', color: colorbrewer.Greens[9][6] }
-            ]
-
-            selectedEmploymentTypeGroups.forEach(function(groupColor){
+            typeGroupings.forEach(function(grouping){
               series = series.concat({
-                name: groupColor.group,
-                color: groupColor.color,
-                data: sortedEmploymentTypeSeries(groupColor.group) // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+                name: grouping.group,
+                color: grouping.color,
+                data: sortedEmploymentTypeSeries(grouping.group) // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
               })
             })
 
             return series
           }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
           // COMPILE CHART CONFIGURATION:
 
@@ -192,7 +225,7 @@
                 events: {legendItemClick: function () { return false; } } // disable data-filtering functionality when series in legend is clicked
               }
             },
-            series: chartSeries(sortedReports)
+            series: chartSeries(sortedReports, employmentTypeGroupings)
           }
 
           Highcharts.chart('my-container', chartOptions)
