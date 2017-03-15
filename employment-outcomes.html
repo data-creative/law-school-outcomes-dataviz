@@ -9,11 +9,12 @@
   </head>
   <body>
     <h1><a href="index.html">Law School Outcomes</a></h1>
-    <h2>Employment Outcomes for Recent Graduates</h2>
+    <h2 style="display:none;">Employment Outcomes for Recent Graduates</h2>
 
-    <div id="my-container">
+    <div id="my-container" style="height:550px;">
     </div>
 
+    <hr>
     <footer>
       <p>
         <a href="https://data-creative.github.io/law-school-outcomes-dataviz/">view</a> |
@@ -67,11 +68,10 @@
       // REQUEST DATA FROM NEARBY JSON FILE
       //
 
-      const year = 2015
-      const url = `data/${year}/employment_summary_reports.json`
+      var year = 2015
+      var url = `data/${year}/employment_summary_reports.json`
 
-      d3.json(url, function(json){
-        var reports = json
+      d3.json(url, function(reports){
 
         //
         // PROCESS AND TRANSFORM RAW DATA
@@ -135,22 +135,34 @@
 
         var chartSeries = [
           {
-            name: 'Unemployed',
-            color: colorbrewer.Reds[9][6],
-            data: sortedUnemployedCounts // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+            name: 'Law Firm (Big)',
+            color: colorbrewer.Greens[9][6],
+            data: sortedEmploymentTypeSeries('Law Firm (Big)') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
           },
-          //{
-          //  name: 'Employed',
-          //  color: colorbrewer.Greens[9][6],
-          //  data: sortedEmployedCounts // [2, 2, 3, 2, 1] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          //}
+
           {
-            name: 'Employed (Other)',
-            color: colorbrewer.Greys[9][6],
-            data: sortedEmploymentTypeSeries('Employed (Other)') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+            name: 'Law Firm (Other)',
+            color: colorbrewer.Greens[9][4],
+            data: sortedEmploymentTypeSeries('Law Firm (Other)') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
           },
 
+          {
+            name: 'Business & Industry',
+            color: colorbrewer.Blues[9][6],
+            data: sortedEmploymentTypeSeries('Business & Industry') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+          },
 
+          {
+            name: 'Clerkship',
+            color: colorbrewer.Purples[9][6],
+            data: sortedEmploymentTypeSeries('Clerkship') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+          },
+
+          {
+            name: 'Government',
+            color: colorbrewer.Oranges[9][5],
+            data: sortedEmploymentTypeSeries('Government') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+          },
 
           {
             name: "Public Interest",
@@ -159,39 +171,19 @@
           },
 
           {
-            name: 'Government',
-            color: colorbrewer.Oranges[9][6],
-            data: sortedEmploymentTypeSeries('Government') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+            name: 'Employed (Other)',
+            color: colorbrewer.Greys[9][5],
+            data: sortedEmploymentTypeSeries('Employed (Other)') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
           },
-
-
-
 
           {
-            name: 'Clerkship',
-            color: colorbrewer.Purples[9][6],
-            data: sortedEmploymentTypeSeries('Clerkship') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          },
-
-
-          {
-            name: 'Business & Industry',
-            color: colorbrewer.Blues[9][6],
-            data: sortedEmploymentTypeSeries('Business & Industry') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          },
-
-
-          {
-            name: 'Law Firm (Other)',
-            color: colorbrewer.Greens[9][4],
-            data: sortedEmploymentTypeSeries('Law Firm (Other)') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          },
-          {
-            name: 'Law Firm (Big)',
-            color: colorbrewer.Greens[9][6],
-            data: sortedEmploymentTypeSeries('Law Firm (Big)') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          },
+            name: 'Unemployed',
+            color: colorbrewer.Reds[9][5],
+            data: sortedUnemployedCounts // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+          }
         ]
+
+        chartSeries.reverse()
 
         function report(schoolShortName) {
           return sortedReports.find(function(rpt){ return rpt.school_name.toUpperCase() == schoolShortName })
@@ -272,8 +264,10 @@
 
         var chartOptions = {
           chart: {
-            type: 'column',
-            marginBottom:50 // make room to display the subtitle below the chart.
+            inverted: true,
+            marginBottom:100, // make room to display the subtitle below the chart.
+            marginTop:100, // make room to display the legend above the chart.
+            type: 'column' //,
           },
           exporting:{
             enabled:true,
@@ -281,9 +275,11 @@
           },
           credits: {enabled: false},
           legend:{
-            align:'right',
-            layout:'vertical',
-            verticalAlign:'middle'
+            // align:'right',
+            // layout:'vertical',
+            y:40,
+            reversed:true,
+            verticalAlign:'top'
           },
           title: {text: 'Employment Outcomes by Law School'},
           subtitle: {
@@ -291,13 +287,13 @@
             align:'left',
             verticalAlign:'bottom',
             floating:true,
-            y: -5,
+            y: -25,
             style: { "font-size":10, "font-style":"italic" }
           },
           xAxis: {
             categories: chartCategories,
             type: "category",
-            opposite:true,
+            //opposite:true,
             labels:{
               //formatter:function(){
               //  return `<b>${this.value}</b>`

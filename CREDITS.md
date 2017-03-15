@@ -28,6 +28,8 @@
   + http://stackoverflow.com/questions/13275648/disable-click-on-legend-in-highcharts-column-graph
   + http://api.highcharts.com/highcharts/xAxis.categories
   + http://api.highcharts.com/highcharts/subtitle
+  + http://www.highcharts.com/demo/area-inverted/skies
+  + http://api.highcharts.com/highcharts/legend.reversed
   + Tooltip Content, Formatting, and Positioning:
     + http://api.highcharts.com/highcharts/series%3Ccolumn%3E.data.name
     + http://stackoverflow.com/questions/18035421/highcharts-how-can-i-take-x-axis-value-in-tooltip
