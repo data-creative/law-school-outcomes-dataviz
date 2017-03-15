@@ -26,6 +26,7 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <!-- CUSTOM CLASSES BELOW DEPEND ON, AND MUST BE LOADED AFTER, THE D3 LIBRARY -->
     <script type="text/javascript" src="assets/js/employment_summary_report.js"></script>
+    <script type="text/javascript" src="assets/js/employment_summary_chart.js"></script>
     <script type="text/javascript">
 
       function updateChart() {
@@ -39,65 +40,7 @@
 
           var sortedReports = reports.sort(function(a, b){ return d3.ascending(a.schoolShortName, b.schoolShortName ) })
 
-          //
-          // COMPILE CHART SERIES
-          //
-
-          //var chartSeries = [
-          //    {
-          //      name: 'Unemployed',
-          //      data: [
-          //        {name:'School A', y:5},
-          //        {name:'School B', y:3},
-          //        {name:'School C', y:4},
-          //        {name:'School D', y:7},
-          //        {name:'School E', y:2},
-          //      ]
-          //    },
-          //    {
-          //      name: 'Public Interest',
-          //      data: [
-          //        {name:'School A', y:2},
-          //        {name:'School B', y:2},
-          //        {name:'School C', y:3},
-          //        {name:'School D', y:2},
-          //        {name:'School E', y:1},
-          //      ]
-          //    },
-          //    {
-          //      name: 'Big Law',
-          //      data: [
-          //        {name:'School A', y:3},
-          //        {name:'School B', y:4},
-          //        {name:'School C', y:4},
-          //        {name:'School D', y:2},
-          //        {name:'School E', y:5},
-          //      ]
-          //    }
-          //]
-
-          //
-          // ... OR ...
-          //
-
-          // var chartCategories = ['School A', 'School B', 'School C', 'School D', 'School E']
-          //
-          // var chartSeries = [
-          //   {
-          //     name: 'Unemployed',
-          //     data: [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          //   },
-          //   {
-          //     name: 'Public Interest',
-          //     data: [2, 2, 3, 2, 1] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          //   },
-          //   {
-          //     name: 'Big Law',
-          //     data: [3, 4, 4, 2, 5] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          //   }
-          // ]
-
-          var chartCategories = sortedReports.map(function(rpt){ return rpt.schoolShortName })
+          var chart = new EmploymentSummaryChart(sortedReports)
 
           // Returns a sorted series of numbers, each representing the sum of counts for all employment types belonging to the given display group.
           // @param [String] displayGroup e.g. "Law Firm (Big)"
@@ -206,7 +149,7 @@
               style: { "font-size":10, "font-style":"italic" }
             },
             xAxis: {
-              categories: chartCategories,
+              categories: chart.categories,
               type: "category",
               opposite:true,
               labels:{
