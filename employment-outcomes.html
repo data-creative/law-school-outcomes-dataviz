@@ -52,13 +52,9 @@
           // Returns the sum of an array of counts matching any status included in the given list
           // @param [Object] rpt
           // @param [Array] statuses
-          function sumOfStatusCounts(report, statuses) {
-            var counts = report.employment_outcomes.statuses.filter(function(statusCount){
-              return statuses.includes(statusCount.status)
-            }).map(function(statusCount){
-              return statusCount.count
-            })
-
+          function sumOfStatusCounts(rpt, statuses) {
+            var report = new EmploymentSummaryReport(rpt)
+            var counts = report.statusCounts(statuses)
             return d3.sum(counts)
           }
 
@@ -83,13 +79,9 @@
           // Returns the sum of an array of counts matching any type included in the given list
           // @param [Object] rpt
           // @param [Array] types
-          function sumOfTypeCounts(report, types) {
-            var counts = report.employment_outcomes.types.filter(function(typeCount){
-              return types.includes(typeCount.type)
-            }).map(function(typeCount){
-              return typeCount.count
-            })
-
+          function sumOfTypeCounts(rpt, types) {
+            var report = new EmploymentSummaryReport(rpt)
+            var counts = report.typeCounts(types)
             return d3.sum(counts)
           }
 
