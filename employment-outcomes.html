@@ -24,44 +24,8 @@
 
     <script src="http://d3js.org/colorbrewer.v1.min.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script type="text/javascript" src="assets/js/employment_summary_report.js"></script>
     <script type="text/javascript">
-
-      const employmentStatuses = [
-        "Employed - Bar Passage Required",
-        "Employed - J.D. Advantage",
-        "Employed - Professional Position",
-        "Employed - Non-Professional Position",
-        "Employed - Law School/University Funded",
-        "Employed - Undeterminable",
-        "Pursuing Graduate Degree Full Time",
-        "Unemployed - Start Date Deferred",
-        "Unemployed - Not Seeking",
-        "Unemployed - Seeking",
-        "Employment Status Unknown"
-      ]
-      const employedStatuses = employmentStatuses.filter(function(status){ return status.includes("Employed") })
-      const unemployedStatuses = employmentStatuses.filter(function(status){ return !status.includes("Employed") })
-
-      const employmentTypes = [
-        {type: "Law Firms (Unknown Size)", defaultDisplayGroup: "Law Firm (Other)"},
-        {type: "Law Firms (Solo)", defaultDisplayGroup: "Law Firm (Other)"},
-        {type: "Law Firms (2 - 10)", defaultDisplayGroup: "Law Firm (Other)"},
-        {type: "Law Firms (11 - 25)", defaultDisplayGroup: "Law Firm (Other)"},
-        {type: "Law Firms (26 - 50)", defaultDisplayGroup: "Law Firm (Other)"},
-        {type: "Law Firms (51 - 100)", defaultDisplayGroup: "Law Firm (Other)"},
-        {type: "Law Firms (101 - 250)", defaultDisplayGroup: "Law Firm (Big)"},
-        {type: "Law Firms (251 - 500)", defaultDisplayGroup: "Law Firm (Big)"},
-        {type: "Law Firms (501 +)", defaultDisplayGroup: "Law Firm (Big)"},
-
-        {type: "Business & Industry", defaultDisplayGroup: "Business & Industry"},
-        {type: "Government", defaultDisplayGroup: "Government"},
-        {type: "Pub. Int.", defaultDisplayGroup: "Public Interest"},
-        {type: "Clerkships - Federal", defaultDisplayGroup: "Clerkship"},
-        {type: "Clerkships - State & Local", defaultDisplayGroup: "Clerkship"},
-        {type: "Clerkships - Other", defaultDisplayGroup: "Clerkship"},
-        {type: "Education", defaultDisplayGroup: "Employed (Other)"},
-        {type: "Employer Type Unknown", defaultDisplayGroup: "Employed (Other)"}
-      ]
 
       function updateChart() {
 
@@ -83,15 +47,6 @@
             return d3.ascending(a.school_name, b.school_name )
           })
 
-
-
-
-
-
-
-
-
-
           // PROCESS EMPLOYMENT STATUSES
 
           // Returns the sum of an array of counts matching any status included in the given list
@@ -108,11 +63,11 @@
           }
 
           var sortedEmployedCounts = sortedReports.map(function(rpt){
-            return sumOfStatusCounts(rpt, employedStatuses)
+            return sumOfStatusCounts(rpt, EmploymentSummaryReport.employedStatuses())
           })
 
           var sortedUnemployedCounts = sortedReports.map(function(rpt){
-            return sumOfStatusCounts(rpt, unemployedStatuses)
+            return sumOfStatusCounts(rpt, EmploymentSummaryReport.unemployedStatuses())
           })
 
           // PROCESS EMPLOYMENT TYPES
@@ -120,7 +75,7 @@
           // Returns a sorted series of numbers, each representing the sum of counts for all employment types belonging to the given display group.
           // @param [String] displayGroup e.g. "Law Firm (Big)"
           function sortedEmploymentTypeSeries(displayGroup) {
-            var types = employmentTypes.filter(function(obj){ return obj.defaultDisplayGroup == displayGroup }).map(function(obj){ return obj.type })
+            var types = EmploymentSummaryReport.employmentTypes().filter(function(obj){ return obj.defaultDisplayGroup == displayGroup }).map(function(obj){ return obj.type })
 
             return sortedReports.map(function(rpt){ return sumOfTypeCounts(rpt, types) })
           }
