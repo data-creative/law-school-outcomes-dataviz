@@ -37,14 +37,16 @@
         var url = `data/${year}/employment_summary_reports.json`
 
         d3.json(url, function(json){
-          var reports = json
+          var reports = json.map(function(rpt){
+            return new EmploymentSummaryReport(rpt)
+          })
 
           //
           // PROCESS AND TRANSFORM RAW DATA
           //
 
-          sortedReports = reports.sort(function(a, b){
-            return d3.ascending(a.school_name, b.school_name )
+          var sortedReports = reports.sort(function(a, b){
+            return d3.ascending(a.schoolShortName, b.schoolShortName )
           })
 
           // PROCESS EMPLOYMENT STATUSES
@@ -52,8 +54,7 @@
           // Returns the sum of an array of counts matching any status included in the given list
           // @param [Object] rpt
           // @param [Array] statuses
-          function sumOfStatusCounts(rpt, statuses) {
-            var report = new EmploymentSummaryReport(rpt)
+          function sumOfStatusCounts(report, statuses) {
             var counts = report.statusCounts(statuses)
             return d3.sum(counts)
           }
@@ -79,8 +80,7 @@
           // Returns the sum of an array of counts matching any type included in the given list
           // @param [Object] rpt
           // @param [Array] types
-          function sumOfTypeCounts(rpt, types) {
-            var report = new EmploymentSummaryReport(rpt)
+          function sumOfTypeCounts(report, types) {
             var counts = report.typeCounts(types)
             return d3.sum(counts)
           }
@@ -89,7 +89,7 @@
           // COMPILE CHART
           //
 
-          var chartCategories = sortedReports.map(function(rpt){ return rpt.school_name.toUpperCase() })
+          var chartCategories = sortedReports.map(function(rpt){ return rpt.schoolShortName })
 
           var chartSeries = [
             {
@@ -152,7 +152,7 @@
           ]
 
           function report(schoolShortName) {
-            return sortedReports.find(function(rpt){ return rpt.school_name.toUpperCase() == schoolShortName })
+            return sortedReports.find(function(rpt){ return rpt.schoolShortName == schoolShortName })
           }
 
           function totalGrads(schoolShortName) {
