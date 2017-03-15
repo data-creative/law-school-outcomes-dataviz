@@ -56,6 +56,10 @@ class EmploymentSummaryReport {
     ]
   }
 
+  static findByShortName(reports, schoolShortName) {
+    return reports.find(function(rpt){ return rpt.schoolShortName == schoolShortName })
+  }
+
   //
   // INSTANCE METHODS
   //

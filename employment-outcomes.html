@@ -40,7 +40,6 @@
           var sortedReports = reports.sort(function(a, b){ return d3.ascending(a.schoolShortName, b.schoolShortName ) })
 
           function sumOfStatusCounts(report, selectedStatuses) { return d3.sum(report.statusCounts(selectedStatuses)) }
-
           function sumOfTypeCounts(report, selectedTypes) { return d3.sum(report.typeCounts(selectedTypes)) }
 
           var chartCategories = sortedReports.map(function(rpt){ return rpt.schoolShortName })
@@ -86,13 +85,8 @@
             return series
           }
 
-          function report(schoolShortName) {
-            return sortedReports.find(function(rpt){ return rpt.schoolShortName == schoolShortName })
-          }
-
           function totalGrads(schoolShortName) {
-            var rpt = report(schoolShortName)
-            return rpt.totalGrads;
+            return EmploymentSummaryReport.findByShortName(sortedReports, schoolShortName).totalGrads;
           }
 
           function customTooltip(point) {
