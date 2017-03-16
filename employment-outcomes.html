@@ -11,6 +11,11 @@
     <h1><a href="index.html">Law School Outcomes</a></h1>
     <h2>Employment Outcomes for Recent Graduates</h2>
 
+    <select id="year-selector">
+      <option value="2015" selected>2015</option>
+      <!--option value="2014">2014</option-->
+    </select>
+
     <div id="my-container">
     </div>
 
@@ -29,9 +34,18 @@
     <script type="text/javascript" src="assets/js/employment_outcomes/stacked_100_pct_chart.js"></script>
     <script type="text/javascript">
 
-      function updateChart() {
+      var yearSelector = document.getElementById("year-selector")
+      function selectYear() {
+        var selectedYear = yearSelector.value
+        console.log("SELECTED YEAR:", selectedYear)
+        updateChart(selectedYear)
+      }
+      yearSelector.addEventListener("change", selectYear, false)
 
-        var year = 2015
+
+
+
+      function updateChart(year) {
         var url = `data/${year}/employment_summary_reports.json`
 
         d3.json(url, function(json){
@@ -58,7 +72,7 @@
 
       } // updateChart()
 
-      updateChart()
+      selectYear()
 
     </script>
   </body>
