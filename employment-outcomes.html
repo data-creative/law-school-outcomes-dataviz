@@ -17,8 +17,15 @@
     </select>
 
     <div id="school-checkbox-container">
-      <input type="checkbox" name="school[]" class="school-selector" value="Bike" checked> I have a bike<br>
-      <input type="checkbox" name="school[]" class="school-selector" value="Car"> I have a car
+      <label for="">
+        <input type="checkbox" name="school[]" class="school-selector" value="Bike" checked>
+        I have a bike
+      </label>
+      <br>
+      <label for="">
+        <input type="checkbox" name="school[]" class="school-selector" value="Car">
+        I have a car
+      </label>
     </div>
 
     <div id="my-container">
@@ -48,17 +55,68 @@
       function selectYear() {
         var selectedYear = yearSelector.value
         console.log("SELECTED YEAR:", selectedYear)
-        selectSchools()
-        updateChart(selectedYear)
+        populateSchoolSelectors(selectedYear)
+        //selectSchools(selectedYear)
+        //updateChart(selectedYear)
       }
 
       yearSelector.addEventListener("change", selectYear, false)
+
+
+
+
+
+
+
+
+
+
 
       //
       // LISTEN FOR SCHOOL SELECTIONS
       //
 
       var schoolCheckboxContainer = document.getElementById("school-checkbox-container")
+
+      function removeAllSchoolSelectors() {
+        Array.prototype.forEach.call(schoolCheckboxContainer.children, function(child){
+          schoolCheckboxContainer.removeChild(child)
+        })
+      } // this only removes some of the children... TODO: fix.
+
+      function populateSchoolSelectors(year) {
+        var url = `data/${year}/employment_summary_reports.json`
+
+        d3.json(url, function(json){
+          var reports = json.map(function(rpt){ return new Report(rpt) })
+          var sortedSchoolNames = reports.map(function(report){ return report.schoolShortName}).sort()
+          console.log("FOUND", sortedSchoolNames.length, "SCHOOLS")
+
+          removeAllSchoolSelectors()
+
+          sortedSchoolNames.forEach(function(schoolShortName){
+            var label = document.createElement("label")
+            var checkbox = document.createElement("input")
+            checkbox.type = "checkbox"
+            checkbox.name = "school[]"
+            checkbox.class = "school-selector"
+            checkbox.value = schoolShortName
+            //checkbox.checked = false // todo: (true if index = 0) or check at random :-)
+            label.appendChild(checkbox)
+            label.append(schoolShortName)
+            schoolCheckboxContainer.appendChild(label)
+            schoolCheckboxContainer.appendChild(document.createElement("br"))
+          })
+
+        })
+      }
+
+
+
+
+
+
+
 
       function selectSchools() {
         var checkedBoxes = document.querySelectorAll('input[name="school[]"]:checked')
@@ -69,6 +127,21 @@
       }
 
       schoolCheckboxContainer.addEventListener("change", selectSchools, false)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       //
       // COMPILE CHART BASED ON SELECTIONS
