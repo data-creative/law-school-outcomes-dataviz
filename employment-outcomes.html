@@ -24,7 +24,7 @@
 
     <script src="http://d3js.org/colorbrewer.v1.min.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
-    <!-- CUSTOM CLASSES BELOW DEPEND ON, AND MUST BE LOADED AFTER, THE D3 LIBRARY -->
+    <!-- PLEASE DON'T MESS WITH THE ORDER OF SCRIPTS BELOW THIS LINE -->
     <script type="text/javascript" src="assets/js/employment_outcomes/report.js"></script>
     <script type="text/javascript" src="assets/js/employment_outcomes/stacked_100_pct_chart_config.js"></script>
     <script type="text/javascript">
@@ -50,9 +50,9 @@
             {group: 'Law Firm (Big)', color: colorbrewer.Greens[9][6], types: ["Law Firms (101 - 250)", "Law Firms (251 - 500)", "Law Firms (501 +)"] }
           ]
 
-          var chartConfig = new Stacked100PctChartConfig(year, sortedReports, groupings)
+          var chart = new Stacked100PctChart(year, sortedReports, groupings)
 
-          Highcharts.chart('my-container', chartConfig.options())
+          chart.updateOnto('my-container')
 
         }) // d3.json()
 

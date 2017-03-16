@@ -1,6 +1,7 @@
 'use strict';
 
 // NOTE: this class requires the "report.js" file. So either load it in the document before loading this script (not a best practice), or require the "Report" class formally by using some kind of server-side asset compilation tool (require.js, browserify, webpack, etc.)
+// NOTE: this class requires the "Highcharts" library. So either load it in the document before loading this script (not a best practice), or require it formally by using some kind of server-side asset compilation tool (require.js, browserify, webpack, etc.)
 
 //
 // PROCESSES REPORT DATA INTO CHART DATA
@@ -60,14 +61,17 @@
 //   }
 // ]
 
-class Stacked100PctChartConfig {
+class Stacked100PctChart {
   // @param [Array] groupings contains objects like: {group: 'Big Law', color: "#000", types: ["Law Firm (100-500)", "Law Firm (500+)"] }
   constructor(year, reports, groupings) {
     this.year = year
     this.reports = reports
+    this.groupings = groupings
     this.unemploymentStatuses = Report.unemployedStatuses()
     this.findReportByShortName = Report.findByShortName
-    this.groupings = groupings
+    this.chart = Highcharts.chart
+    this.dataLabelsColor = (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white' // optional. currently not set
+    this.numberFormat = Highcharts.numberFormat
   }
 
   //
@@ -87,29 +91,8 @@ class Stacked100PctChartConfig {
     return this.statusesData(this.unemploymentStatuses)
   }
 
-
-
-
-
-
-  // @param [Object] employmentStatuses e.g. ["Employed - JD Required", "Employed - JD Advantage"] }
-  // @return [5, 3, 4, 7, 2] (must be in same order as categories)
-  statusesData(employmentStatuses){
-    return this.reports.map(function(report){
-      return report.sumOfStatusCounts(employmentStatuses)
-    })
-  }
-
-  // @param [Object] employmentTypes e.g. ["Education", "Employer Type Unknown"] }
-  // @return [5, 3, 4, 7, 2] (must be in same order as categories)
-  typesData(employmentTypes){
-    return this.reports.map(function(report){
-      return report.sumOfTypeCounts(employmentTypes)
-    })
-  }
-
   // @return [Array] An array of objects like: {name: 'Big Law', color: "#000", data: [{name:'School A', y:3}, {name:'School B', y:4}, {name:'School C', y:4}, {name:'School D', y:2}, {name:'School E', y:5} ] }
-  series() {
+  get series() {
     var series = [{
       name: 'Unemployed',
       color: colorbrewer.Reds[9][6],
@@ -126,23 +109,7 @@ class Stacked100PctChartConfig {
     return series
   }
 
-  totalGrads(schoolShortName){
-    return this.findReportByShortName(this.reports, schoolShortName).totalGrads
-  }
-
-  tooltipFormat(column){
-    var tooltip = ''
-    var headerFormat = `<b>${column.x.toUpperCase()}</b><br/>`
-    headerFormat += `<b>Total Grads: ${this.totalGrads(column.x)}</b><br/>`
-    tooltip += headerFormat
-    column.points.forEach(function(pt){
-      var pointFormat = `<span style="color:${pt.series.color}">${pt.series.name}</span>: <b>${pt.y}</b> (${  Highcharts.numberFormat(pt.percentage, 0)  }%)<br/>`
-      tooltip += pointFormat
-    })
-    return tooltip
-  }
-
-  options(){
+  get options(){
     const chartConfig = this
     return {
       chart: {
@@ -207,13 +174,50 @@ class Stacked100PctChartConfig {
           dataLabels: {
             enabled: true,
             format: '{point.percentage:.0f}%', // '{point.y} ({point.percentage:.0f}%)',
-            color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
+            color: chartConfig.dataLabelsColor
           },
           events: {legendItemClick: function () { return false; } } // disable data-filtering functionality when series in legend is clicked
         }
       },
-      series: chartConfig.series()
+      series: chartConfig.series
     }
+  }
+
+  updateOnto(containerId){
+    this.chart(containerId, this.options)
+  }
+
+  // @param [Object] employmentStatuses e.g. ["Employed - JD Required", "Employed - JD Advantage"] }
+  // @return [5, 3, 4, 7, 2] (must be in same order as categories)
+  statusesData(employmentStatuses){
+    return this.reports.map(function(report){
+      return report.sumOfStatusCounts(employmentStatuses)
+    })
+  }
+
+  // @param [Object] employmentTypes e.g. ["Education", "Employer Type Unknown"] }
+  // @return [5, 3, 4, 7, 2] (must be in same order as categories)
+  typesData(employmentTypes){
+    return this.reports.map(function(report){
+      return report.sumOfTypeCounts(employmentTypes)
+    })
+  }
+
+  totalGrads(schoolShortName){
+    return this.findReportByShortName(this.reports, schoolShortName).totalGrads
+  }
+
+  tooltipFormat(column){
+    var tooltip = ''
+    var headerFormat = `<b>${column.x.toUpperCase()}</b><br/>`
+    headerFormat += `<b>Total Grads: ${this.totalGrads(column.x)}</b><br/>`
+    tooltip += headerFormat
+    const chartConfig = this
+    column.points.forEach(function(point){
+      var pointFormat = `<span style="color:${point.series.color}">${point.series.name}</span>: <b>${point.y}</b> (${  chartConfig.numberFormat(point.percentage, 0)  }%)<br/>`
+      tooltip += pointFormat
+    })
+    return tooltip
   }
 
 }
