@@ -40,8 +40,6 @@
 
           var sortedReports = reports.sort(function(a, b){ return d3.ascending(a.schoolShortName, b.schoolShortName ) })
 
-          var chartConfig = new Stacked100PctChartConfig(sortedReports)
-
           var groupings = [
             {group: 'Employed (Other)', color: colorbrewer.Greys[9][6], types: ["Education", "Employer Type Unknown"] },
             {group: 'Public Interest', color: colorbrewer.Oranges[9][4], types: ["Pub. Int."] },
@@ -52,98 +50,9 @@
             {group: 'Law Firm (Big)', color: colorbrewer.Greens[9][6], types: ["Law Firms (101 - 250)", "Law Firms (251 - 500)", "Law Firms (501 +)"] }
           ]
 
-          // COMPILE CHART CONFIGURATION:
+          var chartConfig = new Stacked100PctChartConfig(year, sortedReports, groupings)
 
-          function totalGrads(schoolShortName) {
-            return Report.findByShortName(sortedReports, schoolShortName).totalGrads;
-          }
-
-          function customTooltip(point) {
-            var tooltip = ''
-            var headerFormat = `<b>${point.x.toUpperCase()}</b><br/>`
-            headerFormat += `<b>Total Grads: ${totalGrads(point.x)}</b><br/>`
-            tooltip += headerFormat
-
-            point.points.forEach(function(pt){
-              var pointFormat = `<span style="color:${pt.series.color}">${pt.series.name}</span>: <b>${pt.y}</b> (${  Highcharts.numberFormat(pt.percentage, 0)  }%)<br/>`
-              tooltip += pointFormat
-            })
-
-            return tooltip
-          }
-
-          var chartOptions = {
-            chart: {
-              type: 'column',
-              marginBottom:50 // make room to display the subtitle below the chart.
-            },
-            exporting:{
-              enabled:false,
-              buttons: {contextButton: {text: 'Export'}}
-            },
-            credits: {enabled: false},
-            legend:{
-              align:'right',
-              layout:'vertical',
-              verticalAlign:'middle'
-            },
-            title: {text: 'Employment Outcomes by Law School'},
-            subtitle: {
-              text: 'Copyright 2017 Data Creative (http://data-creative.info). Does not distinguish between short-term/long-term or full-time/part-time employment. Law firm size considered "Big" if greater than or equal to 100 employees.',
-              align:'left',
-              verticalAlign:'bottom',
-              floating:true,
-              y: -5,
-              style: { "font-size":10, "font-style":"italic" }
-            },
-            xAxis: {
-              categories: chartConfig.categories,
-              type: "category",
-              opposite:true,
-              labels:{
-                //formatter:function(){
-                //  return `<b>${this.value}</b>`
-                //},
-                style: { "color": "#000", "cursor": "default", "fontSize": "11px" }
-              }
-            },
-            yAxis: {
-              min: 0,
-              title: {
-                text: `PERCENTAGE OF ${year} GRADUATES`,
-                style: { "color": "#000", "cursor": "default", "fontSize": "11px" }
-              },
-              stackLabels: {enabled: true},
-              labels:{
-                enabled:true,
-                format: '{value}%',
-                style: { "color": "#000", "cursor": "default", "fontSize": "11px" }
-              }
-            },
-            tooltip: {
-              //headerFormat: '<b>{point.x}</b><br/>', // '<b>{point.key}</b><br/>'
-              //pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
-              formatter: function(){ return customTooltip(this) },
-              shared: true,
-              borderColor: '#000',
-              followPointer:true,
-              backgroundColor:'rgba(255,255,255, 1)' // use white background and remove opacity
-            },
-            plotOptions: {
-              column: {
-                stacking: 'percent',
-                dataLabels: {
-                  enabled: true,
-                  format: '{point.percentage:.0f}%', // '{point.y} ({point.percentage:.0f}%)',
-                  color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
-                },
-                events: {legendItemClick: function () { return false; } } // disable data-filtering functionality when series in legend is clicked
-              }
-            },
-            series: chartConfig.series(Report.unemployedStatuses(), groupings)
-          }
-
-          Highcharts.chart('my-container', chartOptions)
+          Highcharts.chart('my-container', chartConfig.options())
 
         }) // d3.json()
 
