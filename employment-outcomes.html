@@ -55,6 +55,8 @@
       function selectYear() {
         var selectedYear = yearSelector.value
         console.log("SELECTED YEAR:", selectedYear)
+
+
         populateSchoolSelectors(selectedYear)
         //selectSchools(selectedYear)
         //updateChart(selectedYear)
@@ -101,13 +103,14 @@
             checkbox.name = "school[]"
             checkbox.class = "school-selector"
             checkbox.value = schoolShortName
-            //checkbox.checked = false // todo: (true if index = 0) or check at random :-)
+            checkbox.checked = (Math.random() > 0.5) // check at random :-)
             label.appendChild(checkbox)
             label.append(schoolShortName)
             schoolCheckboxContainer.appendChild(label)
             schoolCheckboxContainer.appendChild(document.createElement("br"))
           })
 
+          updateChart(year)
         })
       }
 
@@ -124,6 +127,7 @@
           return checkbox.value
         })
         console.log("SELECTED SCHOOLS:", selectedSchools)
+        return selectedSchools
       }
 
       schoolCheckboxContainer.addEventListener("change", selectSchools, false)
@@ -152,7 +156,11 @@
 
         d3.json(url, function(json){
 
+          var selectedSchools = selectSchools()
+
           var reports = json.map(function(rpt){ return new Report(rpt) })
+          reports = reports.filter(function(report){ return selectedSchools.includes(report.schoolShortName) })
+          console.log(reports.length)
 
           var sortedReports = reports.sort(function(a, b){ return d3.ascending(a.schoolShortName, b.schoolShortName ) })
 
