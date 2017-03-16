@@ -58,3 +58,5 @@
   + [Problems mapping a NodeList](http://stackoverflow.com/questions/13433799/why-doesnt-nodelist-have-foreach)
   + [NodeList docs](https://developer.mozilla.org/en-US/docs/Web/API/NodeList)
   + [Calling map and passing-in a NodeList](https://tiffanybbrown.com/2012/10/16/iterating-and-applying-functions-to-nodelists-with-map-and-foreach/)
+  + [Single listener for events on all child elements](https://www.kirupa.com/html5/handling_events_for_many_elements.htm)
+  + [On stopping event propagation](https://css-tricks.com/dangers-stopping-event-propagation/)

@@ -39,26 +39,40 @@
     <script type="text/javascript" src="assets/js/employment_outcomes/stacked_100_pct_chart.js"></script>
     <script type="text/javascript">
 
+      //
+      // LISTEN FOR YEAR SELECTIONS
+      //
+
       var yearSelector = document.getElementById("year-selector")
+
       function selectYear() {
         var selectedYear = yearSelector.value
         console.log("SELECTED YEAR:", selectedYear)
         selectSchools()
         updateChart(selectedYear)
       }
+
       yearSelector.addEventListener("change", selectYear, false)
+
+      //
+      // LISTEN FOR SCHOOL SELECTIONS
+      //
+
+      var schoolCheckboxContainer = document.getElementById("school-checkbox-container")
 
       function selectSchools() {
         var checkedBoxes = document.querySelectorAll('input[name="school[]"]:checked')
-        //var selectedSchools = checkedBoxes.map(function(checkbox){
-        //  return checkbox.value
-        //}) // throws "checkedBoxes.map is not a function" because it is trying to map a NodeList, not an Array ...
         var selectedSchools = Array.prototype.map.call(checkedBoxes, function(checkbox){
           return checkbox.value
         })
         console.log("SELECTED SCHOOLS:", selectedSchools)
       }
 
+      schoolCheckboxContainer.addEventListener("change", selectSchools, false)
+
+      //
+      // COMPILE CHART BASED ON SELECTIONS
+      //
 
       function updateChart(year) {
         var url = `data/${year}/employment_summary_reports.json`
