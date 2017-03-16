@@ -52,80 +52,6 @@
             {group: 'Law Firm (Big)', color: colorbrewer.Greens[9][6], types: ["Law Firms (101 - 250)", "Law Firms (251 - 500)", "Law Firms (501 +)"] }
           ]
 
-
-
-
-
-
-
-
-
-
-
-
-          function chartSeries(reports, groupings) {
-            var series = []
-
-            const sortedUnemployedStatusSeries = reports.map(function(rpt){
-              return rpt.sumOfStatusCounts(Report.unemployedStatuses())
-            })
-
-            series = series.concat({
-              name: 'Unemployed',
-              color: colorbrewer.Reds[9][6],
-              data: sortedUnemployedStatusSeries // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-            })
-
-            groupings.forEach(function(grouping){
-              series = series.concat({
-                name: grouping.group,
-                color: grouping.color,
-                data: chartConfig.groupingSeries(grouping) // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-              })
-            })
-
-            return series
-          }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
           // COMPILE CHART CONFIGURATION:
 
           function totalGrads(schoolShortName) {
@@ -214,7 +140,7 @@
                 events: {legendItemClick: function () { return false; } } // disable data-filtering functionality when series in legend is clicked
               }
             },
-            series: chartSeries(sortedReports, groupings)
+            series: chartConfig.series(Report.unemployedStatuses(), groupings)
           }
 
           Highcharts.chart('my-container', chartOptions)

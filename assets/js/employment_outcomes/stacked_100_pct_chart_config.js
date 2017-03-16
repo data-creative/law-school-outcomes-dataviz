@@ -1,5 +1,8 @@
 'use strict';
 
+// PROCESSES REPORT DATA INTO CHART DATA
+//
+//
 //var chartSeries = [
 //    {
 //      name: 'Unemployed',
@@ -72,15 +75,46 @@ class Stacked100PctChartConfig {
     return this.reports.map(function(report){ return report.schoolShortName })
   }
 
-  // @param [Object] grouping e.g. {group: 'Employed (Other)', color: colorbrewer.Greys[9][6], types: ["Education", "Employer Type Unknown"] }
-  // @param [Object] grouping [String] group
-  // @param [Object] grouping [String] color
-  // @param [Object] grouping [Array] types
+  // @param [Object] employmentStatuses e.g. ["Employed - JD Required", "Employed - JD Advantage"] }
   // @return [5, 3, 4, 7, 2] (must be in same order as categories)
-  groupingSeries(grouping){
+  statusesData(employmentStatuses){
     return this.reports.map(function(report){
-      return report.sumOfTypeCounts(grouping.types)
+      return report.sumOfStatusCounts(employmentStatuses)
     })
   }
+
+  // @param [Object] employmentTypes e.g. ["Education", "Employer Type Unknown"] }
+  // @return [5, 3, 4, 7, 2] (must be in same order as categories)
+  typesData(employmentTypes){
+    return this.reports.map(function(report){
+      return report.sumOfTypeCounts(employmentTypes)
+    })
+  }
+
+  // @param [Array] employmentTypeGroupings e.g. An array of objects like: {group: 'Big Law', color: "#000", types: ["Law Firm (100-500)", "Law Firm (500+)"] }
+  // @return [Array] An array of objects like: {name: 'Big Law', color: "#000", data: [{name:'School A', y:3}, {name:'School B', y:4}, {name:'School C', y:4}, {name:'School D', y:2}, {name:'School E', y:5} ] }
+  series(unemploymentStatuses, employmentTypeGroupings) {
+    var series = [{
+      name: 'Unemployed',
+      color: colorbrewer.Reds[9][6],
+      data: this.statusesData(unemploymentStatuses)
+    }]
+
+    const component = this
+    employmentTypeGroupings.forEach(function(grouping){
+      series = series.concat({
+        name: grouping.group,
+        color: grouping.color,
+        data: component.typesData(grouping.types)
+      })
+    })
+
+    return series
+  }
+
+
+
+
+
 
 }
