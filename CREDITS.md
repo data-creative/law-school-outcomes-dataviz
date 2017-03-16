@@ -45,7 +45,16 @@
 
 ## Software Engineering
 
-### JavaScript Classes
+### Object-oriented JavaScript
 
   + https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
   + https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode
+
+### HTML Checkboxes
+
+  + https://www.w3schools.com/html/html_form_input_types.asp
+  + http://html.com/input-type-checkbox/
+  + [Selecting multiple checked boxes](http://stackoverflow.com/questions/20068487/getting-multiple-selected-checkbox-values-in-a-string-in-javascript-and-php)
+  + [Problems mapping a NodeList](http://stackoverflow.com/questions/13433799/why-doesnt-nodelist-have-foreach)
+  + [NodeList docs](https://developer.mozilla.org/en-US/docs/Web/API/NodeList)
+  + [Calling map and passing-in a NodeList](https://tiffanybbrown.com/2012/10/16/iterating-and-applying-functions-to-nodelists-with-map-and-foreach/)
