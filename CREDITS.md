@@ -42,3 +42,10 @@
   + [D3/Colorbrewer Color Scales](https://bl.ocks.org/mbostock/5577023)
   + [Previous Project](https://github.com/data-creative/us-income-and-affordability/blob/master/index.html) using color scales
   + [Another Previous Project](https://github.com/data-creative/us-state-legislature-compositions/blob/master/index.html) using color scales
+
+## Software Engineering
+
+### JavaScript Classes
+
+  + https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes
+  + https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Strict_mode

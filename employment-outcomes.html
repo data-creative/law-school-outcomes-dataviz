@@ -24,326 +24,41 @@
 
     <script src="http://d3js.org/colorbrewer.v1.min.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
+    <!-- PLEASE DON'T MESS WITH THE ORDER OF SCRIPTS BELOW THIS LINE -->
+    <script type="text/javascript" src="assets/js/employment_outcomes/report.js"></script>
+    <script type="text/javascript" src="assets/js/employment_outcomes/stacked_100_pct_chart.js"></script>
     <script type="text/javascript">
 
-      const employmentStatuses = [
-        "Employed - Bar Passage Required",
-        "Employed - J.D. Advantage",
-        "Employed - Professional Position",
-        "Employed - Non-Professional Position",
-        "Employed - Law School/University Funded",
-        "Employed - Undeterminable",
-        "Pursuing Graduate Degree Full Time",
-        "Unemployed - Start Date Deferred",
-        "Unemployed - Not Seeking",
-        "Unemployed - Seeking",
-        "Employment Status Unknown"
-      ]
-      const employedStatuses = employmentStatuses.filter(function(status){ return status.includes("Employed") })
-      const unemployedStatuses = employmentStatuses.filter(function(status){ return !status.includes("Employed") })
+      function updateChart() {
 
-      const employmentTypes = [
-        {type: "Law Firms (Unknown Size)", defaultDisplayGroup: "Law Firm (Other)"},
-        {type: "Law Firms (Solo)", defaultDisplayGroup: "Law Firm (Other)"},
-        {type: "Law Firms (2 - 10)", defaultDisplayGroup: "Law Firm (Other)"},
-        {type: "Law Firms (11 - 25)", defaultDisplayGroup: "Law Firm (Other)"},
-        {type: "Law Firms (26 - 50)", defaultDisplayGroup: "Law Firm (Other)"},
-        {type: "Law Firms (51 - 100)", defaultDisplayGroup: "Law Firm (Other)"},
-        {type: "Law Firms (101 - 250)", defaultDisplayGroup: "Law Firm (Big)"},
-        {type: "Law Firms (251 - 500)", defaultDisplayGroup: "Law Firm (Big)"},
-        {type: "Law Firms (501 +)", defaultDisplayGroup: "Law Firm (Big)"},
+        var year = 2015
+        var url = `data/${year}/employment_summary_reports.json`
 
-        {type: "Business & Industry", defaultDisplayGroup: "Business & Industry"},
-        {type: "Government", defaultDisplayGroup: "Government"},
-        {type: "Pub. Int.", defaultDisplayGroup: "Public Interest"},
-        {type: "Clerkships - Federal", defaultDisplayGroup: "Clerkship"},
-        {type: "Clerkships - State & Local", defaultDisplayGroup: "Clerkship"},
-        {type: "Clerkships - Other", defaultDisplayGroup: "Clerkship"},
-        {type: "Education", defaultDisplayGroup: "Employed (Other)"},
-        {type: "Employer Type Unknown", defaultDisplayGroup: "Employed (Other)"}
-      ]
+        d3.json(url, function(json){
 
-      //
-      // REQUEST DATA FROM NEARBY JSON FILE
-      //
+          var reports = json.map(function(rpt){ return new Report(rpt) })
 
-      const year = 2015
-      const url = `data/${year}/employment_summary_reports.json`
+          var sortedReports = reports.sort(function(a, b){ return d3.ascending(a.schoolShortName, b.schoolShortName ) })
 
-      d3.json(url, function(json){
-        var reports = json
+          var groupings = [
+            {group: 'Employed (Other)', color: colorbrewer.Greys[9][6], types: ["Education", "Employer Type Unknown"] },
+            {group: 'Public Interest', color: colorbrewer.Oranges[9][4], types: ["Pub. Int."] },
+            {group: 'Government', color: colorbrewer.Oranges[9][6], types: ["Government"] },
+            {group: 'Clerkship', color: colorbrewer.Purples[9][6], types: ["Clerkships - Federal", "Clerkships - State & Local", "Clerkships - Other"] },
+            {group: 'Business & Industry', color: colorbrewer.Blues[9][6], types: ["Business & Industry"] },
+            {group: 'Law Firm (Other)', color: colorbrewer.Greens[9][4], types: ["Law Firms (Unknown Size)", "Law Firms (Solo)", "Law Firms (2 - 10)", "Law Firms (11 - 25)", "Law Firms (26 - 50)", "Law Firms (51 - 100)"] },
+            {group: 'Law Firm (Big)', color: colorbrewer.Greens[9][6], types: ["Law Firms (101 - 250)", "Law Firms (251 - 500)", "Law Firms (501 +)"] }
+          ]
 
-        //
-        // PROCESS AND TRANSFORM RAW DATA
-        //
+          var chart = new Stacked100PctChart(year, sortedReports, groupings)
 
-        sortedReports = reports.sort(function(a, b){
-          return d3.ascending(a.school_name, b.school_name )
-        })
+          chart.updateOnto('my-container')
 
-        // PROCESS EMPLOYMENT STATUSES
+        }) // d3.json()
 
-        // Returns the sum of an array of counts matching any status included in the given list
-        // @param [Object] rpt
-        // @param [Array] statuses
-        function sumOfStatusCounts(report, statuses) {
-          var counts = report.employment_outcomes.statuses.filter(function(statusCount){
-            return statuses.includes(statusCount.status)
-          }).map(function(statusCount){
-            return statusCount.count
-          })
+      } // updateChart()
 
-          return d3.sum(counts)
-        }
-
-        var sortedEmployedCounts = sortedReports.map(function(rpt){
-          return sumOfStatusCounts(rpt, employedStatuses)
-        })
-
-        var sortedUnemployedCounts = sortedReports.map(function(rpt){
-          return sumOfStatusCounts(rpt, unemployedStatuses)
-        })
-
-        // PROCESS EMPLOYMENT TYPES
-
-        // Returns a sorted series of numbers, each representing the sum of counts for all employment types belonging to the given display group.
-        // @param [String] displayGroup e.g. "Law Firm (Big)"
-        function sortedEmploymentTypeSeries(displayGroup) {
-          var types = employmentTypes.filter(function(obj){ return obj.defaultDisplayGroup == displayGroup }).map(function(obj){ return obj.type })
-
-          return sortedReports.map(function(rpt){ return sumOfTypeCounts(rpt, types) })
-        }
-
-        // Returns the sum of an array of counts matching any type included in the given list
-        // @param [Object] rpt
-        // @param [Array] types
-        function sumOfTypeCounts(report, types) {
-          var counts = report.employment_outcomes.types.filter(function(typeCount){
-            return types.includes(typeCount.type)
-          }).map(function(typeCount){
-            return typeCount.count
-          })
-
-          return d3.sum(counts)
-        }
-
-        //
-        // COMPILE CHART
-        //
-
-        var chartCategories = sortedReports.map(function(rpt){ return rpt.school_name.toUpperCase() })
-
-        var chartSeries = [
-          {
-            name: 'Unemployed',
-            color: colorbrewer.Reds[9][6],
-            data: sortedUnemployedCounts // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          },
-          //{
-          //  name: 'Employed',
-          //  color: colorbrewer.Greens[9][6],
-          //  data: sortedEmployedCounts // [2, 2, 3, 2, 1] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          //}
-          {
-            name: 'Employed (Other)',
-            color: colorbrewer.Greys[9][6],
-            data: sortedEmploymentTypeSeries('Employed (Other)') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          },
-
-
-
-          {
-            name: "Public Interest",
-            color: colorbrewer.Oranges[9][4],
-            data: sortedEmploymentTypeSeries("Public Interest") // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          },
-
-          {
-            name: 'Government',
-            color: colorbrewer.Oranges[9][6],
-            data: sortedEmploymentTypeSeries('Government') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          },
-
-
-
-
-          {
-            name: 'Clerkship',
-            color: colorbrewer.Purples[9][6],
-            data: sortedEmploymentTypeSeries('Clerkship') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          },
-
-
-          {
-            name: 'Business & Industry',
-            color: colorbrewer.Blues[9][6],
-            data: sortedEmploymentTypeSeries('Business & Industry') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          },
-
-
-          {
-            name: 'Law Firm (Other)',
-            color: colorbrewer.Greens[9][4],
-            data: sortedEmploymentTypeSeries('Law Firm (Other)') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          },
-          {
-            name: 'Law Firm (Big)',
-            color: colorbrewer.Greens[9][6],
-            data: sortedEmploymentTypeSeries('Law Firm (Big)') // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-          },
-        ]
-
-        function report(schoolShortName) {
-          return sortedReports.find(function(rpt){ return rpt.school_name.toUpperCase() == schoolShortName })
-        }
-
-        function totalGrads(schoolShortName) {
-          var rpt = report(schoolShortName)
-          return rpt.total_grads;
-        }
-
-        function customTooltip(point) {
-          var tooltip = ''
-          var headerFormat = `<b>${point.x.toUpperCase()}</b><br/>`
-          headerFormat += `<b>Total Grads: ${totalGrads(point.x)}</b><br/>`
-          tooltip += headerFormat
-
-          point.points.forEach(function(pt){
-            var pointFormat = `<span style="color:${pt.series.color}">${pt.series.name}</span>: <b>${pt.y}</b> (${  Highcharts.numberFormat(pt.percentage, 0)  }%)<br/>`
-            tooltip += pointFormat
-          })
-
-          return tooltip
-        }
-
-        //var chartSeries = [
-        //    {
-        //      name: 'Unemployed',
-        //      data: [
-        //        {name:'School A', y:5},
-        //        {name:'School B', y:3},
-        //        {name:'School C', y:4},
-        //        {name:'School D', y:7},
-        //        {name:'School E', y:2},
-        //      ]
-        //    },
-        //    {
-        //      name: 'Public Interest',
-        //      data: [
-        //        {name:'School A', y:2},
-        //        {name:'School B', y:2},
-        //        {name:'School C', y:3},
-        //        {name:'School D', y:2},
-        //        {name:'School E', y:1},
-        //      ]
-        //    },
-        //    {
-        //      name: 'Big Law',
-        //      data: [
-        //        {name:'School A', y:3},
-        //        {name:'School B', y:4},
-        //        {name:'School C', y:4},
-        //        {name:'School D', y:2},
-        //        {name:'School E', y:5},
-        //      ]
-        //    }
-        //]
-
-        //
-        // ... OR ...
-        //
-
-        // var chartCategories = ['School A', 'School B', 'School C', 'School D', 'School E']
-        //
-        // var chartSeries = [
-        //   {
-        //     name: 'Unemployed',
-        //     data: [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-        //   },
-        //   {
-        //     name: 'Public Interest',
-        //     data: [2, 2, 3, 2, 1] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-        //   },
-        //   {
-        //     name: 'Big Law',
-        //     data: [3, 4, 4, 2, 5] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
-        //   }
-        // ]
-
-        var chartOptions = {
-          chart: {
-            type: 'column',
-            marginBottom:50 // make room to display the subtitle below the chart.
-          },
-          exporting:{
-            enabled:true,
-            buttons: {contextButton: {text: 'Export'}}
-          },
-          credits: {enabled: false},
-          legend:{
-            align:'right',
-            layout:'vertical',
-            verticalAlign:'middle'
-          },
-          title: {text: 'Employment Outcomes by Law School'},
-          subtitle: {
-            text: 'Copyright 2017 Data Creative (http://data-creative.info). Does not distinguish between short-term/long-term or full-time/part-time employment. Law firm size considered "Big" if greater than or equal to 100 employees.',
-            align:'left',
-            verticalAlign:'bottom',
-            floating:true,
-            y: -5,
-            style: { "font-size":10, "font-style":"italic" }
-          },
-          xAxis: {
-            categories: chartCategories,
-            type: "category",
-            opposite:true,
-            labels:{
-              //formatter:function(){
-              //  return `<b>${this.value}</b>`
-              //},
-              style: { "color": "#000", "cursor": "default", "fontSize": "11px" }
-            }
-          },
-          yAxis: {
-            min: 0,
-            title: {
-              text: 'PERCENTAGE OF 2015 GRADUATES',
-              style: { "color": "#000", "cursor": "default", "fontSize": "11px" }
-            },
-            stackLabels: {enabled: true},
-            labels:{
-              enabled:true,
-              format: '{value}%',
-              style: { "color": "#000", "cursor": "default", "fontSize": "11px" }
-            }
-          },
-          tooltip: {
-            //headerFormat: '<b>{point.x}</b><br/>', // '<b>{point.key}</b><br/>'
-            //pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>',
-            formatter: function(){ return customTooltip(this) },
-            shared: true,
-            borderColor: '#000',
-            followPointer:true,
-            backgroundColor:'rgba(255,255,255, 1)' // use white background and remove opacity
-          },
-          plotOptions: {
-            column: {
-              stacking: 'percent',
-              dataLabels: {
-                enabled: true,
-                format: '{point.percentage:.0f}%', // '{point.y} ({point.percentage:.0f}%)',
-                color: (Highcharts.theme && Highcharts.theme.dataLabelsColor) || 'white'
-              },
-              events: {legendItemClick: function () { return false; } } // disable data-filtering functionality when series in legend is clicked
-            }
-          },
-          series: chartSeries
-        }
-
-        myChart = Highcharts.chart('my-container', chartOptions)  // assign the Highcharts chart to the `myChart` variable to access it later via the console for debugging
-
-      }) // d3.json()
+      updateChart()
 
     </script>
   </body>
