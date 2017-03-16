@@ -25,8 +25,8 @@
     <script src="http://d3js.org/colorbrewer.v1.min.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <!-- CUSTOM CLASSES BELOW DEPEND ON, AND MUST BE LOADED AFTER, THE D3 LIBRARY -->
-    <script type="text/javascript" src="assets/js/employment_summary_report.js"></script>
-    <script type="text/javascript" src="assets/js/employment_summary_chart.js"></script>
+    <script type="text/javascript" src="assets/js/employment_outcomes/report.js"></script>
+    <script type="text/javascript" src="assets/js/employment_outcomes/stacked_100_pct_chart_config.js"></script>
     <script type="text/javascript">
 
       function updateChart() {
@@ -36,11 +36,11 @@
 
         d3.json(url, function(json){
 
-          var reports = json.map(function(rpt){ return new EmploymentSummaryReport(rpt) })
+          var reports = json.map(function(rpt){ return new Report(rpt) })
 
           var sortedReports = reports.sort(function(a, b){ return d3.ascending(a.schoolShortName, b.schoolShortName ) })
 
-          var chart = new EmploymentSummaryChart(sortedReports)
+          var chartConfig = new Stacked100PctChartConfig(sortedReports)
 
           var employmentTypeGroupings = [
             {group: 'Employed (Other)', color: colorbrewer.Greys[9][6], types: ["Education", "Employer Type Unknown"] },
@@ -78,7 +78,7 @@
             var series = []
 
             const sortedUnemployedStatusSeries = reports.map(function(rpt){
-              return rpt.sumOfStatusCounts(EmploymentSummaryReport.unemployedStatuses())
+              return rpt.sumOfStatusCounts(Report.unemployedStatuses())
             })
 
             series = series.concat({
@@ -140,7 +140,7 @@
           // COMPILE CHART CONFIGURATION:
 
           function totalGrads(schoolShortName) {
-            return EmploymentSummaryReport.findByShortName(sortedReports, schoolShortName).totalGrads;
+            return Report.findByShortName(sortedReports, schoolShortName).totalGrads;
           }
 
           function customTooltip(point) {
@@ -182,7 +182,7 @@
               style: { "font-size":10, "font-style":"italic" }
             },
             xAxis: {
-              categories: chart.categories,
+              categories: chartConfig.categories,
               type: "category",
               opposite:true,
               labels:{

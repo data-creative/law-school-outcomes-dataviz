@@ -1,6 +1,6 @@
 'use strict';
 
-class EmploymentSummaryChart {
+class Stacked100PctChartConfig {
   constructor(reports) {
     this.reports = reports
   }

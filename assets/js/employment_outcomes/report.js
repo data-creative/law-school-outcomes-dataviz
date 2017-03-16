@@ -2,7 +2,7 @@
 
 // NOTE: this class requires the "d3" library. So either load it in the document before loading this script (not a best practice), or require the "d3" library formally by using some kind of server-side asset compilation tool (require.js, browserify, webpack, etc.)
 
-class EmploymentSummaryReport {
+class Report {
   constructor(data) {
     this.data = data
   }
