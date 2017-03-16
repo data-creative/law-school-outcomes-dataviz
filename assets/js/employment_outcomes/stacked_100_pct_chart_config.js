@@ -65,6 +65,8 @@ class Stacked100PctChartConfig {
   constructor(year, reports, groupings) {
     this.year = year
     this.reports = reports
+    this.unemploymentStatuses = Report.unemployedStatuses()
+    this.findReportByShortName = Report.findByShortName
     this.groupings = groupings
   }
 
@@ -80,6 +82,15 @@ class Stacked100PctChartConfig {
   get categories(){
     return this.reports.map(function(report){ return report.schoolShortName })
   }
+
+  get unemploymentData(){
+    return this.statusesData(this.unemploymentStatuses)
+  }
+
+
+
+
+
 
   // @param [Object] employmentStatuses e.g. ["Employed - JD Required", "Employed - JD Advantage"] }
   // @return [5, 3, 4, 7, 2] (must be in same order as categories)
@@ -98,11 +109,11 @@ class Stacked100PctChartConfig {
   }
 
   // @return [Array] An array of objects like: {name: 'Big Law', color: "#000", data: [{name:'School A', y:3}, {name:'School B', y:4}, {name:'School C', y:4}, {name:'School D', y:2}, {name:'School E', y:5} ] }
-  series(unemploymentStatuses) {
+  series() {
     var series = [{
       name: 'Unemployed',
       color: colorbrewer.Reds[9][6],
-      data: this.statusesData(unemploymentStatuses)
+      data: this.unemploymentData
     }]
     const chartConfig = this
     this.groupings.forEach(function(grouping){
@@ -116,7 +127,7 @@ class Stacked100PctChartConfig {
   }
 
   totalGrads(schoolShortName){
-    return Report.findByShortName(this.reports, schoolShortName).totalGrads
+    return this.findReportByShortName(this.reports, schoolShortName).totalGrads
   }
 
   tooltipFormat(column){
@@ -201,7 +212,7 @@ class Stacked100PctChartConfig {
           events: {legendItemClick: function () { return false; } } // disable data-filtering functionality when series in legend is clicked
         }
       },
-      series: chartConfig.series(Report.unemployedStatuses())
+      series: chartConfig.series()
     }
   }
 
