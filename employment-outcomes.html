@@ -42,7 +42,7 @@
 
           var chartConfig = new Stacked100PctChartConfig(sortedReports)
 
-          var employmentTypeGroupings = [
+          var groupings = [
             {group: 'Employed (Other)', color: colorbrewer.Greys[9][6], types: ["Education", "Employer Type Unknown"] },
             {group: 'Public Interest', color: colorbrewer.Oranges[9][4], types: ["Pub. Int."] },
             {group: 'Government', color: colorbrewer.Oranges[9][6], types: ["Government"] },
@@ -56,14 +56,6 @@
 
 
 
-          // Returns a sorted series of numbers, each representing the sum of counts for all employment types belonging to the given display group.
-          // @param [String] displayGroup e.g. "Law Firm (Big)"
-          function sortedEmploymentTypeSeries(displayGroup) {
-            var grouping = employmentTypeGroupings.find(function(grouping){ return grouping.group == displayGroup})
-
-            var employmentTypes = grouping.types // employmentTypeGroups.filter(function(typeGroup){ return typeGroup.defaultDisplayGroup == displayGroup }).map(function(typeGroup){ return typeGroup.type })
-            return sortedReports.map(function(report){ return report.sumOfTypeCounts(employmentTypes) })
-          }
 
 
 
@@ -71,10 +63,7 @@
 
 
 
-
-
-
-          function chartSeries(reports, typeGroupings) {
+          function chartSeries(reports, groupings) {
             var series = []
 
             const sortedUnemployedStatusSeries = reports.map(function(rpt){
@@ -87,11 +76,11 @@
               data: sortedUnemployedStatusSeries // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
             })
 
-            typeGroupings.forEach(function(grouping){
+            groupings.forEach(function(grouping){
               series = series.concat({
                 name: grouping.group,
                 color: grouping.color,
-                data: sortedEmploymentTypeSeries(grouping.group) // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
+                data: chartConfig.groupingSeries(grouping) // [5, 3, 4, 7, 2] // must be in same order as ['School A', 'School B', 'School C', 'School D', 'School E']
               })
             })
 
@@ -225,7 +214,7 @@
                 events: {legendItemClick: function () { return false; } } // disable data-filtering functionality when series in legend is clicked
               }
             },
-            series: chartSeries(sortedReports, employmentTypeGroupings)
+            series: chartSeries(sortedReports, groupings)
           }
 
           Highcharts.chart('my-container', chartOptions)
