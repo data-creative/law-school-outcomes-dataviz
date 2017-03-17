@@ -60,6 +60,8 @@
   + [Calling map and passing-in a NodeList](https://tiffanybbrown.com/2012/10/16/iterating-and-applying-functions-to-nodelists-with-map-and-foreach/)
   + [Single listener for events on all child elements](https://www.kirupa.com/html5/handling_events_for_many_elements.htm)
   + [On stopping event propagation](https://css-tricks.com/dangers-stopping-event-propagation/)
+  + [Label "for" attribute](https://www.w3schools.com/tags/att_label_for.asp)
+  + [To wrap or not to wrap checkboxes in labels](http://stackoverflow.com/questions/11992026/is-it-better-to-wrap-the-label-tag-around-a-form-item-or-use-the-for-attribute)
 
 ###
 

@@ -91,14 +91,17 @@
         })
 
         reports.forEach(function(report){
+          const checkboxId = `${report.schoolShortName.toLowerCase()}-school-selector`
           var checkbox = document.createElement("input")
           checkbox.type = "checkbox"
           checkbox.name = "school[]"
-          checkbox.class = "school-selector"
+          checkbox.id = checkboxId
+          checkbox.className = "school-selector"
           checkbox.value = report.schoolShortName
           checkbox.checked = report.selected
 
           var label = document.createElement("label")
+          label.setAttribute("for", checkboxId)
           label.appendChild(checkbox)
           label.append(report.schoolShortName)
 
