@@ -17,7 +17,7 @@
     </select>
 
     <div id="school-checkbox-container">
-      <label for="">
+      <!--label for="">
         <input type="checkbox" name="school[]" class="school-selector" value="Bike" checked>
         I have a bike
       </label>
@@ -25,7 +25,7 @@
       <label for="">
         <input type="checkbox" name="school[]" class="school-selector" value="Car">
         I have a car
-      </label>
+      </label-->
     </div>
 
     <div id="my-container">
@@ -47,142 +47,123 @@
     <script type="text/javascript">
 
       //
-      // LISTEN FOR YEAR SELECTIONS
+      // GIVEN YEAR, GET REPORTS
       //
 
       var yearSelector = document.getElementById("year-selector")
 
-      function selectYear() {
-        var selectedYear = yearSelector.value
-        console.log("SELECTED YEAR:", selectedYear)
-
-
-        populateSchoolSelectors(selectedYear)
-        //selectSchools(selectedYear)
-        //updateChart(selectedYear)
+      function getYear() {
+        const year = yearSelector.value
+        console.log("SELECTED YEAR:", year)
+        return year
       }
 
-      yearSelector.addEventListener("change", selectYear, false)
+      function fetchReports() {
+        const year = getYear()
+        const url = `data/${year}/employment_summary_reports.json`
 
+        d3.json(url, function(json){
+          var reports = json.map(function(rpt){ return new Report(rpt) })
+          var sortedReports = reports.sort(function(a, b){ return d3.ascending(a.schoolShortName, b.schoolShortName ) })
+          console.log("FETCHED REPORTS:", sortedReports.length)
 
+          updateCheckboxes(sortedReports)
+        })
+      }
 
-
-
-
-
-
-
-
+      yearSelector.addEventListener("change", fetchReports, false)
 
       //
-      // LISTEN FOR SCHOOL SELECTIONS
+      // GIVEN REPORTS, UPDATE CHECKBOXES
       //
 
       var schoolCheckboxContainer = document.getElementById("school-checkbox-container")
 
-      function removeAllSchoolSelectors() {
+      function removeAllCheckboxes() {
         Array.prototype.forEach.call(schoolCheckboxContainer.children, function(child){
           schoolCheckboxContainer.removeChild(child)
         })
       } // this only removes some of the children... TODO: fix.
 
-      function populateSchoolSelectors(year) {
-        var url = `data/${year}/employment_summary_reports.json`
+      function updateCheckboxes(reports) {
 
-        d3.json(url, function(json){
-          var reports = json.map(function(rpt){ return new Report(rpt) })
-          var sortedSchoolNames = reports.map(function(report){ return report.schoolShortName}).sort()
-          console.log("FOUND", sortedSchoolNames.length, "SCHOOLS")
+        removeAllCheckboxes()
 
-          removeAllSchoolSelectors()
+        schoolCheckboxContainer.reports = reports // store this here for later use!
 
-          sortedSchoolNames.forEach(function(schoolShortName){
-            var label = document.createElement("label")
-            var checkbox = document.createElement("input")
-            checkbox.type = "checkbox"
-            checkbox.name = "school[]"
-            checkbox.class = "school-selector"
-            checkbox.value = schoolShortName
-            checkbox.checked = (Math.random() > 0.5) // check at random :-)
-            label.appendChild(checkbox)
-            label.append(schoolShortName)
-            schoolCheckboxContainer.appendChild(label)
-            schoolCheckboxContainer.appendChild(document.createElement("br"))
-          })
-
-          updateChart(year)
+        reports.map(function(report){
+          report.selected = (Math.random() > 0.5) // select schools at random :-)
         })
+
+        reports.forEach(function(report){
+          var checkbox = document.createElement("input")
+          checkbox.type = "checkbox"
+          checkbox.name = "school[]"
+          checkbox.class = "school-selector"
+          checkbox.value = report.schoolShortName
+          checkbox.checked = report.selected
+
+          var label = document.createElement("label")
+          label.appendChild(checkbox)
+          label.append(report.schoolShortName)
+
+          schoolCheckboxContainer.appendChild(label)
+          schoolCheckboxContainer.appendChild(document.createElement("br"))
+        })
+
+        selectReports()
       }
 
+      //
+      // GIVEN CHECKBOX SELECTIONS, SELECT REPORTS
+      //
 
-
-
-
-
-
-
-      function selectSchools() {
+      function getSchoolNames() {
         var checkedBoxes = document.querySelectorAll('input[name="school[]"]:checked')
-        var selectedSchools = Array.prototype.map.call(checkedBoxes, function(checkbox){
+        var selectedSchoolNames = Array.prototype.map.call(checkedBoxes, function(checkbox){
           return checkbox.value
         })
-        console.log("SELECTED SCHOOLS:", selectedSchools)
-        return selectedSchools
+        console.log("SELECTED SCHOOLS:", selectedSchoolNames)
+        return selectedSchoolNames
       }
 
-      schoolCheckboxContainer.addEventListener("change", selectSchools, false)
+      function selectReports(){
+        const reports = schoolCheckboxContainer.reports // get this from the element because not always able to pass it from updateCheckboxes()
 
+        const selectedSchoolNames = getSchoolNames()
 
+        const selectedReports = reports.filter(function(report){
+          return selectedSchoolNames.includes(report.schoolShortName)
+        })
 
+        updateChart(selectedReports)
+      }
 
-
-
-
-
-
-
-
-
-
-
-
+      schoolCheckboxContainer.addEventListener("change", selectReports, false)
 
       //
-      // COMPILE CHART BASED ON SELECTIONS
+      // GIVEN REPORT SELECTIONS, UPDATE CHART
       //
 
-      function updateChart(year) {
-        var url = `data/${year}/employment_summary_reports.json`
+      function updateChart(sortedSelectedReports) {
+        const year = getYear()
 
-        d3.json(url, function(json){
+        const groupings = [
+          {group: 'Employed (Other)', color: colorbrewer.Greys[9][6], types: ["Education", "Employer Type Unknown"] },
+          {group: 'Public Interest', color: colorbrewer.Oranges[9][4], types: ["Pub. Int."] },
+          {group: 'Government', color: colorbrewer.Oranges[9][6], types: ["Government"] },
+          {group: 'Clerkship', color: colorbrewer.Purples[9][6], types: ["Clerkships - Federal", "Clerkships - State & Local", "Clerkships - Other"] },
+          {group: 'Business & Industry', color: colorbrewer.Blues[9][6], types: ["Business & Industry"] },
+          {group: 'Law Firm (Other)', color: colorbrewer.Greens[9][4], types: ["Law Firms (Unknown Size)", "Law Firms (Solo)", "Law Firms (2 - 10)", "Law Firms (11 - 25)", "Law Firms (26 - 50)", "Law Firms (51 - 100)"] },
+          {group: 'Law Firm (Big)', color: colorbrewer.Greens[9][6], types: ["Law Firms (101 - 250)", "Law Firms (251 - 500)", "Law Firms (501 +)"] }
+        ]
 
-          var selectedSchools = selectSchools()
+        var chart = new Stacked100PctChart(year, sortedSelectedReports, groupings)
 
-          var reports = json.map(function(rpt){ return new Report(rpt) })
-          reports = reports.filter(function(report){ return selectedSchools.includes(report.schoolShortName) })
-          console.log(reports.length)
+        chart.updateOnto('my-container')
+      }
 
-          var sortedReports = reports.sort(function(a, b){ return d3.ascending(a.schoolShortName, b.schoolShortName ) })
-
-          var groupings = [
-            {group: 'Employed (Other)', color: colorbrewer.Greys[9][6], types: ["Education", "Employer Type Unknown"] },
-            {group: 'Public Interest', color: colorbrewer.Oranges[9][4], types: ["Pub. Int."] },
-            {group: 'Government', color: colorbrewer.Oranges[9][6], types: ["Government"] },
-            {group: 'Clerkship', color: colorbrewer.Purples[9][6], types: ["Clerkships - Federal", "Clerkships - State & Local", "Clerkships - Other"] },
-            {group: 'Business & Industry', color: colorbrewer.Blues[9][6], types: ["Business & Industry"] },
-            {group: 'Law Firm (Other)', color: colorbrewer.Greens[9][4], types: ["Law Firms (Unknown Size)", "Law Firms (Solo)", "Law Firms (2 - 10)", "Law Firms (11 - 25)", "Law Firms (26 - 50)", "Law Firms (51 - 100)"] },
-            {group: 'Law Firm (Big)', color: colorbrewer.Greens[9][6], types: ["Law Firms (101 - 250)", "Law Firms (251 - 500)", "Law Firms (501 +)"] }
-          ]
-
-          var chart = new Stacked100PctChart(year, sortedReports, groupings)
-
-          chart.updateOnto('my-container')
-
-        }) // d3.json()
-
-      } // updateChart()
-
-      selectYear()
+      fetchReports()
 
     </script>
   </body>
