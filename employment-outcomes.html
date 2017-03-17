@@ -37,11 +37,11 @@
       <div id="employment-outcomes-container" style="height:700px; border: 2px solid #ccc;">
 
         <ul id="employment-outcomes" style="list-style:none;">
-          <li class="draggable-employment-outcome" style="margin-top:5px; margin-bottom:5px; border: 1px solid #000;" draggable="true" ondragstart="drag(event)">Outcome 1</li>
-          <li class="draggable-employment-outcome" style="margin-top:5px; margin-bottom:5px; border: 1px solid #000;" draggable="true" ondragstart="drag(event)">Outcome 2</li>
-          <li class="draggable-employment-outcome" style="margin-top:5px; margin-bottom:5px; border: 1px solid #000;" draggable="true" ondragstart="drag(event)">Outcome 3</li>
-          <li class="draggable-employment-outcome" style="margin-top:5px; margin-bottom:5px; border: 1px solid #000;" draggable="true" ondragstart="drag(event)">Outcome 4</li>
-          <li class="draggable-employment-outcome" style="margin-top:5px; margin-bottom:5px; border: 1px solid #000;" draggable="true" ondragstart="drag(event)">Outcome 5</li>
+          <li id="employment-outcome-1" class="draggable-employment-outcome" style="width: 250px; margin-top:5px; margin-bottom:5px; border: 1px solid #000;" draggable="true" ondragstart="drag(event)">Outcome 1</li>
+          <li id="employment-outcome-2" class="draggable-employment-outcome" style="width: 250px; margin-top:5px; margin-bottom:5px; border: 1px solid #000;" draggable="true" ondragstart="drag(event)">Outcome 2</li>
+          <li id="employment-outcome-3" class="draggable-employment-outcome" style="width: 250px; margin-top:5px; margin-bottom:5px; border: 1px solid #000;" draggable="true" ondragstart="drag(event)">Outcome 3</li>
+          <li id="employment-outcome-4" class="draggable-employment-outcome" style="width: 250px; margin-top:5px; margin-bottom:5px; border: 1px solid #000;" draggable="true" ondragstart="drag(event)">Outcome 4</li>
+          <li id="employment-outcome-5" class="draggable-employment-outcome" style="width: 250px; margin-top:5px; margin-bottom:5px; border: 1px solid #000;" draggable="true" ondragstart="drag(event)">Outcome 5</li>
         </ul>
 
         <div class="employment-outcome-display-group" style="padding:25px; border: 2px solid #ccc;">
@@ -53,6 +53,10 @@
           </div>
         </div>
       </div>
+
+
+
+
 
 
 
@@ -90,6 +94,7 @@
 
     function drag(e) {
       console.log("DRAG EVENT:", e)
+      //debugger
       e.dataTransfer.setData("text", e.target.id) // specifies the data to be dragged
     } // ADAPTED FROM https://www.w3schools.com/html/html5_draganddrop.asp
 
@@ -99,7 +104,7 @@
 
     function drop(e) {
       console.log("DROP EVENT:", e)
-      debugger
+      //debugger
       e.preventDefault() // disable default drop behavior, which is to open as a new link
       var data = e.dataTransfer.getData("text") // specifies the data to be dropped
       console.log("DATA TO DROP:", data)
