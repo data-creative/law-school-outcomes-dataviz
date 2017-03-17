@@ -2,49 +2,98 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Employment Outcomes for Recent Graduates | Law School Outcomes</title>
-
+    <title>Employment Outcomes | Law School Outcomes</title>
+    <link rel="stylesheet" href="assets/css/w3schools/side_menu.css">
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
   </head>
   <body>
-    <h1><a href="index.html">Law School Outcomes</a></h1>
-    <h2>Employment Outcomes for Recent Graduates</h2>
+    <div id="menu">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeMenu()">&times;</a>
 
-    <select id="year-selector">
-      <option value="2015" selected>2015</option>
-      <!--option value="2014">2014</option-->
-    </select>
+      <h3>Chart Selections</h3>
 
-    <div id="school-checkbox-container">
-      <!--label for="">
-        <input type="checkbox" name="school[]" class="school-selector" value="Bike" checked>
-        I have a bike
-      </label>
-      <br>
-      <label for="">
-        <input type="checkbox" name="school[]" class="school-selector" value="Car">
-        I have a car
-      </label-->
+      <h4>Year:</h4>
+
+      <select id="year-selector">
+        <option value="2015" selected>2015</option>
+        <!--option value="2014">2014</option-->
+      </select>
+
+      <h4>Law School(s):</h4>
+
+      <div id="school-checkbox-container">
+      </div>
     </div>
 
-    <div id="my-container">
-    </div>
+    <div id="page">
+      <h1><a href="index.html">Law School Outcomes</a></h1>
 
-    <footer>
-      <p>
-        <a href="https://data-creative.github.io/law-school-outcomes-dataviz/">view</a> |
-        <a href="https://github.com/data-creative/law-school-outcomes-dataviz/">source</a> |
-        <a href="https://raw.githubusercontent.com/data-creative/law-school-outcomes-dataviz/master/data/2015/employment_summary_reports.json">data</a>
-      </p>
-    </footer>
+      <h2>Employment Outcomes</h2>
+
+      <button type="button" id="menu-button">Gear Icon</button>
+
+      <div id="my-container"></div>
+
+      <footer>
+        <p>
+          <a href="https://data-creative.github.io/law-school-outcomes-dataviz/">view</a> |
+          <a href="https://github.com/data-creative/law-school-outcomes-dataviz/">source</a> |
+          <a href="https://raw.githubusercontent.com/data-creative/law-school-outcomes-dataviz/master/data/2015/employment_summary_reports.json">data</a>
+        </p>
+      </footer>
+    </div>
 
     <script src="http://d3js.org/colorbrewer.v1.min.js"></script>
-    <script src="https://d3js.org/d3.v4.min.js"></script>
     <!-- PLEASE DON'T MESS WITH THE ORDER OF SCRIPTS BELOW THIS LINE -->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
     <script type="text/javascript" src="assets/js/employment_outcomes/report.js"></script>
     <script type="text/javascript" src="assets/js/employment_outcomes/stacked_100_pct_chart.js"></script>
     <script type="text/javascript">
+
+      var menu = document.getElementById("menu")
+      var page = document.getElementById("page")
+
+      var menuButton = document.getElementById("menu-button")
+      menuButton.addEventListener("click", openMenu)
+
+      /* Set the width of the side navigation to 250px and the left margin of the page content to 250px */
+      function openMenu() {
+        const width = "250px"
+        menu.style.width = width
+        page.style.marginLeft = width
+      }
+
+      /* Set the width of the side navigation to 0 and the left margin of the page content to 0 */
+      function closeMenu() {
+        const width = "0"
+        menu.style.width = width
+        page.style.marginLeft = width
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
       //
       // GIVEN YEAR, GET REPORTS
@@ -107,7 +156,7 @@
           label.appendChild(checkbox)
           label.append(report.schoolShortName)
 
-          schoolCheckboxContainer.appendChild(label)
+          schoolCheckboxContainer.appendChild(label) // <label><input type="checkbox" name="school[]" class="school-selector" value="Bike" checked> I have a bike</label>
           schoolCheckboxContainer.appendChild(document.createElement("br"))
         })
 
