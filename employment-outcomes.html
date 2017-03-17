@@ -6,11 +6,11 @@
 
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
-
     <style media="screen">
+
       #outcome-groups-container {height:"700px"; border: "2px solid #000";}
 
-      #ungrouped-outcomes, .grouped-outcomes {list-style:"none";}
+      .grouped-outcomes {list-style:"none";}
 
       .draggable-outcome {width: "250px"; margin-top:"5px"; margin-bottom:"5px"; border: "1px solid #000";}
 
@@ -20,7 +20,7 @@
     <h1><a href="index.html">Law School Outcomes</a></h1>
     <h2>Employment Outcomes for Recent Graduates</h2>
 
-    <div id="my-container"></div>
+    <div id="chart-container"></div>
 
     <div id="chart-options">
       <h3>Chart Options</h3>
@@ -37,47 +37,16 @@
       <p>Use the checkboxes below to select one or more schools to display in the chart.</p>
       <div id="school-checkbox-container"></div>
 
-      <h4>Employment Outcome Groups</h4>
+      <h4>Employment Outcome Display Groups</h4>
       <p>Use the drag-and-drop interface below to specify which employment outcomes should be combined together into a single group. Also specify a label and color for each group.</p>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
       <div id="outcome-groups-container">
-        <ul id="ungrouped-outcomes">
-        </ul>
 
         <div id="outcome-groups">
           <div class="outcome-grouping">
             <label for="group-name">Name: <input type="text" name="group-name"></label>
             <label for="group-color">Color: <input type="text" name="group-color"></label>
             <label for="group-types">Employment Outcomes:</label>
-            <ul class="grouped-outcomes" name="group-types" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <ul class="grouped-outcomes" name="group-types" ondrop="drop(event, this)" ondragover="allowDrop(event)">
               <li id="outcome-1" class="draggable-outcome" draggable="true" ondragstart="drag(event)">Outcome 1</li>
               <li id="outcome-2" class="draggable-outcome" draggable="true" ondragstart="drag(event)">Outcome 2</li>
               <li id="outcome-3" class="draggable-outcome" draggable="true" ondragstart="drag(event)">Outcome 3</li>
@@ -90,7 +59,7 @@
             <label for="group-name">Name: <input type="text" name="group-name"> </label>
             <label for="group-color">Color: <input type="text" name="group-color"> </label>
             <label for="group-types">Employment Outcomes:</label>
-            <ul class="grouped-outcomes" name="group-types" ondrop="drop(event)" ondragover="allowDrop(event)">
+            <ul class="grouped-outcomes" name="group-types" ondrop="drop(event, this)" ondragover="allowDrop(event)">
               <li id="outcome-6" class="draggable-outcome" draggable="true" ondragstart="drag(event)">Outcome 6</li>
               <li id="outcome-7" class="draggable-outcome" draggable="true" ondragstart="drag(event)">Outcome 7</li>
               <li id="outcome-8" class="draggable-outcome" draggable="true" ondragstart="drag(event)">Outcome 8</li>
@@ -136,24 +105,45 @@
     <script type="text/javascript" src="assets/js/employment_outcomes/stacked_100_pct_chart.js"></script>
     <script type="text/javascript">
 
-    function drag(e) {
-      console.log("DRAG EVENT:", e)
-      //debugger
-      e.dataTransfer.setData("text", e.target.id) // specifies the data to be dragged
-    } // ADAPTED FROM https://www.w3schools.com/html/html5_draganddrop.asp
+    //
+    // ALLOW FOR DRAGGING AND DROPPING OF EMPLOYMENT OUTCOMES BETWEEN VARIOUS DISPLAY GROUPS
+    //
 
-    function allowDrop(e) {
-      e.preventDefault() // enables the element to receive a drop
-    } // ADAPTED FROM https://www.w3schools.com/html/html5_draganddrop.asp
+    function drag(ev) {
+      ev.dataTransfer.setData("id", ev.target.id) // store draggable element identifier as key/value pair
+    }
 
-    function drop(e) {
-      console.log("DROP EVENT:", e)
-      //debugger
-      e.preventDefault() // disable default drop behavior, which is to open as a new link
-      var data = e.dataTransfer.getData("text") // specifies the data to be dropped
-      console.log("DATA TO DROP:", data)
-      e.target.appendChild(document.getElementById(data))
-    } // ADAPTED FROM https://www.w3schools.com/html/html5_draganddrop.asp
+    function allowDrop(ev) {
+      ev.preventDefault()
+    }
+
+    function drop(ev, el) {
+      ev.preventDefault()
+      var id = ev.dataTransfer.getData("id") // fetch draggable element identifier from key/value pair
+      el.appendChild(document.getElementById(id))
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -196,6 +186,19 @@
       function getGroups() {
         return defaultDisplayGroups
       }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -318,7 +321,7 @@
 
         var chart = new Stacked100PctChart(year, sortedSelectedReports, groupings)
 
-        chart.updateOnto('my-container')
+        chart.updateOnto('chart-container')
       }
 
       fetchReports()
