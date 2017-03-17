@@ -63,6 +63,11 @@
   + [Label "for" attribute](https://www.w3schools.com/tags/att_label_for.asp)
   + [To wrap or not to wrap checkboxes in labels](http://stackoverflow.com/questions/11992026/is-it-better-to-wrap-the-label-tag-around-a-form-item-or-use-the-for-attribute)
 
-###
+### DOM Manipulation
 
   + [Faster and more reliable way to remove all child elements](http://stackoverflow.com/a/3955238/670433)
+
+### Drag-and-drop Interface
+
+  + https://www.w3schools.com/html/html5_draganddrop.asp
+  + https://www.w3schools.com/html/tryit.asp?filename=tryhtml5_draganddrop
