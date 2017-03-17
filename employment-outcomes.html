@@ -11,12 +11,19 @@
     <h1><a href="index.html">Law School Outcomes</a></h1>
     <h2>Employment Outcomes for Recent Graduates</h2>
 
-    <select id="year-selector">
-      <option value="2015" selected>2015</option>
-      <!--option value="2014">2014</option-->
-    </select>
+    <div id="my-container"></div>
 
-    <div id="my-container">
+    <div id="chart-options">
+      <h3>Chart Options</h3>
+
+      <h4>Year</h4>
+      <select id="year-selector">
+        <option value="2015" selected>2015</option>
+        <!--option value="2014">2014</option-->
+      </select>
+
+      <h4>Schools</h4>
+      <div id="school-checkbox-container"></div>
     </div>
 
     <footer>
@@ -34,45 +41,127 @@
     <script type="text/javascript" src="assets/js/employment_outcomes/stacked_100_pct_chart.js"></script>
     <script type="text/javascript">
 
+      //
+      // GIVEN YEAR, GET REPORTS
+      //
+
       var yearSelector = document.getElementById("year-selector")
-      function selectYear() {
-        var selectedYear = yearSelector.value
-        console.log("SELECTED YEAR:", selectedYear)
-        updateChart(selectedYear)
+
+      function getYear() {
+        const year = yearSelector.value
+        console.log("SELECTED YEAR:", year)
+        return year
       }
-      yearSelector.addEventListener("change", selectYear, false)
 
-
-
-
-      function updateChart(year) {
-        var url = `data/${year}/employment_summary_reports.json`
+      function fetchReports() {
+        const year = getYear()
+        const url = `data/${year}/employment_summary_reports.json`
 
         d3.json(url, function(json){
-
           var reports = json.map(function(rpt){ return new Report(rpt) })
-
           var sortedReports = reports.sort(function(a, b){ return d3.ascending(a.schoolShortName, b.schoolShortName ) })
+          console.log("FETCHED REPORTS:", sortedReports.length)
 
-          var groupings = [
-            {group: 'Employed (Other)', color: colorbrewer.Greys[9][6], types: ["Education", "Employer Type Unknown"] },
-            {group: 'Public Interest', color: colorbrewer.Oranges[9][4], types: ["Pub. Int."] },
-            {group: 'Government', color: colorbrewer.Oranges[9][6], types: ["Government"] },
-            {group: 'Clerkship', color: colorbrewer.Purples[9][6], types: ["Clerkships - Federal", "Clerkships - State & Local", "Clerkships - Other"] },
-            {group: 'Business & Industry', color: colorbrewer.Blues[9][6], types: ["Business & Industry"] },
-            {group: 'Law Firm (Other)', color: colorbrewer.Greens[9][4], types: ["Law Firms (Unknown Size)", "Law Firms (Solo)", "Law Firms (2 - 10)", "Law Firms (11 - 25)", "Law Firms (26 - 50)", "Law Firms (51 - 100)"] },
-            {group: 'Law Firm (Big)', color: colorbrewer.Greens[9][6], types: ["Law Firms (101 - 250)", "Law Firms (251 - 500)", "Law Firms (501 +)"] }
-          ]
+          updateCheckboxes(sortedReports)
+        })
+      }
 
-          var chart = new Stacked100PctChart(year, sortedReports, groupings)
+      yearSelector.addEventListener("change", fetchReports, false)
 
-          chart.updateOnto('my-container')
+      //
+      // GIVEN REPORTS, UPDATE CHECKBOXES
+      //
 
-        }) // d3.json()
+      var schoolCheckboxContainer = document.getElementById("school-checkbox-container")
 
-      } // updateChart()
+      function removeAllChildren(parentNode) {
+        while (parentNode.firstChild) {
+          parentNode.removeChild(parentNode.firstChild);
+        }
+      }
 
-      selectYear()
+      function updateCheckboxes(reports) {
+
+        removeAllChildren(schoolCheckboxContainer)
+
+        schoolCheckboxContainer.reports = reports // store this here for later use!
+
+        reports.map(function(report){
+          report.selected = (Math.random() > 0.5) // select schools at random :-)
+        })
+
+        reports.forEach(function(report){
+          const checkboxId = `${report.schoolShortName.toLowerCase()}-school-selector`
+          var checkbox = document.createElement("input")
+          checkbox.type = "checkbox"
+          checkbox.name = "school[]"
+          checkbox.id = checkboxId
+          checkbox.className = "school-selector"
+          checkbox.value = report.schoolShortName
+          checkbox.checked = report.selected
+
+          var label = document.createElement("label")
+          label.setAttribute("for", checkboxId)
+          label.appendChild(checkbox)
+          label.append(report.schoolShortName)
+
+          schoolCheckboxContainer.appendChild(label)
+          schoolCheckboxContainer.appendChild(document.createElement("br"))
+        })
+
+        selectReports()
+      }
+
+      //
+      // GIVEN CHECKBOX SELECTIONS, SELECT REPORTS
+      //
+
+      function getSchoolNames() {
+        var checkedBoxes = document.querySelectorAll('input[name="school[]"]:checked')
+        var selectedSchoolNames = Array.prototype.map.call(checkedBoxes, function(checkbox){
+          return checkbox.value
+        })
+        console.log("SELECTED SCHOOLS:", selectedSchoolNames)
+        return selectedSchoolNames
+      }
+
+      function selectReports(){
+        const reports = schoolCheckboxContainer.reports // get this from the element because not always able to pass it from updateCheckboxes()
+
+        const selectedSchoolNames = getSchoolNames()
+
+        const selectedReports = reports.filter(function(report){
+          return selectedSchoolNames.includes(report.schoolShortName)
+        })
+
+        updateChart(selectedReports)
+      }
+
+      schoolCheckboxContainer.addEventListener("change", selectReports, false)
+
+      //
+      // GIVEN REPORT SELECTIONS, UPDATE CHART
+      //
+
+      function updateChart(sortedSelectedReports) {
+        const year = getYear()
+
+        const groupings = [
+          {group: 'Employed (Other)', color: colorbrewer.Greys[9][6], types: ["Education", "Employer Type Unknown"] },
+          {group: 'Public Interest', color: colorbrewer.Oranges[9][4], types: ["Pub. Int."] },
+          {group: 'Government', color: colorbrewer.Oranges[9][6], types: ["Government"] },
+          {group: 'Clerkship', color: colorbrewer.Purples[9][6], types: ["Clerkships - Federal", "Clerkships - State & Local", "Clerkships - Other"] },
+          {group: 'Business & Industry', color: colorbrewer.Blues[9][6], types: ["Business & Industry"] },
+          {group: 'Law Firm (Other)', color: colorbrewer.Greens[9][4], types: ["Law Firms (Unknown Size)", "Law Firms (Solo)", "Law Firms (2 - 10)", "Law Firms (11 - 25)", "Law Firms (26 - 50)", "Law Firms (51 - 100)"] },
+          {group: 'Law Firm (Big)', color: colorbrewer.Greens[9][6], types: ["Law Firms (101 - 250)", "Law Firms (251 - 500)", "Law Firms (501 +)"] }
+        ]
+
+        var chart = new Stacked100PctChart(year, sortedSelectedReports, groupings)
+
+        chart.updateOnto('my-container')
+      }
+
+      fetchReports()
 
     </script>
   </body>
