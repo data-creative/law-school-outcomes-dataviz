@@ -6,6 +6,15 @@
 
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
+
+    <style media="screen">
+      #outcome-groups-container {height:"700px"; border: "2px solid #000";}
+
+      #ungrouped-outcomes, .grouped-outcomes {list-style:"none";}
+
+      .draggable-outcome {width: "250px"; margin-top:"5px"; margin-bottom:"5px"; border: "1px solid #000";}
+
+    </style>
   </head>
   <body>
     <h1><a href="index.html">Law School Outcomes</a></h1>
@@ -29,31 +38,69 @@
       <div id="school-checkbox-container"></div>
 
       <h4>Employment Outcome Groups</h4>
-      <p>Use the drag-and-drop interface below to specify which employment outcomes should be combined together into a single group.</p>
+      <p>Use the drag-and-drop interface below to specify which employment outcomes should be combined together into a single group. Also specify a label and color for each group.</p>
 
 
 
 
-      <div id="employment-outcomes-container" style="height:700px; border: 2px solid #ccc;">
 
-        <ul id="employment-outcomes" style="list-style:none;">
-          <li id="employment-outcome-1" class="draggable-employment-outcome" style="width: 250px; margin-top:5px; margin-bottom:5px; border: 1px solid #000;" draggable="true" ondragstart="drag(event)">Outcome 1</li>
-          <li id="employment-outcome-2" class="draggable-employment-outcome" style="width: 250px; margin-top:5px; margin-bottom:5px; border: 1px solid #000;" draggable="true" ondragstart="drag(event)">Outcome 2</li>
-          <li id="employment-outcome-3" class="draggable-employment-outcome" style="width: 250px; margin-top:5px; margin-bottom:5px; border: 1px solid #000;" draggable="true" ondragstart="drag(event)">Outcome 3</li>
-          <li id="employment-outcome-4" class="draggable-employment-outcome" style="width: 250px; margin-top:5px; margin-bottom:5px; border: 1px solid #000;" draggable="true" ondragstart="drag(event)">Outcome 4</li>
-          <li id="employment-outcome-5" class="draggable-employment-outcome" style="width: 250px; margin-top:5px; margin-bottom:5px; border: 1px solid #000;" draggable="true" ondragstart="drag(event)">Outcome 5</li>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div id="outcome-groups-container">
+        <ul id="ungrouped-outcomes">
         </ul>
 
-        <div class="employment-outcome-display-group" style="padding:25px; border: 2px solid #ccc;">
-          <label for="group-name">Name: <input type="text" name="group-name"> </label>
-          <label for="group-color">Color: <input type="text" name="group-color"> </label>
-          <label for="group-types">Employment Outcomes:</label>
-          <div class="employment-outcome-dragndrop-container" style="padding:25px; border: 2px solid #ccc;" ondrop="drop(event)" ondragover="allowDrop(event)">
-
+        <div id="outcome-groups">
+          <div class="outcome-grouping">
+            <label for="group-name">Name: <input type="text" name="group-name"></label>
+            <label for="group-color">Color: <input type="text" name="group-color"></label>
+            <label for="group-types">Employment Outcomes:</label>
+            <ul class="grouped-outcomes" name="group-types" ondrop="drop(event)" ondragover="allowDrop(event)">
+              <li id="outcome-1" class="draggable-outcome" draggable="true" ondragstart="drag(event)">Outcome 1</li>
+              <li id="outcome-2" class="draggable-outcome" draggable="true" ondragstart="drag(event)">Outcome 2</li>
+              <li id="outcome-3" class="draggable-outcome" draggable="true" ondragstart="drag(event)">Outcome 3</li>
+              <li id="outcome-4" class="draggable-outcome" draggable="true" ondragstart="drag(event)">Outcome 4</li>
+              <li id="outcome-5" class="draggable-outcome" draggable="true" ondragstart="drag(event)">Outcome 5</li>
+            </ul>
           </div>
+
+          <div class="outcome-grouping">
+            <label for="group-name">Name: <input type="text" name="group-name"> </label>
+            <label for="group-color">Color: <input type="text" name="group-color"> </label>
+            <label for="group-types">Employment Outcomes:</label>
+            <ul class="grouped-outcomes" name="group-types" ondrop="drop(event)" ondragover="allowDrop(event)">
+              <li id="outcome-6" class="draggable-outcome" draggable="true" ondragstart="drag(event)">Outcome 6</li>
+              <li id="outcome-7" class="draggable-outcome" draggable="true" ondragstart="drag(event)">Outcome 7</li>
+              <li id="outcome-8" class="draggable-outcome" draggable="true" ondragstart="drag(event)">Outcome 8</li>
+              <li id="outcome-9" class="draggable-outcome" draggable="true" ondragstart="drag(event)">Outcome 9</li>
+              <li id="outcome-10" class="draggable-outcome" draggable="true" ondragstart="drag(event)">Outcome 10</li>
+            </ul>
+          </div>
+
         </div>
       </div>
-
 
 
 
@@ -88,9 +135,6 @@
     <script type="text/javascript" src="assets/js/employment_outcomes/report.js"></script>
     <script type="text/javascript" src="assets/js/employment_outcomes/stacked_100_pct_chart.js"></script>
     <script type="text/javascript">
-
-
-
 
     function drag(e) {
       console.log("DRAG EVENT:", e)
