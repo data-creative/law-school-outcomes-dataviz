@@ -74,15 +74,15 @@
 
       var schoolCheckboxContainer = document.getElementById("school-checkbox-container")
 
-      function removeAllCheckboxes() {
-        Array.prototype.forEach.call(schoolCheckboxContainer.children, function(child){
-          schoolCheckboxContainer.removeChild(child)
-        })
-      } // this only removes some of the children... TODO: fix.
+      function removeAllChildren(parentNode) {
+        while (parentNode.firstChild) {
+          parentNode.removeChild(parentNode.firstChild);
+        }
+      }
 
       function updateCheckboxes(reports) {
 
-        removeAllCheckboxes()
+        removeAllChildren(schoolCheckboxContainer)
 
         schoolCheckboxContainer.reports = reports // store this here for later use!
 

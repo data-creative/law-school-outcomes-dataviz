@@ -60,3 +60,7 @@
   + [Calling map and passing-in a NodeList](https://tiffanybbrown.com/2012/10/16/iterating-and-applying-functions-to-nodelists-with-map-and-foreach/)
   + [Single listener for events on all child elements](https://www.kirupa.com/html5/handling_events_for_many_elements.htm)
   + [On stopping event propagation](https://css-tricks.com/dangers-stopping-event-propagation/)
+
+###
+
+  + [Faster and more reliable way to remove all child elements](http://stackoverflow.com/a/3955238/670433)
