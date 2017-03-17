@@ -71,3 +71,8 @@
 
   + https://www.w3schools.com/html/html5_draganddrop.asp
   + https://www.w3schools.com/html/tryit.asp?filename=tryhtml5_draganddrop
+  + https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API
+  + https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/Recommended_drag_types:
+    + "It is recommended that you always add data of the text/plain type as a fallback for applications or drop targets that do not support other types, unless there is no logical text alternative. Always add the plain text type last as it is the least specific."
+  + https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer
+  + https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/setData

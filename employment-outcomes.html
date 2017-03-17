@@ -173,7 +173,7 @@
 
       function getYear() {
         const year = yearSelector.value
-        console.log("SELECTED YEAR:", year)
+        //console.log("SELECTED YEAR:", year)
         return year
       }
 
@@ -184,7 +184,7 @@
         d3.json(url, function(json){
           var reports = json.map(function(rpt){ return new Report(rpt) })
           var sortedReports = reports.sort(function(a, b){ return d3.ascending(a.schoolShortName, b.schoolShortName ) })
-          console.log("FETCHED REPORTS:", sortedReports.length)
+          //console.log("FETCHED REPORTS:", sortedReports.length)
 
           updateCheckboxes(sortedReports)
         })
@@ -245,7 +245,7 @@
         var selectedSchoolNames = Array.prototype.map.call(checkedBoxes, function(checkbox){
           return checkbox.value
         })
-        console.log("SELECTED SCHOOLS:", selectedSchoolNames)
+        //console.log("SELECTED SCHOOLS:", selectedSchoolNames)
         return selectedSchoolNames
       }
 
