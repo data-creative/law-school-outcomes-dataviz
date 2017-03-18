@@ -78,3 +78,4 @@
   + https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer
   + https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/setData
   + [Prevent child elements from receiving drops](http://stackoverflow.com/a/28203782/670433)
+  + [CSS "Move" Cursor](https://www.w3schools.com/cssref/tryit.asp?filename=trycss_cursor)
