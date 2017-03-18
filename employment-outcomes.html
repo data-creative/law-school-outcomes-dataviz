@@ -2,54 +2,59 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Employment Outcomes for Recent Graduates | Law School Outcomes</title>
-
+    <title>Employment Outcomes by School | Law School Outcomes</title>
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
     <style media="screen">
 
-      #outcome-groups {height:"700px"; border: "2px solid #000";}
+      #outcome-groups-container {}
 
-      .grouped-outcomes {list-style:"none";}
+      .outcomes-list {
+        border: 1px solid #000;
+        list-style:none;
+        width: 450px;
+      }
 
-      .employment-outcome {width: "250px"; margin-top:"5px"; margin-bottom:"5px"; border: "1px solid #000";}
+      .employment-outcome {
+          border: 1px solid #000;
+          width: 235px;
+          margin-top:5px;
+          margin-bottom:5px;
+          padding:5px;
+      }
 
     </style>
   </head>
   <body>
     <h1><a href="index.html">Law School Outcomes</a></h1>
-    <h2>Employment Outcomes for Recent Graduates</h2>
+    <h2>Employment Outcomes by School</h2>
 
     <div id="chart-container"></div>
 
-    <div id="chart-options">
-      <h3>Chart Options</h3>
+    <div id="chart-control-panel">
+      <h3>Chart Control Panel</h3>
 
       <h4>Year</h4>
-      <p>Use the dropdown below to select a reporting year. Right now the scope of this dashboard is restricted to 2015.</p>
-      <select id="year-selector">
-        <!--option value="2016">2016</option-->
-        <option value="2015" selected>2015</option>
-        <!--option value="2014">2014</option-->
-      </select>
+      <select id="year-selector"><option value="2015" selected>2015</option></select>
 
       <h4>Schools</h4>
-      <p>Use the checkboxes below to select one or more schools to display in the chart.</p>
       <div id="school-checkbox-container"></div>
 
-      <h4>Employment Outcome Display Groups</h4>
-      <p>Use the drag-and-drop interface below to specify which employment outcomes should be combined together into a single group. Also specify a label and color for each group. Then click "Submit groupings"</p>
-      <button type="button" id="submit-groupings" name="submit-groupings">Submit groupings</button>
-      <div id="outcome-groups">
+      <h4>Employment Outcome Groups</h4>
+      <div id="outcome-groups-container">
         <div id="outcome-group-a" class="outcome-group">
-          <label for="group-name">Name:
-            <input type="text" class="input-group-name" name="group-name" value="Group A (Biz)">
+          <label for="outcome-group-a-name">Group Name:
+            <input type="text" id="outcome-group-a-name" name="group-name" value="Group A (Biz)">
           </label>
-          <label for="group-color">Color:
-            <input type="text" name="group-color" value="blue">
+          <br>
+
+          <label for="outcome-group-a-color">Group Color:
+            <input type="text" id="outcome-group-a-color" name="group-color" value="blue">
           </label>
-          <label for="group-types">Employment Outcomes:</label>
-          <ul class="grouped-outcomes" name="group-types" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+          <br>
+
+          <label for="outcomes-list-a">Employment Outcomes:</label>
+          <ul id="outcomes-list-a" class="outcomes-list" ondrop="drop(event, this)" ondragover="allowDrop(event)">
             <li id="outcome-1" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (Solo)">Law Firms (Solo)</li>
             <li id="outcome-2" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (2 - 10)">Law Firms (2 - 10)</li>
             <li id="outcome-3" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (11 - 25)">Law Firms (11 - 25)</li>
@@ -66,14 +71,18 @@
         </div>
 
         <div id="outcome-group-b" class="outcome-group">
-          <label for="group-name">Name:
-            <input type="text" class="input-group-name" name="group-name" value="Group B (Pub/Gov)">
+          <label for="outcome-group-b-name">Group Name:
+            <input type="text" id="outcome-group-b-name" name="group-name" value="Group B (Pub/Gov)">
           </label>
-          <label for="group-color">Color:
-            <input type="text" name="group-color" value="orange">
+          <br>
+
+          <label for="outcome-group-b-color">Group Color:
+            <input type="text" id="outcome-group-b-color" name="group-color" value="orange">
           </label>
-          <label for="group-types">Employment Outcomes:</label>
-          <ul class="grouped-outcomes" name="group-types" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+          <br>
+
+          <label for="outcomes-list-b">Employment Outcomes:</label>
+          <ul id="outcomes-list-b" class="outcomes-list" ondrop="drop(event, this)" ondragover="allowDrop(event)">
             <li id="outcome-13" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Government">Government</li>
             <li id="outcome-14" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Pub. Int.">Pub. Int.</li>
             <li id="outcome-15" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Clerkships - Federal">Clerkships - Federal</li>
@@ -81,6 +90,8 @@
             <li id="outcome-17" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Clerkships - Other">Clerkships - Other</li>
           </ul>
         </div>
+
+        <button type="button" id="submit-groupings" name="submit-groupings">Submit groupings</button>
       </div>
     </div>
 
@@ -296,7 +307,7 @@
       //
 
       function getGroups() {
-        const groupDivs = document.getElementById("outcome-groups").children
+        const groupDivs = document.getElementsByClassName("outcome-group")
 
         return Array.prototype.map.call(groupDivs, function(groupDiv){
           const groupName = groupDiv.querySelector('input[name="group-name"]').value
