@@ -8,7 +8,7 @@
     <script src="http://code.highcharts.com/modules/exporting.js"></script>
     <style media="screen">
 
-      #outcome-groups-container {height:"700px"; border: "2px solid #000";}
+      #outcome-groups {height:"700px"; border: "2px solid #000";}
 
       .grouped-outcomes {list-style:"none";}
 
@@ -38,44 +38,48 @@
       <div id="school-checkbox-container"></div>
 
       <h4>Employment Outcome Display Groups</h4>
-      <p>Use the drag-and-drop interface below to specify which employment outcomes should be combined together into a single group. Also specify a label and color for each group.</p>
-      <div id="outcome-groups-container">
+      <p>Use the drag-and-drop interface below to specify which employment outcomes should be combined together into a single group. Also specify a label and color for each group. Then click "Submit groupings"</p>
+      <button type="button" id="submit-groupings" name="submit-groupings">Submit groupings</button>
+      <div id="outcome-groups">
+        <div id="outcome-group-a" class="outcome-group">
+          <label for="group-name">Name:
+            <input type="text" class="input-group-name" name="group-name" value="Group A (Biz)">
+          </label>
+          <label for="group-color">Color:
+            <input type="text" name="group-color" value="blue">
+          </label>
+          <label for="group-types">Employment Outcomes:</label>
+          <ul class="grouped-outcomes" name="group-types" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+            <li id="outcome-1" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (Solo)">Law Firms (Solo)</li>
+            <li id="outcome-2" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (2 - 10)">Law Firms (2 - 10)</li>
+            <li id="outcome-3" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (11 - 25)">Law Firms (11 - 25)</li>
+            <li id="outcome-4" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (26 - 50)">Law Firms (26 - 50)</li>
+            <li id="outcome-5" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (51 - 100)">Law Firms (51 - 100)</li>
+            <li id="outcome-6" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (101 - 250)">Law Firms (101 - 250)</li>
+            <li id="outcome-7" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="LLaw Firms (251 - 500)">Law Firms (251 - 500)</li>
+            <li id="outcome-8" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (501 +)">Law Firms (501 +)</li>
+            <li id="outcome-9" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (Unknown Size)">Law Firms (Unknown Size)</li>
+            <li id="outcome-10" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Business & Industry">Business &amp; Industry</li>
+            <li id="outcome-11" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Employer Type Unknown">Employer Type Unknown</li>
+            <li id="outcome-12" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Education">Education</li>
+          </ul>
+        </div>
 
-        <div id="outcome-groups">
-          <div id="outcome-group-a" class="outcome-group">
-            <label for="group-name">Name:
-              <input type="text" class="input-group-name" name="group-name" value="Group A">
-            </label>
-            <label for="group-color">Color:
-              <input type="text" name="group-color" value="light-green">
-            </label>
-            <label for="group-types">Employment Outcomes:</label>
-            <ul class="grouped-outcomes" name="group-types" ondrop="drop(event, this)" ondragover="allowDrop(event)">
-              <li id="outcome-1" class="employment-outcome" draggable="true" ondragstart="drag(event)">Outcome 1</li>
-              <li id="outcome-2" class="employment-outcome" draggable="true" ondragstart="drag(event)">Outcome 2</li>
-              <li id="outcome-3" class="employment-outcome" draggable="true" ondragstart="drag(event)">Outcome 3</li>
-              <li id="outcome-4" class="employment-outcome" draggable="true" ondragstart="drag(event)">Outcome 4</li>
-              <li id="outcome-5" class="employment-outcome" draggable="true" ondragstart="drag(event)">Outcome 5</li>
-            </ul>
-          </div>
-
-          <div id="outcome-group-b" class="outcome-group">
-            <label for="group-name">Name:
-              <input type="text" class="input-group-name" name="group-name" value="Group B">
-            </label>
-            <label for="group-color">Color:
-              <input type="text" name="group-color" value="dark-green">
-            </label>
-            <label for="group-types">Employment Outcomes:</label>
-            <ul class="grouped-outcomes" name="group-types" ondrop="drop(event, this)" ondragover="allowDrop(event)">
-              <li id="outcome-6" class="employment-outcome" draggable="true" ondragstart="drag(event)">Outcome 6</li>
-              <li id="outcome-7" class="employment-outcome" draggable="true" ondragstart="drag(event)">Outcome 7</li>
-              <li id="outcome-8" class="employment-outcome" draggable="true" ondragstart="drag(event)">Outcome 8</li>
-              <li id="outcome-9" class="employment-outcome" draggable="true" ondragstart="drag(event)">Outcome 9</li>
-              <li id="outcome-10" class="employment-outcome" draggable="true" ondragstart="drag(event)">Outcome 10</li>
-            </ul>
-          </div>
-
+        <div id="outcome-group-b" class="outcome-group">
+          <label for="group-name">Name:
+            <input type="text" class="input-group-name" name="group-name" value="Group B (Pub/Gov)">
+          </label>
+          <label for="group-color">Color:
+            <input type="text" name="group-color" value="orange">
+          </label>
+          <label for="group-types">Employment Outcomes:</label>
+          <ul class="grouped-outcomes" name="group-types" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+            <li id="outcome-13" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Government">Government</li>
+            <li id="outcome-14" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Pub. Int.">Pub. Int.</li>
+            <li id="outcome-15" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Clerkships - Federal">Clerkships - Federal</li>
+            <li id="outcome-16" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Clerkships - State & Local">Clerkships - State &amp; Local</li>
+            <li id="outcome-17" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Clerkships - Other">Clerkships - Other</li>
+          </ul>
         </div>
       </div>
     </div>
@@ -131,26 +135,25 @@
       //
       // POPULATE DEFAULT DISPLAY GROUPS
       //
-
-      const employmentTypes = [
-        "Law Firms (Solo)",
-        "Law Firms (2 - 10)",
-        "Law Firms (11 - 25)",
-        "Law Firms (26 - 50)",
-        "Law Firms (51 - 100)",
-        "Law Firms (101 - 250)",
-        "Law Firms (251 - 500)",
-        "Law Firms (501 +)",
-        "Law Firms (Unknown Size)",
-        "Business & Industry",
-        "Government",
-        "Pub. Int.",
-        "Clerkships - Federal",
-        "Clerkships - State & Local",
-        "Clerkships - Other",
-        "Education",
-        "Employer Type Unknown"
-      ]
+      // const employmentTypes = [
+      //   "Law Firms (Solo)",
+      //   "Law Firms (2 - 10)",
+      //   "Law Firms (11 - 25)",
+      //   "Law Firms (26 - 50)",
+      //   "Law Firms (51 - 100)",
+      //   "Law Firms (101 - 250)",
+      //   "Law Firms (251 - 500)",
+      //   "Law Firms (501 +)",
+      //   "Law Firms (Unknown Size)",
+      //   "Business & Industry",
+      //   "Government",
+      //   "Pub. Int.",
+      //   "Clerkships - Federal",
+      //   "Clerkships - State & Local",
+      //   "Clerkships - Other",
+      //   "Education",
+      //   "Employer Type Unknown"
+      // ]
 
       const defaultDisplayGroups = [
         {group: 'Employed (Other)', color: colorbrewer.Greys[9][6], types: ["Education", "Employer Type Unknown"] },
@@ -161,29 +164,7 @@
         {group: 'Law Firm (Other)', color: colorbrewer.Greens[9][4], types: ["Law Firms (Unknown Size)", "Law Firms (Solo)", "Law Firms (2 - 10)", "Law Firms (11 - 25)", "Law Firms (26 - 50)", "Law Firms (51 - 100)"] },
         {group: 'Law Firm (Big)', color: colorbrewer.Greens[9][6], types: ["Law Firms (101 - 250)", "Law Firms (251 - 500)", "Law Firms (501 +)"] }
       ]
-
-      // GET USER-DEFINED DISPLAY GROUPS
-
-      function getGroups() {
-        const groupDivs = document.getElementById("outcome-groups").children
-
-        return Array.prototype.map.call(groupDivs, function(groupDiv){
-          const groupName = groupDiv.querySelector('input[name="group-name"]').value
-          const groupColor = groupDiv.querySelector('input[name="group-color"]').value
-          const listItems = groupDiv.querySelectorAll('li.employment-outcome')
-          const groupOutcomes = Array.prototype.map.call(listItems, function(li){ return li.innerHTML })
-          //console.log(groupName, groupColor, groupOutcomes)
-
-          return {
-            group: groupName,
-            color: groupColor, //colorbrewer.Greys[9][6], // groupColor
-            types: groupOutcomes // ["Education", "Employer Type Unknown"]
-          }
-        })
-
-      }
-
-
+      // todo: populate divs based on these defaults
 
 
 
@@ -210,7 +191,7 @@
 
 
       //
-      // GIVEN YEAR, GET REPORTS
+      // GIVEN REPORTING YEAR, GET REPORTS
       //
 
       var yearSelector = document.getElementById("year-selector")
@@ -307,9 +288,30 @@
 
       schoolCheckboxContainer.addEventListener("change", selectReports, false)
 
+      const groupingSubmissionBtn = document.getElementById("submit-groupings")
+      groupingSubmissionBtn.addEventListener("click", selectReports, false)
+
       //
-      // GIVEN REPORT SELECTIONS, UPDATE CHART
+      // GIVEN REPORT SELECTIONS AND OUTCOME GROUPINGS, UPDATE CHART
       //
+
+      function getGroups() {
+        const groupDivs = document.getElementById("outcome-groups").children
+
+        return Array.prototype.map.call(groupDivs, function(groupDiv){
+          const groupName = groupDiv.querySelector('input[name="group-name"]').value
+          const groupColor = groupDiv.querySelector('input[name="group-color"]').value
+          const listItems = groupDiv.querySelectorAll('li.employment-outcome')
+          const groupOutcomes = Array.prototype.map.call(listItems, function(li){ return li.dataset.employmentOutcome })
+          //console.log(groupName, groupColor, groupOutcomes)
+
+          return {
+            group: groupName,
+            color: groupColor, //colorbrewer.Greys[9][6], // groupColor
+            types: groupOutcomes // ["Education", "Employer Type Unknown"]
+          }
+        })
+      }
 
       function updateChart(sortedSelectedReports) {
         const year = getYear()
