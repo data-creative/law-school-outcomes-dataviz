@@ -28,93 +28,106 @@
 
       <div id="chart-container"></div>
 
-      <div id="chart-controller">
+      <div id="chart-control-panels">
         <h3>Chart Options</h3>
 
         <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">Reporting Year</h4>
+          <div class="panel-heading" data-toggle="collapse" data-target="#collapse-year" aria-expanded="true" aria-controls="collapse-year" style="cursor:pointer;">
+            <h4 class="panel-title">
+              Reporting Year
+              <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+            </h4>
           </div>
-          <div class="panel-body">
-            <p>Please select a reporting year:</p>
-            <select id="year-selector"><option value="2015" selected>2015</option></select>
-          </div>
-        </div>
-
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">Law Schools</h4>
-          </div>
-          <div class="panel-body">
-            <p>Please select one or more schools to compare:</p>
-            <div id="school-checkbox-container"></div>
+          <div id="collapse-year" class="collapse in">
+            <div class="panel-body">
+              <p>Please select a reporting year:</p>
+              <select id="year-selector"><option value="2015" selected>2015</option></select>
+            </div>
           </div>
         </div>
 
         <div class="panel panel-default">
-          <div class="panel-heading"><h4 class="panel-title">Employment Outcome Display Groups</h4></div>
-          <div class="panel-body">
-            <p>For each group: specify a title, pick a color, then assign a list of outcomes by dragging and dropping them between groups.</p>
+          <div class="panel-heading" data-toggle="collapse" data-target="#collapse-schools" aria-expanded="true" aria-controls="collapse-schools" style="cursor:pointer;">
+            <h4 class="panel-title" style="display:inline-block;">Law Schools</h4>
+            <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+          </div>
+          <div id="collapse-schools" class="collapse in">
+            <div class="panel-body">
+              <p>Please select one or more schools to compare:</p>
+              <div id="school-checkbox-container"></div>
+            </div>
+          </div>
+        </div>
 
-            <ul class="list-group" id="outcome-groups-list">
-              <li class="list-group-item">
-                <div class="media outcome-group">
-                  <div class="media-left">
-                    <div class="media-object group-color" style="height:64px; width:64px; background-color:blue;"></div>
+        <div class="panel panel-default">
+          <div class="panel-heading" data-toggle="collapse" data-target="#collapse-outcome-groups" aria-expanded="true" aria-controls="collapse-outcome-groups" style="cursor:pointer;">
+            <h4 class="panel-title" style="display:inline-block;">Employment Outcomes</h4>
+            <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+          </div>
+          <div id="collapse-outcome-groups" class="collapse in">
+            <div class="panel-body">
+              <p>For each group: specify a title, pick a color, then assign a list of outcomes by dragging and dropping them between groups.</p>
+
+              <ul class="list-group" id="outcome-groups-list">
+                <li class="list-group-item">
+                  <div class="media outcome-group">
+                    <div class="media-left">
+                      <div class="media-object group-color" style="height:64px; width:64px; background-color:blue;"></div>
+                    </div>
+                    <div class="media-body">
+                      <h4 class="media-heading">
+                        <input type="text" class="group-name" value="Group A (Biz)">
+                      </h4>
+
+                      <ul id="outcomes-list-a" class="outcomes-list" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+                        <li id="outcome-1" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (Solo)">Law Firms (Solo)</li>
+                        <li id="outcome-2" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (2 - 10)">Law Firms (2 - 10)</li>
+                        <li id="outcome-3" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (11 - 25)">Law Firms (11 - 25)</li>
+                        <li id="outcome-4" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (26 - 50)">Law Firms (26 - 50)</li>
+                        <li id="outcome-5" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (51 - 100)">Law Firms (51 - 100)</li>
+                        <li id="outcome-6" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (101 - 250)">Law Firms (101 - 250)</li>
+                        <li id="outcome-7" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="LLaw Firms (251 - 500)">Law Firms (251 - 500)</li>
+                        <li id="outcome-8" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (501 +)">Law Firms (501 +)</li>
+                        <li id="outcome-9" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (Unknown Size)">Law Firms (Unknown Size)</li>
+                        <li id="outcome-10" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Business & Industry">Business &amp; Industry</li>
+                        <li id="outcome-11" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Employer Type Unknown">Employer Type Unknown</li>
+                        <li id="outcome-12" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Education">Education</li>
+                      </ul>
+                    </div>
                   </div>
-                  <div class="media-body">
-                    <h4 class="media-heading">
-                      <input type="text" class="group-name" value="Group A (Biz)">
-                    </h4>
+                </li>
+                <li class="list-group-item">
+                  <div class="media outcome-group">
+                    <div class="media-left">
+                      <div class="media-object group-color" style="height:64px; width:64px; background-color:green;"></div>
+                    </div>
+                    <div class="media-body">
+                      <h4 class="media-heading">
+                        <input type="text" class="group-name" value="Group B (Gov)">
+                      </h4>
 
-                    <ul id="outcomes-list-a" class="outcomes-list" ondrop="drop(event, this)" ondragover="allowDrop(event)">
-                      <li id="outcome-1" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (Solo)">Law Firms (Solo)</li>
-                      <li id="outcome-2" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (2 - 10)">Law Firms (2 - 10)</li>
-                      <li id="outcome-3" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (11 - 25)">Law Firms (11 - 25)</li>
-                      <li id="outcome-4" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (26 - 50)">Law Firms (26 - 50)</li>
-                      <li id="outcome-5" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (51 - 100)">Law Firms (51 - 100)</li>
-                      <li id="outcome-6" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (101 - 250)">Law Firms (101 - 250)</li>
-                      <li id="outcome-7" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="LLaw Firms (251 - 500)">Law Firms (251 - 500)</li>
-                      <li id="outcome-8" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (501 +)">Law Firms (501 +)</li>
-                      <li id="outcome-9" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (Unknown Size)">Law Firms (Unknown Size)</li>
-                      <li id="outcome-10" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Business & Industry">Business &amp; Industry</li>
-                      <li id="outcome-11" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Employer Type Unknown">Employer Type Unknown</li>
-                      <li id="outcome-12" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Education">Education</li>
-                    </ul>
+                      <ul id="outcomes-list-b" class="outcomes-list" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+                        <li id="outcome-13" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Government">Government</li>
+                        <li id="outcome-14" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Pub. Int.">Pub. Int.</li>
+                        <li id="outcome-15" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Clerkships - Federal">Clerkships - Federal</li>
+                        <li id="outcome-16" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Clerkships - State & Local">Clerkships - State &amp; Local</li>
+                        <li id="outcome-17" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Clerkships - Other">Clerkships - Other</li>
+                      </ul>
+                    </div>
                   </div>
-                </div>
-              </li>
-              <li class="list-group-item">
-                <div class="media outcome-group">
-                  <div class="media-left">
-                    <div class="media-object group-color" style="height:64px; width:64px; background-color:green;"></div>
-                  </div>
-                  <div class="media-body">
-                    <h4 class="media-heading">
-                      <input type="text" class="group-name" value="Group B (Gov)">
-                    </h4>
-
-                    <ul id="outcomes-list-b" class="outcomes-list" ondrop="drop(event, this)" ondragover="allowDrop(event)">
-                      <li id="outcome-13" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Government">Government</li>
-                      <li id="outcome-14" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Pub. Int.">Pub. Int.</li>
-                      <li id="outcome-15" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Clerkships - Federal">Clerkships - Federal</li>
-                      <li id="outcome-16" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Clerkships - State & Local">Clerkships - State &amp; Local</li>
-                      <li id="outcome-17" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Clerkships - Other">Clerkships - Other</li>
-                    </ul>
-                  </div>
-                </div>
-              </li>
-              <li class="list-group-item">
-                <button type="button" class="btn btn-default" title="Add another display group">
-                  <span class="glyphicon glyphicon-plus" aria-hidden="true" style="padding-right:7px;"></span>Add another group
-                </button>
-              </li>
-            </ul>
+                </li>
+                <li class="list-group-item">
+                  <button type="button" class="btn btn-default" title="Add another display group">
+                    <span class="glyphicon glyphicon-plus" aria-hidden="true" style="padding-right:7px;"></span>Add another group
+                  </button>
+                </li>
+              </ul>
 
 
-            <button type="button" class="btn btn-default" id="submit-groupings">Update chart display groups</button>
-            <!--button type="button" id="restore-default-groupings">Restore default groupings</button-->
-          </div><!-- panel 3 body -->
+              <button type="button" class="btn btn-default" id="submit-groupings">Update chart display groups</button>
+              <!--button type="button" id="restore-default-groupings">Restore default groupings</button-->
+            </div><!-- panel 3 body -->
+          </div>
         </div><!-- Panel 3 -->
       </div>
 
@@ -127,7 +140,8 @@
       </footer>
     </div>
 
-    <!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="http://d3js.org/colorbrewer.v1.min.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <!-- PLEASE DON'T MESS WITH THE ORDER OF SCRIPTS BELOW THIS LINE -->
@@ -292,6 +306,7 @@
           checkbox.className = "school-selector"
           checkbox.value = report.schoolShortName
           checkbox.checked = report.selectedByDefault
+          checkbox.style = "margin-left:15px; margin-right:5px;"
 
           var label = document.createElement("label")
           label.setAttribute("for", checkboxId)
