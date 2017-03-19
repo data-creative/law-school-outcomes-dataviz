@@ -191,8 +191,9 @@
           mediaLeft.className = "media-left"
 
           var mediaObject = document.createElement("div")
-          mediaObject.className = "media-object group-color"
-          mediaObject.style = `height:32px; width:32px; background-color:${displayGroup.color};`
+          mediaObject.className = "media-object group-color img-rounded"
+          mediaObject.style = `height:32px; width:32px; background-color:${displayGroup.color}; cursor:pointer;`
+          mediaObject.title = "Select a color for this group."
 
           var mediaBody = document.createElement("div")
           mediaBody.className = "media-body"
@@ -204,6 +205,14 @@
           nameInput.type = "text"
           nameInput.className = "group-name"
           nameInput.value = displayGroup.name
+
+          var removeButton = document.createElement("button")
+          removeButton.type = "button"
+          removeButton.title = "Remove this display group"
+          removeButton.className = "btn btn-default pull-right"
+          var trashIcon = document.createElement("span")
+          trashIcon.className = "glyphicon glyphicon-trash"
+          removeButton.appendChild(trashIcon)
 
           var outcomesList = document.createElement("ul")
           outcomesList.id = `outcomes-list-${i}`
@@ -222,11 +231,14 @@
           })
 
           mediaLeft.appendChild(mediaObject)
-          mediaDiv.appendChild(mediaLeft)
 
           mediaHeading.appendChild(nameInput)
+          mediaHeading.appendChild(removeButton)
+
           mediaBody.appendChild(mediaHeading)
           mediaBody.appendChild(outcomesList)
+
+          mediaDiv.appendChild(mediaLeft)
           mediaDiv.appendChild(mediaBody)
 
           listItem.appendChild(mediaDiv)
