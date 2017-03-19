@@ -1,107 +1,108 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+
     <title>Employment Outcomes by School | Law School Outcomes</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/employment_outcomes/chart_controller.css">
+
     <script src="http://code.highcharts.com/highcharts.js"></script>
-    <script src="http://code.highcharts.com/modules/exporting.js"></script>
-    <style media="screen">
+    <!--script src="http://code.highcharts.com/modules/exporting.js"></script-->
 
-      #outcome-groups-container {}
-
-      .outcomes-list {
-        border: 1px solid #000;
-        list-style:none;
-      }
-
-      .employment-outcome {
-          border: 1px solid #000;
-          cursor:move;
-          width: 235px;
-          margin:10px;
-          padding:5px;
-      }
-
-    </style>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
   </head>
   <body>
-    <h1><a href="index.html">Law School Outcomes</a></h1>
-    <h2>Employment Outcomes by School</h2>
+    <div class="container">
+      <h1><a href="index.html">Law School Outcomes</a></h1>
+      <h2 style="display:none;">Employment Outcomes by School</h2>
 
-    <div id="chart-container"></div>
+      <div id="chart-container"></div>
 
-    <div id="chart-control-panel">
-      <h3>Chart Control Panel</h3>
+      <div id="chart-controller">
+        <h3>Chart Options</h3>
 
-      <h4>Year</h4>
-      <select id="year-selector"><option value="2015" selected>2015</option></select>
+        <h4>Year</h4>
+        <select id="year-selector"><option value="2015" selected>2015</option></select>
 
-      <h4>Schools</h4>
-      <div id="school-checkbox-container"></div>
+        <h4>Schools</h4>
+        <div id="school-checkbox-container"></div>
 
-      <h4>Employment Outcome Groups</h4>
-      <div id="outcome-groups-container">
-        <div id="outcome-group-a" class="outcome-group">
-          <label for="outcome-group-a-name">Group Name:
-            <input type="text" id="outcome-group-a-name" name="group-name" value="Group A (Biz)">
-          </label>
-          <br>
+        <h4>Employment Outcome Groups</h4>
+        <button type="button" id="submit-groupings">Submit groupings</button>
+        <button type="button" id="restore-default-groupings">Restore default groupings</button>
+        <div id="outcome-groups-container">
+          <div id="outcome-group-a" class="outcome-group">
+            <label for="outcome-group-a-name">Group Name:
+              <input type="text" id="outcome-group-a-name" name="group-name" value="Group A (Biz)">
+            </label><br>
 
-          <label for="outcome-group-a-color">Group Color:
-            <input type="text" id="outcome-group-a-color" name="group-color" value="blue">
-          </label>
-          <br>
+            <label for="outcome-group-a-color">Group Color:
+              <input type="text" id="outcome-group-a-color" name="group-color" value="blue">
+            </label><br>
 
-          <label for="outcomes-list-a">Employment Outcomes:</label>
-          <ul id="outcomes-list-a" class="outcomes-list" ondrop="drop(event, this)" ondragover="allowDrop(event)">
-            <li id="outcome-1" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (Solo)">Law Firms (Solo)</li>
-            <li id="outcome-2" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (2 - 10)">Law Firms (2 - 10)</li>
-            <li id="outcome-3" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (11 - 25)">Law Firms (11 - 25)</li>
-            <li id="outcome-4" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (26 - 50)">Law Firms (26 - 50)</li>
-            <li id="outcome-5" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (51 - 100)">Law Firms (51 - 100)</li>
-            <li id="outcome-6" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (101 - 250)">Law Firms (101 - 250)</li>
-            <li id="outcome-7" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="LLaw Firms (251 - 500)">Law Firms (251 - 500)</li>
-            <li id="outcome-8" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (501 +)">Law Firms (501 +)</li>
-            <li id="outcome-9" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (Unknown Size)">Law Firms (Unknown Size)</li>
-            <li id="outcome-10" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Business & Industry">Business &amp; Industry</li>
-            <li id="outcome-11" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Employer Type Unknown">Employer Type Unknown</li>
-            <li id="outcome-12" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Education">Education</li>
-          </ul>
+            <label for="outcomes-list-a">Employment Outcomes:</label>
+            <ul id="outcomes-list-a" class="outcomes-list" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+              <li id="outcome-1" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (Solo)">Law Firms (Solo)</li>
+              <li id="outcome-2" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (2 - 10)">Law Firms (2 - 10)</li>
+              <li id="outcome-3" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (11 - 25)">Law Firms (11 - 25)</li>
+              <li id="outcome-4" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (26 - 50)">Law Firms (26 - 50)</li>
+              <li id="outcome-5" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (51 - 100)">Law Firms (51 - 100)</li>
+              <li id="outcome-6" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (101 - 250)">Law Firms (101 - 250)</li>
+              <li id="outcome-7" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="LLaw Firms (251 - 500)">Law Firms (251 - 500)</li>
+              <li id="outcome-8" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (501 +)">Law Firms (501 +)</li>
+              <li id="outcome-9" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (Unknown Size)">Law Firms (Unknown Size)</li>
+              <li id="outcome-10" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Business & Industry">Business &amp; Industry</li>
+              <li id="outcome-11" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Employer Type Unknown">Employer Type Unknown</li>
+              <li id="outcome-12" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Education">Education</li>
+            </ul>
+          </div>
+
+
+
+          <div id="outcome-group-b" class="outcome-group">
+            <label for="outcome-group-b-name">Group Name:
+              <input type="text" id="outcome-group-b-name" name="group-name" value="Group B (Pub/Gov)">
+            </label>
+            <br>
+
+            <label for="outcome-group-b-color">Group Color:
+              <input type="text" id="outcome-group-b-color" name="group-color" value="orange">
+            </label>
+            <br>
+
+            <label for="outcomes-list-b">Employment Outcomes:</label>
+            <ul id="outcomes-list-b" class="outcomes-list" ondrop="drop(event, this)" ondragover="allowDrop(event)">
+              <li id="outcome-13" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Government">Government</li>
+              <li id="outcome-14" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Pub. Int.">Pub. Int.</li>
+              <li id="outcome-15" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Clerkships - Federal">Clerkships - Federal</li>
+              <li id="outcome-16" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Clerkships - State & Local">Clerkships - State &amp; Local</li>
+              <li id="outcome-17" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Clerkships - Other">Clerkships - Other</li>
+            </ul>
+          </div>
+
         </div>
-
-        <div id="outcome-group-b" class="outcome-group">
-          <label for="outcome-group-b-name">Group Name:
-            <input type="text" id="outcome-group-b-name" name="group-name" value="Group B (Pub/Gov)">
-          </label>
-          <br>
-
-          <label for="outcome-group-b-color">Group Color:
-            <input type="text" id="outcome-group-b-color" name="group-color" value="orange">
-          </label>
-          <br>
-
-          <label for="outcomes-list-b">Employment Outcomes:</label>
-          <ul id="outcomes-list-b" class="outcomes-list" ondrop="drop(event, this)" ondragover="allowDrop(event)">
-            <li id="outcome-13" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Government">Government</li>
-            <li id="outcome-14" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Pub. Int.">Pub. Int.</li>
-            <li id="outcome-15" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Clerkships - Federal">Clerkships - Federal</li>
-            <li id="outcome-16" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Clerkships - State & Local">Clerkships - State &amp; Local</li>
-            <li id="outcome-17" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Clerkships - Other">Clerkships - Other</li>
-          </ul>
-        </div>
-
-        <button type="button" id="submit-groupings" name="submit-groupings">Submit groupings</button>
       </div>
+
+      <footer>
+        <p>
+          <a href="https://data-creative.github.io/law-school-outcomes-dataviz/">view</a> |
+          <a href="https://github.com/data-creative/law-school-outcomes-dataviz/">source</a> |
+          <a href="https://raw.githubusercontent.com/data-creative/law-school-outcomes-dataviz/master/data/2015/employment_summary_reports.json">data</a>
+        </p>
+      </footer>
     </div>
 
-    <footer>
-      <p>
-        <a href="https://data-creative.github.io/law-school-outcomes-dataviz/">view</a> |
-        <a href="https://github.com/data-creative/law-school-outcomes-dataviz/">source</a> |
-        <a href="https://raw.githubusercontent.com/data-creative/law-school-outcomes-dataviz/master/data/2015/employment_summary_reports.json">data</a>
-      </p>
-    </footer>
-
+    <!--script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script-->
     <script src="http://d3js.org/colorbrewer.v1.min.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <!-- PLEASE DON'T MESS WITH THE ORDER OF SCRIPTS BELOW THIS LINE -->
@@ -175,6 +176,14 @@
         {group: 'Law Firm (Big)', color: colorbrewer.Greens[9][6], types: ["Law Firms (101 - 250)", "Law Firms (251 - 500)", "Law Firms (501 +)"] }
       ]
       // todo: populate divs based on these defaults
+
+
+
+
+
+
+
+
 
 
 
