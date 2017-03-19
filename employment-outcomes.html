@@ -73,7 +73,7 @@
               </button>
               <!--button type="button" id="restore-default-groupings">Restore default groupings</button-->
 
-              <ul class="list-group" id="outcome-groups-list"></ul>
+              <ul class="list-group" id="outcome-groups-list" style="list-style:none;"></ul>
             </div><!-- panel-body 3 -->
           </div>
         </div><!-- panel 3 -->
@@ -155,33 +155,19 @@
 
       const outcomeGroupsList = document.getElementById("outcome-groups-list")
 
+      function removeGroup(ev, el) {
+        const elementToRemove = outcomeGroupsList.querySelector(`li#${el.dataset.idToRemove}`)
+        console.log(elementToRemove)
+        outcomeGroupsList.removeChild(elementToRemove)
+      }
+
       function setDefaultOutcomeGroups() {
-        defaultDisplayGroups.forEach(function(displayGroup, i){
-          /* APPEND A BUNCH OF THESE THINGS:
-
-            <li class="list-group-item">
-              <div class="media outcome-group">
-                <div class="media-left">
-                  <div class="media-object group-color" style="height:64px; width:64px; background-color:blue;"></div>
-                </div>
-
-                <div class="media-body">
-                  <h4 class="media-heading">
-                    <input type="text" class="group-name" value="Group A (Biz)">
-                  </h4>
-
-                  <ul id="outcomes-list-a" class="outcomes-list" ondrop="drop(event, this)" ondragover="allowDrop(event)">
-                    <li id="outcome-1" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (Solo)">Law Firms (Solo)</li>
-                    <li id="outcome-2" class="employment-outcome" draggable="true" ondragstart="drag(event)" data-employment-outcome="Law Firms (2 - 10)">Law Firms (2 - 10)</li>
-                  </ul>
-                </div>
-              </div>
-            </li>
-
-          */
+        defaultDisplayGroups.forEach(function(displayGroup, displayGroupIndex){
+          const listItemId = `outcome-group-list-item-${displayGroupIndex}`
 
           var listItem = document.createElement("li")
-          listItem.className = "list-group-item"
+          listItem.className = "outcome-groups-list-item list-group-item"
+          listItem.id = listItemId
           //listItem.style.width = "500px"
 
           var mediaDiv = document.createElement("div")
@@ -210,16 +196,18 @@
           removeButton.type = "button"
           removeButton.title = "Remove this display group"
           removeButton.className = "btn btn-default pull-right"
+          removeButton.setAttribute("data-id-to-remove", listItemId)
+          removeButton.setAttribute("onclick", "removeGroup(event, this)")
           var trashIcon = document.createElement("span")
           trashIcon.className = "glyphicon glyphicon-trash"
           removeButton.appendChild(trashIcon)
 
           var outcomesList = document.createElement("ul")
-          outcomesList.id = `outcomes-list-${i}`
+          outcomesList.id = `outcomes-list-${displayGroupIndex}`
           outcomesList.className = "outcomes-list"
           outcomesList.setAttribute("ondrop", "drop(event, this)")
           outcomesList.setAttribute("ondragover", "allowDrop(event)")
-          displayGroup.outcomes.forEach(function(outcomeName, i){
+          displayGroup.outcomes.forEach(function(outcomeName){
             var outcomesListItem = document.createElement("li")
             outcomesListItem.id = `outcome-${getEmploymentOutcomeId(outcomeName)}`
             outcomesListItem.className = "employment-outcome"
