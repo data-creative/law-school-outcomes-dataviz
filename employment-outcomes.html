@@ -9,7 +9,7 @@
     <title>Employment Outcomes by School | Law School Outcomes</title>
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link rel="stylesheet" href="/css/employment_outcomes/chart_controller.css">
+    <!--link rel="stylesheet" href="assets/css/employment_outcomes/chart_controller.css"-->
 
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <!--script src="http://code.highcharts.com/modules/exporting.js"></script-->
@@ -54,19 +54,17 @@
         <div class="panel panel-default">
           <div class="panel-heading"><h4 class="panel-title">Employment Outcome Display Groups</h4></div>
           <div class="panel-body">
-            <p>For each chart display group, specify a label and color, then assign it a list of employment outcomes by dragging and dropping them between groups.</p>
-            <!--button type="button" id="submit-groupings">Submit groupings</button-->
-            <!--button type="button" id="restore-default-groupings">Restore default groupings</button-->
+            <p>For each group: specify a title, pick a color, then assign a list of outcomes by dragging and dropping them between groups.</p>
 
             <ul class="list-group" id="outcome-groups-list">
               <li class="list-group-item">
-                <div class="media outcome-group" id="outcome-group-a">
+                <div class="media outcome-group">
                   <div class="media-left">
-                    <div class="media-object" id="outcome-group-a-color" style="height:64px; width:64px; background-color:blue;"></div>
+                    <div class="media-object group-color" style="height:64px; width:64px; background-color:blue;"></div>
                   </div>
                   <div class="media-body">
                     <h4 class="media-heading">
-                      <input type="text" id="outcome-group-a-name" name="group-name" value="Group A (Biz)">
+                      <input type="text" class="group-name" value="Group A (Biz)">
                     </h4>
 
                     <ul id="outcomes-list-a" class="outcomes-list" ondrop="drop(event, this)" ondragover="allowDrop(event)">
@@ -87,13 +85,13 @@
                 </div>
               </li>
               <li class="list-group-item">
-                <div class="media outcome-group" id="outcome-group-b">
+                <div class="media outcome-group">
                   <div class="media-left">
-                    <div class="media-object" id="outcome-group-b-color" style="height:64px; width:64px; background-color:green;"></div>
+                    <div class="media-object group-color" style="height:64px; width:64px; background-color:green;"></div>
                   </div>
                   <div class="media-body">
                     <h4 class="media-heading">
-                      <input type="text" id="outcome-group-b-name" name="group-name" value="Group B (Gov)">
+                      <input type="text" class="group-name" value="Group B (Gov)">
                     </h4>
 
                     <ul id="outcomes-list-b" class="outcomes-list" ondrop="drop(event, this)" ondragover="allowDrop(event)">
@@ -107,16 +105,15 @@
                 </div>
               </li>
               <li class="list-group-item">
-                <div class="">
-                  Hello
-                </div>
-              </li>
-              <li class="list-group-item">
-                <div class="">
-                  World
-                </div>
+                <button type="button" class="btn btn-default" title="Add another display group">
+                  <span class="glyphicon glyphicon-plus" aria-hidden="true" style="padding-right:7px;"></span>Add another group
+                </button>
               </li>
             </ul>
+
+
+            <button type="button" class="btn btn-default" id="submit-groupings">Update chart display groups</button>
+            <!--button type="button" id="restore-default-groupings">Restore default groupings</button-->
           </div><!-- panel 3 body -->
         </div><!-- Panel 3 -->
       </div>
@@ -346,8 +343,8 @@
         const groupDivs = document.getElementsByClassName("outcome-group")
 
         return Array.prototype.map.call(groupDivs, function(groupDiv){
-          const groupName = groupDiv.querySelector('input[name="group-name"]').value
-          const groupColor = groupDiv.querySelector('input[name="group-color"]').value
+          const groupName = groupDiv.querySelector(".group-name").value
+          const groupColor = groupDiv.querySelector(".group-color").style.backgroundColor
           const listItems = groupDiv.querySelectorAll('li.employment-outcome')
           const groupOutcomes = Array.prototype.map.call(listItems, function(li){ return li.dataset.employmentOutcome })
           //console.log(groupName, groupColor, groupOutcomes)
