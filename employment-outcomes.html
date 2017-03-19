@@ -5,15 +5,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
     <title>Employment Outcomes by School | Law School Outcomes</title>
-
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!--link rel="stylesheet" href="assets/css/employment_outcomes/chart_controller.css"-->
-
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <!--script src="http://code.highcharts.com/modules/exporting.js"></script-->
-
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -24,12 +20,13 @@
   <body>
     <div class="container">
       <h1><a href="index.html">Law School Outcomes</a></h1>
+
       <h2 style="display:none;">Employment Outcomes by School</h2>
 
       <div id="chart-container"></div>
 
       <div id="chart-control-panels">
-        <h3>Chart Options</h3>
+        <h3>Chart Controls</h3>
 
         <div class="panel panel-default">
           <div class="panel-heading" data-toggle="collapse" data-target="#collapse-year" aria-expanded="true" aria-controls="collapse-year" style="cursor:pointer;">
@@ -108,10 +105,22 @@
         ev.preventDefault()
       }
 
-      function drop(ev, el) {
+      function drop(ev, destinationZone) {
         ev.preventDefault()
-        var id = ev.dataTransfer.getData("id") // fetch draggable element identifier from key/value pair
-        el.appendChild(document.getElementById(id))
+
+        var draggedItemId = ev.dataTransfer.getData("id") // fetch draggable element identifier from key/value pair
+        var draggedItem = document.getElementById(draggedItemId)
+        var originZone = draggedItem.parentElement // get parent before it changes
+        var originGroup = document.getElementById(draggedItem.dataset.groupId)
+
+        destinationZone.appendChild(draggedItem)
+
+        var destinationGroupId = draggedItem.parentElement.dataset.groupId
+        draggedItem.setAttribute("data-group-id", destinationGroupId)
+
+        if (originZone.childElementCount == 0) { outcomeGroupsList.removeChild(originGroup) }
+
+        console.log("TODO: REFRESH CHART")
       }
 
       //
@@ -169,6 +178,7 @@
           listItem.className = "outcome-groups-list-item list-group-item"
           listItem.id = listItemId
           //listItem.style.width = "500px"
+          listItem.style = "cursor:move;"
 
           var mediaDiv = document.createElement("div")
           mediaDiv.className = "media outcome-group"
@@ -192,21 +202,24 @@
           nameInput.className = "group-name"
           nameInput.value = displayGroup.name
 
-          var removeButton = document.createElement("button")
-          removeButton.type = "button"
-          removeButton.title = "Remove this display group"
-          removeButton.className = "btn btn-default pull-right"
-          removeButton.setAttribute("data-id-to-remove", listItemId)
-          removeButton.setAttribute("onclick", "removeGroup(event, this)")
-          var trashIcon = document.createElement("span")
-          trashIcon.className = "glyphicon glyphicon-trash"
-          removeButton.appendChild(trashIcon)
+          //var removeButton = document.createElement("button")
+          //removeButton.type = "button"
+          //removeButton.title = "Remove this display group"
+          //removeButton.className = "btn btn-default pull-right"
+          ////removeButton.setAttribute("disabled", "disabled") // disable unless there are no more remaining outcomes
+          //removeButton.setAttribute("data-id-to-remove", listItemId)
+          //removeButton.setAttribute("onclick", "removeGroup(event, this)")
+          //var trashIcon = document.createElement("span")
+          //trashIcon.className = "glyphicon glyphicon-trash"
+          //removeButton.appendChild(trashIcon)
 
           var outcomesList = document.createElement("ul")
           outcomesList.id = `outcomes-list-${displayGroupIndex}`
           outcomesList.className = "outcomes-list"
           outcomesList.setAttribute("ondrop", "drop(event, this)")
           outcomesList.setAttribute("ondragover", "allowDrop(event)")
+          outcomesList.setAttribute("data-group-id", listItemId)
+
           displayGroup.outcomes.forEach(function(outcomeName){
             var outcomesListItem = document.createElement("li")
             outcomesListItem.id = `outcome-${getEmploymentOutcomeId(outcomeName)}`
@@ -214,6 +227,7 @@
             outcomesListItem.setAttribute("draggable", "true")
             outcomesListItem.setAttribute("ondragstart", "drag(event)")
             outcomesListItem.setAttribute("data-employment-outcome", outcomeName)
+            outcomesListItem.setAttribute("data-group-id", listItemId)
             outcomesListItem.innerHTML = outcomeName
             outcomesList.appendChild(outcomesListItem)
           })
@@ -221,7 +235,7 @@
           mediaLeft.appendChild(mediaObject)
 
           mediaHeading.appendChild(nameInput)
-          mediaHeading.appendChild(removeButton)
+          //mediaHeading.appendChild(removeButton)
 
           mediaBody.appendChild(mediaHeading)
           mediaBody.appendChild(outcomesList)
