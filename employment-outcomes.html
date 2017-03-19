@@ -31,11 +31,11 @@
         <div class="panel panel-default">
           <div class="panel-heading" data-toggle="collapse" data-target="#collapse-year" aria-expanded="true" aria-controls="collapse-year" style="cursor:pointer;">
             <h4 class="panel-title">
-              Reporting Year
+              Select a Reporting Year
               <span class="glyphicon glyphicon-chevron-down pull-right"></span>
             </h4>
           </div>
-          <div id="collapse-year" class="collapse in">
+          <div id="collapse-year" class="collapse">
             <div class="panel-body">
               <p>Please select a reporting year:</p>
               <select id="year-selector"><option value="2015" selected>2015</option></select>
@@ -45,10 +45,10 @@
 
         <div class="panel panel-default">
           <div class="panel-heading" data-toggle="collapse" data-target="#collapse-schools" aria-expanded="true" aria-controls="collapse-schools" style="cursor:pointer;">
-            <h4 class="panel-title" style="display:inline-block;">Law Schools</h4>
+            <h4 class="panel-title" style="display:inline-block;">Select Law Schools</h4>
             <span class="glyphicon glyphicon-chevron-down pull-right"></span>
           </div>
-          <div id="collapse-schools" class="collapse in">
+          <div id="collapse-schools" class="collapse">
             <div class="panel-body">
               <p>Please select one or more schools to compare:</p>
               <div id="school-checkbox-container"></div>
@@ -58,12 +58,12 @@
 
         <div class="panel panel-default">
           <div class="panel-heading" data-toggle="collapse" data-target="#collapse-outcome-groups" aria-expanded="true" aria-controls="collapse-outcome-groups" style="cursor:pointer;">
-            <h4 class="panel-title" style="display:inline-block;">Employment Outcomes</h4>
+            <h4 class="panel-title" style="display:inline-block;">Classify Employment Outcomes</h4>
             <span class="glyphicon glyphicon-chevron-down pull-right"></span>
           </div>
           <div id="collapse-outcome-groups" class="collapse in">
             <div class="panel-body">
-              <p style="display:inline-block;">For each group of individual employment outcomes: specify a title, pick a color, then assign a list of outcomes by dragging and dropping them between groups. When you're done, click the button to "Update the chart".</p>
+              <p style="display:inline-block;">Employment outcomes have been classified into default groups for chart display purposes. Optionally customize the name, color, and composition of these groups:</p>
               <button type="button" class="btn btn-default" id="submit-groupings" style="margin-bottom:10px;">
                 <span class="glyphicon glyphicon-refresh"></span>
                 Update chart
