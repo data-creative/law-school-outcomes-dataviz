@@ -64,12 +64,6 @@
           <div id="collapse-outcome-groups" class="collapse in">
             <div class="panel-body">
               <p style="display:inline-block;">Employment outcomes have been classified into default groups for chart display purposes. Optionally customize the name, color, and composition of these groups:</p>
-              <button type="button" class="btn btn-default" id="submit-groupings" style="margin-bottom:10px;">
-                <span class="glyphicon glyphicon-refresh"></span>
-                Update chart
-              </button>
-              <!--button type="button" id="restore-default-groupings">Restore default groupings</button-->
-
               <ul class="list-group" id="outcome-groups-list" style="list-style:none;"></ul>
             </div><!-- panel-body 3 -->
           </div>
@@ -97,8 +91,27 @@
       // ALLOW FOR DRAGGING AND DROPPING OF EMPLOYMENT OUTCOMES BETWEEN VARIOUS DISPLAY GROUPS
       //
 
+      function pulseDropZones() {
+        console.log("PULSING HERE", new Date() )
+      }
+
+      var dropZonePulseInterval
+
+      function startPulsingDropZones() {
+        if (typeof(dropZonePulseInterval) == "undefined") {
+          dropZonePulseInterval = window.setInterval(pulseDropZones, 500);
+        }
+      }
+
+      function stopPulsingDropZones() {
+        clearInterval(dropZonePulseInterval);
+      }
+
       function drag(ev) {
         ev.dataTransfer.setData("id", ev.target.id) // store draggable element identifier as key/value pair
+
+        console.log("DRAGGING HERE", ev.target.id)
+        startPulsingDropZones()
       }
 
       function allowDrop(ev) {
@@ -114,6 +127,8 @@
         var originGroup = document.getElementById(draggedItem.dataset.groupId)
 
         destinationZone.appendChild(draggedItem)
+
+        stopPulsingDropZones()
 
         var destinationGroupId = draggedItem.parentElement.dataset.groupId
         draggedItem.setAttribute("data-group-id", destinationGroupId)
@@ -156,7 +171,8 @@
         {name: 'Employed (Other)', color: colorbrewer.Greys[9][6], outcomes: ["Education", "Employer Type Unknown"] },
         {name: 'Public Interest', color: colorbrewer.Oranges[9][4], outcomes: ["Pub. Int."] },
         {name: 'Government', color: colorbrewer.Oranges[9][6], outcomes: ["Government"] },
-        {name: 'Clerkship', color: colorbrewer.Purples[9][6], outcomes: ["Clerkships - Federal", "Clerkships - State & Local", "Clerkships - Other"] },
+        {name: 'Clerkship (Other)', color: colorbrewer.Purples[9][4], outcomes: ["Clerkships - State & Local", "Clerkships - Other"] },
+        {name: 'Clerkship (Federal)', color: colorbrewer.Purples[9][6], outcomes: ["Clerkships - Federal"] },
         {name: 'Business & Industry', color: colorbrewer.Blues[9][6], outcomes: ["Business & Industry"] },
         {name: 'Law Firm (Other)', color: colorbrewer.Greens[9][4], outcomes: ["Law Firms (Unknown Size)", "Law Firms (Solo)", "Law Firms (2 - 10)", "Law Firms (11 - 25)", "Law Firms (26 - 50)", "Law Firms (51 - 100)"] },
         {name: 'Law Firm (Big)', color: colorbrewer.Greens[9][6], outcomes: ["Law Firms (101 - 250)", "Law Firms (251 - 500)", "Law Firms (501 +)"] }
@@ -207,17 +223,6 @@
           nameInput.value = displayGroup.name
           nameInput.setAttribute("oninput", "editGroupName()")
 
-          //var removeButton = document.createElement("button")
-          //removeButton.type = "button"
-          //removeButton.title = "Remove this display group"
-          //removeButton.className = "btn btn-default pull-right"
-          ////removeButton.setAttribute("disabled", "disabled") // disable unless there are no more remaining outcomes
-          //removeButton.setAttribute("data-id-to-remove", listItemId)
-          //removeButton.setAttribute("onclick", "removeGroup(event, this)")
-          //var trashIcon = document.createElement("span")
-          //trashIcon.className = "glyphicon glyphicon-trash"
-          //removeButton.appendChild(trashIcon)
-
           var outcomesList = document.createElement("ul")
           outcomesList.id = `outcomes-list-${displayGroupIndex}`
           outcomesList.className = "outcomes-list"
@@ -253,17 +258,6 @@
           outcomeGroupsList.appendChild(listItem)
         })
       }
-
-      setDefaultOutcomeGroups()
-
-
-
-
-
-
-
-
-
 
 
 
@@ -308,6 +302,7 @@
           var sortedReports = reports.sort(function(a, b){ return d3.ascending(a.schoolShortName, b.schoolShortName ) })
           //console.log("FETCHED REPORTS:", sortedReports.length)
 
+          setDefaultOutcomeGroups()
           updateCheckboxes(sortedReports)
         })
       }
@@ -385,9 +380,6 @@
       }
 
       schoolCheckboxContainer.addEventListener("change", selectReports, false)
-
-      const groupingSubmissionBtn = document.getElementById("submit-groupings")
-      groupingSubmissionBtn.addEventListener("click", selectReports, false)
 
       //
       // GIVEN REPORT SELECTIONS AND OUTCOME GROUPINGS, UPDATE CHART
