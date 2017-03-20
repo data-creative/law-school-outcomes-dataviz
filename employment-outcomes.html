@@ -170,6 +170,10 @@
         outcomeGroupsList.removeChild(elementToRemove)
       }
 
+      function editGroupName() {
+        selectReports()
+      }
+
       function setDefaultOutcomeGroups() {
         defaultDisplayGroups.forEach(function(displayGroup, displayGroupIndex){
           const listItemId = `outcome-group-list-item-${displayGroupIndex}`
@@ -201,6 +205,7 @@
           nameInput.type = "text"
           nameInput.className = "group-name"
           nameInput.value = displayGroup.name
+          nameInput.setAttribute("oninput", "editGroupName()")
 
           //var removeButton = document.createElement("button")
           //removeButton.type = "button"
@@ -327,7 +332,7 @@
 
         schoolCheckboxContainer.reports = reports // store this here for later use!
 
-        reports.map(function(report){
+        reports.forEach(function(report){
           report.selectedByDefault = (Math.random() > 0.5) // select schools at random :-)
         })
 
