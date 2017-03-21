@@ -119,10 +119,14 @@
 
       function allowDrop(ev) {
         ev.preventDefault()
+        console.log("ALLOWING DROP", ev.target.id)
+
       }
 
       function drop(ev, destinationZone) {
         ev.preventDefault()
+
+        console.log("DROPPING", ev.target.id, destinationZone)
 
         var draggedItemId = ev.dataTransfer.getData("id") // fetch draggable element identifier from key/value pair
         var draggedItem = document.getElementById(draggedItemId)
@@ -196,12 +200,12 @@
       function setDefaultOutcomeGroups() {
         defaultDisplayGroups.forEach(function(displayGroup, displayGroupIndex){
           const listItemId = `outcome-group-list-item-${displayGroupIndex}`
+          const colorPickerHeight = 32
 
           var listItem = document.createElement("li")
           listItem.className = "outcome-groups-list-item list-group-item"
           listItem.id = listItemId
           //listItem.style.width = "500px"
-          listItem.style = "cursor:move;"
 
           var mediaDiv = document.createElement("div")
           mediaDiv.className = "media outcome-group"
@@ -211,24 +215,26 @@
 
           var mediaObject = document.createElement("div")
           mediaObject.className = "media-object group-color img-rounded"
-          mediaObject.style = `height:32px; width:32px; background-color:${displayGroup.color}; cursor:pointer;`
+          mediaObject.style = `height:${colorPickerHeight}px; width:${colorPickerHeight}px; background-color:${displayGroup.color}; cursor:pointer;`
           mediaObject.title = "Select a color for this group."
 
           var mediaBody = document.createElement("div")
           mediaBody.className = "media-body"
 
-          var mediaHeading = document.createElement("h4")
+          var mediaHeading = document.createElement("h5")
           mediaHeading.className = "media-heading"
 
           var nameInput = document.createElement("input")
           nameInput.type = "text"
           nameInput.className = "group-name"
+          nameInput.style = `line-height: ${colorPickerHeight - 5}px;`
           nameInput.value = displayGroup.name
           nameInput.setAttribute("oninput", "editGroupName()")
 
           var outcomesList = document.createElement("ul")
           outcomesList.id = `outcomes-list-${displayGroupIndex}`
           outcomesList.className = "outcomes-list"
+          outcomesList.style = "list-style:none; padding-left:5px;"
           outcomesList.setAttribute("ondrop", "drop(event, this)")
           outcomesList.setAttribute("ondragover", "allowDrop(event)")
           outcomesList.setAttribute("data-group-id", listItemId)
@@ -236,7 +242,8 @@
           displayGroup.outcomes.forEach(function(outcomeName){
             var outcomesListItem = document.createElement("li")
             outcomesListItem.id = `outcome-${getEmploymentOutcomeId(outcomeName)}`
-            outcomesListItem.className = "employment-outcome"
+            outcomesListItem.className = "employment-outcome label" // well label label-default
+            outcomesListItem.style = "cursor:move; margin:10px 10px 5px 0; padding:10px; background-color:#eee; color:#000; display: inline-block;"
             outcomesListItem.setAttribute("draggable", "true")
             outcomesListItem.setAttribute("ondragstart", "drag(event)")
             outcomesListItem.setAttribute("data-employment-outcome", outcomeName)
