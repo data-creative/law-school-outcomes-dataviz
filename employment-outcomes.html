@@ -109,7 +109,7 @@
       const dropZoneStyle = "list-style:none; padding-left:10px;"
 
       function pulseDropZones(bool) {
-        console.log("PULSING HERE?", bool, new Date() )
+        //console.log("PULSING HERE?", bool, new Date() )
         const dropZones = document.getElementsByClassName("outcomes-list")
 
         Array.prototype.forEach.call(dropZones, function(dropZone){
@@ -119,16 +119,18 @@
 
       function drag(ev) {
         ev.dataTransfer.setData("id", ev.target.id) // store draggable element identifier as key/value pair
-
         //console.log("DRAGGING HERE", ev.target.id)
         pulseDropZones(true)
+      }
+
+      function dragEnd(ev) {
+        //console.log("STOP DRAGGING", ev.target.id)
+        pulseDropZones(false)
       }
 
       function allowDrop(ev) {
         ev.preventDefault()
         console.log("ALLOWING DROP", ev.target.id)
-
-
       }
 
       function drop(ev, destinationZone) {
@@ -143,7 +145,7 @@
 
         destinationZone.appendChild(draggedItem)
 
-        pulseDropZones(false)
+        //pulseDropZones(false)
 
         var destinationGroupId = draggedItem.parentElement.dataset.groupId
         draggedItem.setAttribute("data-group-id", destinationGroupId)
@@ -254,6 +256,7 @@
             outcomesListItem.style = "cursor:move; margin:5px 10px 5px 0; padding:10px; background-color:#eee; color:#000; display: inline-block;"
             outcomesListItem.setAttribute("draggable", "true")
             outcomesListItem.setAttribute("ondragstart", "drag(event)")
+            outcomesListItem.setAttribute("ondragend", "dragEnd(event)")
             outcomesListItem.setAttribute("data-employment-outcome", outcomeName)
             outcomesListItem.setAttribute("data-group-id", listItemId)
             outcomesListItem.innerHTML = outcomeName
