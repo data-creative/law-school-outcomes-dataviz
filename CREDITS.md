@@ -63,6 +63,21 @@
   + [Label "for" attribute](https://www.w3schools.com/tags/att_label_for.asp)
   + [To wrap or not to wrap checkboxes in labels](http://stackoverflow.com/questions/11992026/is-it-better-to-wrap-the-label-tag-around-a-form-item-or-use-the-for-attribute)
 
-###
+### DOM Manipulation
 
   + [Faster and more reliable way to remove all child elements](http://stackoverflow.com/a/3955238/670433)
+
+### Drag-and-drop Interface
+
+  + https://www.w3schools.com/html/html5_draganddrop.asp
+  + https://www.w3schools.com/html/tryit.asp?filename=tryhtml5_draganddrop
+  + https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API
+  + https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/Drag_operations
+  + https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API/Recommended_drag_types:
+    + "It is recommended that you always add data of the text/plain type as a fallback for applications or drop targets that do not support other types, unless there is no logical text alternative. Always add the plain text type last as it is the least specific."
+  + https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer
+  + https://developer.mozilla.org/en-US/docs/Web/API/DataTransfer/setData
+  + [Prevent child elements from receiving drops](http://stackoverflow.com/a/28203782/670433)
+  + [CSS "Move" Cursor](https://www.w3schools.com/cssref/tryit.asp?filename=trycss_cursor)
+  + Call attention to the drop zone:
+    + [Pulse Animation](https://css-tricks.com/almanac/properties/a/animation/)

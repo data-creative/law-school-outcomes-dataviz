@@ -1,55 +1,316 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Employment Outcomes for Recent Graduates | Law School Outcomes</title>
-
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Employment Outcomes by School | Law School Outcomes</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!--link rel="stylesheet" href="assets/css/employment_outcomes/chart_controller.css"-->
     <script src="http://code.highcharts.com/highcharts.js"></script>
-    <script src="http://code.highcharts.com/modules/exporting.js"></script>
+    <!--script src="http://code.highcharts.com/modules/exporting.js"></script-->
+    <style media="screen">
+      @keyframes pulse {
+        0% {background-color: #ccc;}
+        10% {background-color: #eee;}
+        20% {background-color: #ccc;}
+        30% {background-color: #eee;}
+        40% {background-color: #ccc;}
+        50% {background-color: #eee;}
+        60% {background-color: #ccc;}
+        70% {background-color: #eee;}
+        80% {background-color: #ccc;}
+        90% {background-color: #eee;}
+        100% {background-color: #ccc;}
+      }
+    </style>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
   </head>
   <body>
-    <h1><a href="index.html">Law School Outcomes</a></h1>
-    <h2>Employment Outcomes for Recent Graduates</h2>
+    <div class="container">
+      <h1><a href="index.html">Law School Outcomes</a></h1>
 
-    <div id="my-container"></div>
+      <h2 style="display:none;">Employment Outcomes by School</h2>
 
-    <div id="chart-options">
-      <h3>Chart Options</h3>
+      <div id="chart-container"></div>
 
-      <h4>Year</h4>
-      <select id="year-selector">
-        <option value="2015" selected>2015</option>
-        <!--option value="2014">2014</option-->
-      </select>
+      <div id="chart-control-panels">
+        <h3>Chart Controls</h3>
 
-      <h4>Schools</h4>
-      <div id="school-checkbox-container"></div>
+        <div class="panel panel-default">
+          <div class="panel-heading" data-toggle="collapse" data-target="#collapse-year" aria-expanded="true" aria-controls="collapse-year" style="cursor:pointer;">
+            <h4 class="panel-title">
+              Reporting Year
+              <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+            </h4>
+          </div>
+          <div id="collapse-year" class="collapse">
+            <div class="panel-body">
+              <p>Please select a reporting year:</p>
+              <select id="year-selector"><option value="2015" selected>2015</option></select>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading" data-toggle="collapse" data-target="#collapse-schools" aria-expanded="true" aria-controls="collapse-schools" style="cursor:pointer;">
+            <h4 class="panel-title" style="display:inline-block;">Law Schools</h4>
+            <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+          </div>
+          <div id="collapse-schools" class="collapse">
+            <div class="panel-body">
+              <p>Please select one or more schools to compare:</p>
+              <div id="school-checkbox-container"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel panel-default">
+          <div class="panel-heading" data-toggle="collapse" data-target="#collapse-outcome-groups" aria-expanded="true" aria-controls="collapse-outcome-groups" style="cursor:pointer;">
+            <h4 class="panel-title" style="display:inline-block;">Employment Outcomes</h4>
+            <span class="glyphicon glyphicon-chevron-down pull-right"></span>
+          </div>
+          <div id="collapse-outcome-groups" class="collapse">
+            <div class="panel-body">
+              <p style="display:inline-block;">Employment outcomes have been classified into default groups for chart display purposes. Optionally customize the name, color, and composition of these groups:</p>
+              <ul class="list-group" id="outcome-groups-list" style="list-style:none;"></ul>
+            </div><!-- panel-body 3 -->
+          </div>
+        </div><!-- panel 3 -->
+      </div>
+
+      <footer>
+        <p>
+          <a href="https://data-creative.github.io/law-school-outcomes-dataviz/">view</a> |
+          <a href="https://github.com/data-creative/law-school-outcomes-dataviz/">source</a> |
+          <a href="https://raw.githubusercontent.com/data-creative/law-school-outcomes-dataviz/master/data/2015/employment_summary_reports.json">data</a>
+        </p>
+      </footer>
     </div>
 
-    <footer>
-      <p>
-        <a href="https://data-creative.github.io/law-school-outcomes-dataviz/">view</a> |
-        <a href="https://github.com/data-creative/law-school-outcomes-dataviz/">source</a> |
-        <a href="https://raw.githubusercontent.com/data-creative/law-school-outcomes-dataviz/master/data/2015/employment_summary_reports.json">data</a>
-      </p>
-    </footer>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="http://d3js.org/colorbrewer.v1.min.js"></script>
     <script src="https://d3js.org/d3.v4.min.js"></script>
-    <!-- PLEASE DON'T MESS WITH THE ORDER OF SCRIPTS BELOW THIS LINE -->
     <script type="text/javascript" src="assets/js/employment_outcomes/report.js"></script>
     <script type="text/javascript" src="assets/js/employment_outcomes/stacked_100_pct_chart.js"></script>
     <script type="text/javascript">
 
       //
-      // GIVEN YEAR, GET REPORTS
+      // ALLOW FOR DRAGGING AND DROPPING OF EMPLOYMENT OUTCOMES BETWEEN VARIOUS DISPLAY GROUPS
+      //
+
+      const dropZoneStyle = "list-style:none; padding-left:10px;"
+
+      function pulseDropZones(bool) {
+        //console.log("PULSING HERE?", bool, new Date() )
+        const dropZones = document.getElementsByClassName("outcomes-list")
+
+        Array.prototype.forEach.call(dropZones, function(dropZone){
+          dropZone.style = (bool == true ? `${dropZoneStyle} animation: pulse 5s infinite;` : `${dropZoneStyle} animation: none;`)
+        })
+      }
+
+      function drag(ev) {
+        ev.dataTransfer.setData("id", ev.target.id) // store draggable element identifier as key/value pair
+        //console.log("DRAGGING HERE", ev.target.id)
+        pulseDropZones(true)
+      }
+
+      function dragEnd(ev) {
+        //console.log("STOP DRAGGING", ev.target.id)
+        pulseDropZones(false)
+      }
+
+      function allowDrop(ev) {
+        ev.preventDefault()
+        console.log("ALLOWING DROP", ev.target.id)
+      }
+
+      function drop(ev, destinationZone) {
+        ev.preventDefault()
+
+        //console.log("DROPPING", ev.target.id, destinationZone)
+
+        var draggedItemId = ev.dataTransfer.getData("id") // fetch draggable element identifier from key/value pair
+        var draggedItem = document.getElementById(draggedItemId)
+        var originZone = draggedItem.parentElement // get parent before it changes
+        var originGroup = document.getElementById(draggedItem.dataset.groupId)
+
+        destinationZone.appendChild(draggedItem)
+
+        //pulseDropZones(false)
+
+        var destinationGroupId = draggedItem.parentElement.dataset.groupId
+        draggedItem.setAttribute("data-group-id", destinationGroupId)
+
+        if (originZone.childElementCount == 0) { outcomeGroupsList.removeChild(originGroup) }
+
+        selectReports()
+      }
+
+      //
+      // POPULATE DEFAULT DISPLAY GROUPS
+      //
+
+      const employmentOutcomes = [
+        {id: 1, name:"Law Firms (Solo)"},
+        {id: 2, name:"Law Firms (2 - 10)"},
+        {id: 3, name:"Law Firms (11 - 25)"},
+        {id: 4, name:"Law Firms (26 - 50)"},
+        {id: 5, name:"Law Firms (51 - 100)"},
+        {id: 6, name:"Law Firms (101 - 250)"},
+        {id: 7, name:"Law Firms (251 - 500)"},
+        {id: 8, name:"Law Firms (501 +)"},
+        {id: 9, name:"Law Firms (Unknown Size)"},
+        {id: 10, name:"Business & Industry"},
+        {id: 11, name:"Government"},
+        {id: 12, name:"Pub. Int."},
+        {id: 13, name:"Clerkships - Federal"},
+        {id: 14, name:"Clerkships - State & Local"},
+        {id: 15, name:"Clerkships - Other"},
+        {id: 16, name:"Education"},
+        {id: 17, name:"Employer Type Unknown"}
+      ]
+
+      function getEmploymentOutcomeId(employmentOutcomeName) {
+        const employmentOutcome = employmentOutcomes.find(function(outcome){ return outcome.name == employmentOutcomeName })
+        return employmentOutcome.id
+      }
+
+      const defaultDisplayGroups = [
+        {name: 'Employed (Other)', color: colorbrewer.Greys[9][6], outcomes: ["Education", "Employer Type Unknown"] },
+        {name: 'Public Interest', color: colorbrewer.Oranges[9][4], outcomes: ["Pub. Int."] },
+        {name: 'Government', color: colorbrewer.Oranges[9][6], outcomes: ["Government"] },
+        {name: 'Clerkship (Other)', color: colorbrewer.Purples[9][4], outcomes: ["Clerkships - State & Local", "Clerkships - Other"] },
+        {name: 'Clerkship (Federal)', color: colorbrewer.Purples[9][6], outcomes: ["Clerkships - Federal"] },
+        {name: 'Business & Industry', color: colorbrewer.Blues[9][6], outcomes: ["Business & Industry"] },
+        {name: 'Law Firm (Other)', color: colorbrewer.Greens[9][4], outcomes: ["Law Firms (Unknown Size)", "Law Firms (Solo)", "Law Firms (2 - 10)", "Law Firms (11 - 25)", "Law Firms (26 - 50)", "Law Firms (51 - 100)"] },
+        {name: 'Law Firm (Big)', color: colorbrewer.Greens[9][6], outcomes: ["Law Firms (101 - 250)", "Law Firms (251 - 500)", "Law Firms (501 +)"] }
+      ]
+
+      const outcomeGroupsList = document.getElementById("outcome-groups-list")
+
+      function removeGroup(ev, el) {
+        const elementToRemove = outcomeGroupsList.querySelector(`li#${el.dataset.idToRemove}`)
+        console.log(elementToRemove)
+        outcomeGroupsList.removeChild(elementToRemove)
+      }
+
+      function editGroupName() {
+        selectReports()
+      }
+
+      function setDefaultOutcomeGroups() {
+        defaultDisplayGroups.forEach(function(displayGroup, displayGroupIndex){
+          const listItemId = `outcome-group-list-item-${displayGroupIndex}`
+          const colorPickerHeight = 32
+
+          var listItem = document.createElement("li")
+          listItem.className = "outcome-groups-list-item list-group-item"
+          listItem.id = listItemId
+          //listItem.style.width = "500px"
+
+          var mediaDiv = document.createElement("div")
+          mediaDiv.className = "media outcome-group"
+
+          var mediaLeft = document.createElement("div")
+          mediaLeft.className = "media-left"
+
+          var mediaObject = document.createElement("div")
+          mediaObject.className = "media-object group-color img-rounded"
+          mediaObject.style = `height:${colorPickerHeight}px; width:${colorPickerHeight}px; background-color:${displayGroup.color}; cursor:pointer;`
+          mediaObject.title = "Select a color for this group."
+
+          var mediaBody = document.createElement("div")
+          mediaBody.className = "media-body"
+
+          var mediaHeading = document.createElement("h5")
+          mediaHeading.className = "media-heading"
+
+          var nameInput = document.createElement("input")
+          nameInput.type = "text"
+          nameInput.className = "group-name"
+          nameInput.style = `line-height: ${colorPickerHeight - 5}px;`
+          nameInput.value = displayGroup.name
+          nameInput.setAttribute("oninput", "editGroupName()")
+
+          var outcomesList = document.createElement("ul")
+          outcomesList.id = `outcomes-list-${displayGroupIndex}`
+          outcomesList.className = "outcomes-list"
+          outcomesList.style = dropZoneStyle
+          outcomesList.setAttribute("ondrop", "drop(event, this)")
+          outcomesList.setAttribute("ondragover", "allowDrop(event)")
+          outcomesList.setAttribute("data-group-id", listItemId)
+
+          displayGroup.outcomes.forEach(function(outcomeName){
+            var outcomesListItem = document.createElement("li")
+            outcomesListItem.id = `outcome-${getEmploymentOutcomeId(outcomeName)}`
+            outcomesListItem.className = "employment-outcome label" // well label label-default
+            outcomesListItem.style = "cursor:move; margin:5px 10px 5px 0; padding:10px; background-color:#eee; color:#000; display: inline-block;"
+            outcomesListItem.setAttribute("draggable", "true")
+            outcomesListItem.setAttribute("ondragstart", "drag(event)")
+            outcomesListItem.setAttribute("ondragend", "dragEnd(event)")
+            outcomesListItem.setAttribute("data-employment-outcome", outcomeName)
+            outcomesListItem.setAttribute("data-group-id", listItemId)
+            outcomesListItem.innerHTML = outcomeName
+            outcomesList.appendChild(outcomesListItem)
+          })
+
+          mediaLeft.appendChild(mediaObject)
+
+          mediaHeading.appendChild(nameInput)
+          //mediaHeading.appendChild(removeButton)
+
+          mediaBody.appendChild(mediaHeading)
+          mediaBody.appendChild(outcomesList)
+
+          mediaDiv.appendChild(mediaLeft)
+          mediaDiv.appendChild(mediaBody)
+
+          listItem.appendChild(mediaDiv)
+
+          outcomeGroupsList.appendChild(listItem)
+        })
+      }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      //
+      // GIVEN REPORTING YEAR, GET REPORTS
       //
 
       var yearSelector = document.getElementById("year-selector")
 
       function getYear() {
         const year = yearSelector.value
-        console.log("SELECTED YEAR:", year)
+        //console.log("SELECTED YEAR:", year)
         return year
       }
 
@@ -60,8 +321,9 @@
         d3.json(url, function(json){
           var reports = json.map(function(rpt){ return new Report(rpt) })
           var sortedReports = reports.sort(function(a, b){ return d3.ascending(a.schoolShortName, b.schoolShortName ) })
-          console.log("FETCHED REPORTS:", sortedReports.length)
+          //console.log("FETCHED REPORTS:", sortedReports.length)
 
+          setDefaultOutcomeGroups()
           updateCheckboxes(sortedReports)
         })
       }
@@ -86,8 +348,8 @@
 
         schoolCheckboxContainer.reports = reports // store this here for later use!
 
-        reports.map(function(report){
-          report.selected = (Math.random() > 0.5) // select schools at random :-)
+        reports.forEach(function(report){
+          report.selectedByDefault = (Math.random() > 0.5) // select schools at random :-)
         })
 
         reports.forEach(function(report){
@@ -98,7 +360,8 @@
           checkbox.id = checkboxId
           checkbox.className = "school-selector"
           checkbox.value = report.schoolShortName
-          checkbox.checked = report.selected
+          checkbox.checked = report.selectedByDefault
+          checkbox.style = "margin-left:15px; margin-right:5px;"
 
           var label = document.createElement("label")
           label.setAttribute("for", checkboxId)
@@ -121,7 +384,7 @@
         var selectedSchoolNames = Array.prototype.map.call(checkedBoxes, function(checkbox){
           return checkbox.value
         })
-        console.log("SELECTED SCHOOLS:", selectedSchoolNames)
+        //console.log("SELECTED SCHOOLS:", selectedSchoolNames)
         return selectedSchoolNames
       }
 
@@ -140,25 +403,35 @@
       schoolCheckboxContainer.addEventListener("change", selectReports, false)
 
       //
-      // GIVEN REPORT SELECTIONS, UPDATE CHART
+      // GIVEN REPORT SELECTIONS AND OUTCOME GROUPINGS, UPDATE CHART
       //
+
+      function getGroups() {
+        const groupDivs = document.getElementsByClassName("outcome-group")
+
+        return Array.prototype.map.call(groupDivs, function(groupDiv){
+          const groupName = groupDiv.querySelector(".group-name").value
+          const groupColor = groupDiv.querySelector(".group-color").style.backgroundColor
+          const listItems = groupDiv.querySelectorAll('li.employment-outcome')
+          const groupOutcomes = Array.prototype.map.call(listItems, function(li){ return li.dataset.employmentOutcome })
+          //console.log(groupName, groupColor, groupOutcomes)
+
+          return {
+            group: groupName,
+            color: groupColor, //colorbrewer.Greys[9][6], // groupColor
+            types: groupOutcomes // ["Education", "Employer Type Unknown"]
+          }
+        })
+      }
 
       function updateChart(sortedSelectedReports) {
         const year = getYear()
 
-        const groupings = [
-          {group: 'Employed (Other)', color: colorbrewer.Greys[9][6], types: ["Education", "Employer Type Unknown"] },
-          {group: 'Public Interest', color: colorbrewer.Oranges[9][4], types: ["Pub. Int."] },
-          {group: 'Government', color: colorbrewer.Oranges[9][6], types: ["Government"] },
-          {group: 'Clerkship', color: colorbrewer.Purples[9][6], types: ["Clerkships - Federal", "Clerkships - State & Local", "Clerkships - Other"] },
-          {group: 'Business & Industry', color: colorbrewer.Blues[9][6], types: ["Business & Industry"] },
-          {group: 'Law Firm (Other)', color: colorbrewer.Greens[9][4], types: ["Law Firms (Unknown Size)", "Law Firms (Solo)", "Law Firms (2 - 10)", "Law Firms (11 - 25)", "Law Firms (26 - 50)", "Law Firms (51 - 100)"] },
-          {group: 'Law Firm (Big)', color: colorbrewer.Greens[9][6], types: ["Law Firms (101 - 250)", "Law Firms (251 - 500)", "Law Firms (501 +)"] }
-        ]
+        const groupings = getGroups()
 
         var chart = new Stacked100PctChart(year, sortedSelectedReports, groupings)
 
-        chart.updateOnto('my-container')
+        chart.updateOnto('chart-container')
       }
 
       fetchReports()
