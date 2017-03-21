@@ -11,14 +11,14 @@
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <!--script src="http://code.highcharts.com/modules/exporting.js"></script-->
     <style media="screen">
-      @keyframes pulse {
+      /* @keyframes pulse {
         0% {
           background-color: #001F3F;
         }
         100% {
           background-color: #FF4136;
         }
-      }
+      } */
     </style>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -101,20 +101,20 @@
       // ALLOW FOR DRAGGING AND DROPPING OF EMPLOYMENT OUTCOMES BETWEEN VARIOUS DISPLAY GROUPS
       //
 
-      function pulseDropZones(bool) {
-        console.log("PULSING HERE?", bool, new Date() )
-        const dropZones = document.getElementsByClassName("outcomes-list")
-
-        Array.prototype.forEach.call(dropZones, function(dropZone){
-          dropZone.style = (bool == true ? "animation: pulse 5s infinite;" : "animation: none;")
-        })
-      }
+      //function pulseDropZones(bool) {
+      //  console.log("PULSING HERE?", bool, new Date() )
+      //  const dropZones = document.getElementsByClassName("outcomes-list")
+      //
+      //  Array.prototype.forEach.call(dropZones, function(dropZone){
+      //    dropZone.style = (bool == true ? "animation: pulse 5s infinite;" : "animation: none;")
+      //  })
+      //}
 
       function drag(ev) {
         ev.dataTransfer.setData("id", ev.target.id) // store draggable element identifier as key/value pair
 
         console.log("DRAGGING HERE", ev.target.id)
-        pulseDropZones(true)
+        //pulseDropZones(true)
       }
 
       function allowDrop(ev) {
@@ -131,7 +131,7 @@
 
         destinationZone.appendChild(draggedItem)
 
-        pulseDropZones(false)
+        // pulseDropZones(false)
 
         var destinationGroupId = draggedItem.parentElement.dataset.groupId
         draggedItem.setAttribute("data-group-id", destinationGroupId)
