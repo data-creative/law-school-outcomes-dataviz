@@ -11,14 +11,19 @@
     <script src="http://code.highcharts.com/highcharts.js"></script>
     <!--script src="http://code.highcharts.com/modules/exporting.js"></script-->
     <style media="screen">
-      /* @keyframes pulse {
-        0% {
-          background-color: #001F3F;
-        }
-        100% {
-          background-color: #FF4136;
-        }
-      } */
+      @keyframes pulse {
+        0% {background-color: #ccc;}
+        10% {background-color: #eee;}
+        20% {background-color: #ccc;}
+        30% {background-color: #eee;}
+        40% {background-color: #ccc;}
+        50% {background-color: #eee;}
+        60% {background-color: #ccc;}
+        70% {background-color: #eee;}
+        80% {background-color: #ccc;}
+        90% {background-color: #eee;}
+        100% {background-color: #ccc;}
+      }
     </style>
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -101,25 +106,27 @@
       // ALLOW FOR DRAGGING AND DROPPING OF EMPLOYMENT OUTCOMES BETWEEN VARIOUS DISPLAY GROUPS
       //
 
-      //function pulseDropZones(bool) {
-      //  console.log("PULSING HERE?", bool, new Date() )
-      //  const dropZones = document.getElementsByClassName("outcomes-list")
-      //
-      //  Array.prototype.forEach.call(dropZones, function(dropZone){
-      //    dropZone.style = (bool == true ? "animation: pulse 5s infinite;" : "animation: none;")
-      //  })
-      //}
+      const dropZoneStyle = "list-style:none; padding-left:10px;"
+
+      function pulseDropZones(bool) {
+        console.log("PULSING HERE?", bool, new Date() )
+        const dropZones = document.getElementsByClassName("outcomes-list")
+
+        Array.prototype.forEach.call(dropZones, function(dropZone){
+          dropZone.style = (bool == true ? `${dropZoneStyle} animation: pulse 5s infinite;` : `${dropZoneStyle} animation: none;`)
+        })
+      }
 
       function drag(ev) {
         ev.dataTransfer.setData("id", ev.target.id) // store draggable element identifier as key/value pair
 
         //console.log("DRAGGING HERE", ev.target.id)
-        //pulseDropZones(true)
+        pulseDropZones(true)
       }
 
       function allowDrop(ev) {
         ev.preventDefault()
-        console.log("ALLOWING DROP", ev.target)
+        console.log("ALLOWING DROP", ev.target.id)
 
 
       }
@@ -136,7 +143,7 @@
 
         destinationZone.appendChild(draggedItem)
 
-        // pulseDropZones(false)
+        pulseDropZones(false)
 
         var destinationGroupId = draggedItem.parentElement.dataset.groupId
         draggedItem.setAttribute("data-group-id", destinationGroupId)
@@ -235,7 +242,7 @@
           var outcomesList = document.createElement("ul")
           outcomesList.id = `outcomes-list-${displayGroupIndex}`
           outcomesList.className = "outcomes-list"
-          outcomesList.style = "list-style:none; padding-left:10px;"
+          outcomesList.style = dropZoneStyle
           outcomesList.setAttribute("ondrop", "drop(event, this)")
           outcomesList.setAttribute("ondragover", "allowDrop(event)")
           outcomesList.setAttribute("data-group-id", listItemId)
